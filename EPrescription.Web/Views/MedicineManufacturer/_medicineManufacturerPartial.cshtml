@@ -1,0 +1,56 @@
+﻿@model EPrescription.Web.Models.MedicineManufacturerModel
+@using (Html.BeginForm("Add", "MedicineManufacturer", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">Add/Edit</h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CompanyName, new { @class = "col-sm-5 control-label text-left" })
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(model => model.CompanyName, new { @class = "form-control", @placeholder = "Name" })
+                            @Html.ValidationMessageFor(model => model.CompanyName)
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Address, new { @class = "col-sm-5 control-label text-left" })
+                        <div class="col-sm-7">
+                            @Html.TextAreaFor(model => model.Address, new { @class = "form-control", @placeholder = "Address" })
+                            @Html.ValidationMessageFor(model => model.Address)
+                        </div>
+                    </div>  
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Email, new { @class = "col-sm-5 control-label text-left" })
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "Email" })
+                            @Html.ValidationMessageFor(model => model.Email)
+                        </div>
+                    </div> 
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ContactNumber, new { @class = "col-sm-5 control-label text-left" })
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(model => model.ContactNumber, new { @class = "form-control", @placeholder = "Contact Number" })
+                            @Html.ValidationMessageFor(model => model.ContactNumber)
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <a href="@Url.Action("Index","MedicineManufacturer")" class="btn btn-warning">Cancel</a>
+            <button type="submit" class="btn btn-info pull-right">Save</button>
+        </div>
+    </div>
+}
+
+
+
+
+
+

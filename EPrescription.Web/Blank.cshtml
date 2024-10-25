@@ -1,0 +1,75 @@
+﻿
+
+@{
+    ViewBag.Title = "Add";
+}
+
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+       
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">User Add</h3>
+
+                    <div class="box-tools pull-right">
+                        <a href="@Url.Action("Register", "User")" class="btn btn-box-tool" title="Add User">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-box-tool" title="Remove">
+                            <i class="fa fa-times"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    @Html.LabelFor(model => model.FullName, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Full Name" })
+                                        @Html.ValidationMessageFor(model => model.FullName)
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    @Html.LabelFor(model => model.Address, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", @placeholder = "Address" })
+                                        @Html.ValidationMessageFor(model => model.Address)
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <!--/.col (right) -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <a href=" " class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-info pull-right">Save</button>
+                </div>
+                <!-- /.box-footer-->
+            </div>
+        }
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+
+

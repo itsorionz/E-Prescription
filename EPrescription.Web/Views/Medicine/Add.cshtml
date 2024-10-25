@@ -1,0 +1,114 @@
+﻿@model EPrescription.Web.Models.MedicineModel
+@{
+    ViewBag.Title = "Add";
+}
+@Styles.Render("~/Content/select2")
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        @using (Html.BeginForm("Add", "Medicine", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Medicine Add</h3>
+
+                    <div class="box-tools pull-right">
+
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <a href="@Url.Action("Index", "User")" class="btn btn-box-tool" title="Remove">
+                            <i class="fa fa-times"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    @Html.LabelFor(model => model.BrandName, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.BrandName, new { @class = "form-control", @placeholder = "Brand Name" })
+                                        @Html.ValidationMessageFor(model => model.BrandName)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MedicineManufacturerId, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(model => model.MedicineManufacturerId, new SelectList(Model.MedicineManufactureList, "Id", "CompanyName"), new { @class = "form-control select2" })
+                                        @Html.ValidationMessageFor(model => model.MedicineManufacturerId)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.GenericNameIds, new { @class = "col-sm-4 control-label text-left " })
+                                    <div class="col-sm-8">
+                                        @Html.ListBoxFor(model => model.GenericNameIds, new SelectList(Model.GenericNameList, "Id", "TypeName"), new { @class = "form-control select2" })
+                                        @Html.ValidationMessageFor(model => model.GenericNameIds)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.StrengthIds, new { @class = "col-sm-4 control-label text-left " })
+                                    <div class="col-sm-8">
+                                        @Html.ListBoxFor(model => model.StrengthIds, new SelectList(Model.StrengthList, "Id", "StrengthName"), new { @class = "form-control select2" })
+                                        @Html.ValidationMessageFor(model => model.StrengthIds)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DosageIds, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(model => model.DosageIds, new SelectList(Model.DosageTypeList, "Id", "TypeName"), new { @class = "form-control select2", @multiple = true })
+                                        @Html.ValidationMessageFor(model => model.DosageIds)
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    @Html.LabelFor(model => model.Dar, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.TextAreaFor(model => model.Dar, new { @class = "form-control", @placeholder = "DAR" })
+                                        @Html.ValidationMessageFor(model => model.Dar)
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--/.col (right) -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <a href="@Url.Action("Index","Medicine")" class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-info pull-right">Save</button>
+                </div>
+                <!-- /.box-footer-->
+            </div>
+        }
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/select2")
+    <script>
+       
+
+
+        $(".select2").select2();
+        $(".select2").attr("data-placeholder", "Select---");
+        $(".select2").css("width: 100%;");
+
+    </script>
+}
+
+

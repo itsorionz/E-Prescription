@@ -1,0 +1,350 @@
+﻿@model EPrescription.Web.Models.PrescriptionModel
+@using EPrescription.Common
+@{
+    ViewBag.Title = "Add";
+}
+<style>
+    .input-sm-x {
+        height: 30px;
+        padding: 5px 10px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+    }
+</style>
+@Styles.Render("~/Content/select2")
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        @using (Html.BeginForm("Add", "Prescription", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data", @id = "prescriptionForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.Patient.Id)
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Prescription</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <a href="@Url.Action("Index", "Prescription")" class="btn btn-box-tool" title="Cancel">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td colspan="10" class="alert-success">
+                                        Patient Details
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.LabelFor(model => model.Patient.PatientNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Patient.PatientNo)
+                                    </td>
+                                    <td>
+                                        @Html.LabelFor(model => model.Patient.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Patient.Name)
+                                    </td>
+                                    <td>
+                                        @Html.LabelFor(model => model.Patient.Age)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Patient.Age)
+                                    </td>
+                                    <td>
+                                        @Html.LabelFor(model => model.Patient.Gender)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Patient.Gender)
+                                    </td>
+                                    <td>
+                                        @Html.LabelFor(model => model.Patient.BirthDate)
+                                    </td>
+                                    <td>
+                                        @Model.Patient.BirthDate.DateFormat()
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @Html.LabelFor(model => model.Patient.GeneralDetail.Height)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Patient.GeneralDetail.Height)
+                                    </td>
+                                    <td>
+                                        @Html.LabelFor(model => model.Patient.GeneralDetail.Weigth)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Patient.GeneralDetail.Weigth)
+                                    </td>
+                                    <td>
+                                        @Html.LabelFor(model => model.Patient.GeneralDetail.BP)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Patient.GeneralDetail.BP)
+                                    </td>
+                                    <td>
+                                        @Html.LabelFor(model => model.Patient.GeneralDetail.Pulse)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Patient.GeneralDetail.Pulse)
+                                    </td>
+                                    <td>
+                                        @Html.LabelFor(model => model.Patient.GeneralDetail.Temp)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(model => model.Patient.GeneralDetail.Temp)
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-3">
+                            @if (Model.Patient.PatientComplaints.Any())
+                            {
+                                int pcNo = 1;
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr class="alert-success">
+                                            <td colspan="3">Patient Complaints</td>
+                                        </tr>
+                                        <tr>
+                                            <td>#SN</td>
+                                            <td>Complaint</td>
+                                            <td>Remarks</td>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var complaint in Model.Patient.PatientComplaints)
+                                        {
+                                            <tr>
+                                                <td>@(pcNo++)</td>
+                                                <td>@Html.DisplayFor(complaintItem => complaint.Complaint)</td>
+                                                <td>@Html.DisplayFor(complaintItem => complaint.Remarks)</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            @if (Model.Patient.PatientDiseases.Any())
+                            {
+                                int pcNo = 1;
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr class="alert-success">
+                                            <td colspan="3">Patient Diseases</td>
+                                        </tr>
+                                        <tr>
+                                            <td>#SN</td>
+                                            <td>Disease Name</td>
+                                            <td>Remarks</td>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var disease in Model.Patient.PatientDiseases)
+                                        {
+                                            <tr>
+                                                <td>@(pcNo++)</td>
+                                                <td>@Html.DisplayFor(diseaseItem => disease.Disease)</td>
+                                                <td>@Html.DisplayFor(diseaseItem => disease.Remarks)</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            @if (Model.Patient.PatientProcedures.Any())
+                            {
+                                int pcNo = 1;
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr class="alert-success">
+                                            <td colspan="3">Patient Procedures</td>
+                                        </tr>
+                                        <tr>
+                                            <td>#SN</td>
+                                            <td>Procedure Name</td>
+                                            <td>Remarks</td>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var procedure in Model.Patient.PatientProcedures)
+                                        {
+                                            <tr>
+                                                <td>@(pcNo++)</td>
+                                                <td>@Html.DisplayFor(procedureItem => procedure.Procedure)</td>
+                                                <td>@Html.DisplayFor(procedureItem => procedure.Remarks)</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                        </div>
+                        <div class="col-md-9">
+
+                            <datalist id="medicine-list">
+                                @foreach (var medicine in Model.MedicineList)
+                                {
+                                    var name = medicine.BrandName + " (" + string.Join("+", medicine.GenericNameMedicineRelations.Select(s => s.GenericName.TypeName)) + ")";
+                                    <option value="@medicine.BrandName" label="@name" />
+                                }
+
+                            </datalist>
+                            <datalist id="availablity-list"></datalist>
+                            <datalist id="duration-unit-list">
+                                <option value="Day"></option>
+                                <option value="Month"></option>
+                                <option value="Year"></option>
+                            </datalist>
+                            <datalist id="dosage-comment-list">
+                                @foreach (var dosageComment in Model.DosageComments)
+                                {
+                                    <option value="@dosageComment.CommentType"></option>
+                                }
+                            </datalist>
+                            <table class="table table-bordered">
+
+                                <thead>
+                                    <tr class="alert-success">
+                                        <th width="30%">Medicine Name</th>
+                                        <th width="12%">Availablity</th>
+                                        <th width="12%">Dosage</th>
+                                        <th>Dosage Comment</th>
+                                        <th>Duration</th>
+                                        <th>Duration Unit</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="medicineTbody">
+                                    <tr>
+                                        <td width="30%">
+                                            @Html.TextBoxFor(model => model.PatientMedicineList[0].Medicine, new { @class = "form-control input-sm", @list = "medicine-list", @onchange = "LoadAvailablity(this)", @autocomplete = "off" })
+                                        </td>
+                                        <td width="12%">@Html.TextBoxFor(model => model.PatientMedicineList[0].Avaiablity, new { @class = "form-control input-sm", @list = "availablity-list", @autocomplete = "off" })</td>
+                                        <td width="12%">@Html.TextBoxFor(model => model.PatientMedicineList[0].Dosage, new { @class = "form-control input-sm-x dosage" })</td>
+                                        <td>@Html.TextBoxFor(model => model.PatientMedicineList[0].DosageComment, new { @class = "form-control input-sm ", @list = "dosage-comment-list", @autocomplete = "off" })</td>
+                                        <td width="12%">@Html.TextBoxFor(model => model.PatientMedicineList[0].Duration, new { @class = "form-control input-sm", @type = "number", @autocomplete = "off" })</td>
+                                        <td>@Html.TextBoxFor(model => model.PatientMedicineList[0].DurationUnit, new { @class = "form-control input-sm", @list = "duration-unit-list", @autocomplete = "off" })</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="6"></td>
+                                        <td><span class="btn btn-sm btn-success" onclick="AddNewRow()"><i class="fa fa-plus-circle"></i></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="7">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.Investigations, new { @class = "col-sm-5 EPres-control-label" })
+                                                <div class="col-sm-7">
+                                                    @Html.DropDownListFor(model => model.Investigations, new SelectList(Model.InvestigationList, "InvestigationName", "InvestigationName"), new { @class = "form-control select2", @multiple = true })
+                                                    @Html.ValidationMessageFor(model => model.Investigations)
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <a href="@Url.Action("Index","Medicine")" class="btn btn-danger">Cancel</a>
+                    <button type="button" onclick="formSubmit()" class="btn btn-info pull-right">Save</button>
+                </div>
+            </div>
+        }
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery-val")
+    @Scripts.Render("~/bundles/ajaxCall")
+    @Scripts.Render("~/bundles/input-mask")
+    @Scripts.Render("~/bundles/select2")
+    <script>
+           $(".select2").select2();
+        $(".select2").attr("data-placeholder", "Select---");
+        $(".select2").css("width: 100%;");
+    AssignInputMask();
+        function LoadAvailablity(obj)
+        {
+            var name = $(obj).val();
+            $(obj).closest('tr').find("[name$='.Avaiablity']").val('');
+            $("#availablity-list").empty();
+            if (name != '') {
+             var url = '@Url.Action("LoadAvailablity", "Medicine")';
+            var paramData = { medicineName: name };
+            ajaxCall(url, paramData, "rendeLoadAvailablity");
+            }
+
+
+
+        }
+        function rendeLoadAvailablity(data)
+        {
+            $(data.list).each(function ()
+            {
+                $("#availablity-list").append($("<option>").attr('value', this));
+            });
+        }
+
+        function AddNewRow()
+        {
+            var medicineRow = '<td width="30%"><input autocomplete="off" class="form-control input-sm" id="PatientMedicineList_0__Medicine" list="medicine-list" name="PatientMedicineList[0].Medicine" onchange="LoadAvailablity(this)" type="text" value=""></td>'
+            var availablityRow = '<td width="12%"><input autocomplete="off" class="form-control input-sm" id="PatientMedicineList_0__Avaiablity" list="availablity-list" name="PatientMedicineList[0].Avaiablity" type="text" value=""></td>'
+            var dosageRow ='<td width="12%"><input autocomplete="off" class="form-control input-sm-x dosage" id="PatientMedicineList_0__Dosage" name="PatientMedicineList[0].Dosage" type="text" value=""></td>'
+            var dosageCommentRow = '<td><input autocomplete="off" class="form-control input-sm " id="PatientMedicineList_0__DosageComment" list="dosage-comment-list" name="PatientMedicineList[0].DosageComment" type="text" value=""></td>'
+            var durationRow ='<td width="12%"><input  autocomplete="off" class="form-control input-sm" data-val="true" data-val-number="The field Duration must be a number." data-val-required="The Duration field is required." id="PatientMedicineList_0__Duration" name="PatientMedicineList[0].Duration" type="number" value=""></td>'
+            var durationUnitRow = '<td><input autocomplete="off" class="form-control input-sm" id="PatientMedicineList_0__DurationUnit" list="duration-unit-list" name="PatientMedicineList[0].DurationUnit" type="text" value=""></td>';
+            var actionRow = '<td><span class="btn btn-sm btn-danger" onclick="RemoveTr(this)"><i class="fa fa-times"></i></span></td>'
+            $("#medicineTbody").append('<tr>' + medicineRow + availablityRow + dosageRow + dosageCommentRow + durationRow + durationUnitRow + actionRow+ '</tr>')
+            AssignInputMask();
+        }
+    function AssignInputMask() {
+           $('.dosage').inputmask({"mask": "9-9-9"})
+             $('[data-mask]').inputmask({ "mask": "9-9-9" })
+    }
+    function RemoveTr(obj) {
+        $(obj).closest('tr').remove();
+            }
+      function formSubmit() {
+            var count1 = 0;
+            $('#medicineTbody').find('tr').each(function () {
+                var suffix = $(this).find(':input:first').attr('name').match(/\d+/);
+                $.each($(this).find(':input'), function (i, val) {
+                    // Replaced Name
+                    var oldN = $(this).attr('name');
+                    var newN = oldN.replace('[' + suffix + ']', '[' + count1 + ']');
+                    $(this).attr('name', newN);
+                });
+                count1++;
+            });
+            $("#prescriptionForm").submit();
+        }
+    </script>
+
+}
+
+
+

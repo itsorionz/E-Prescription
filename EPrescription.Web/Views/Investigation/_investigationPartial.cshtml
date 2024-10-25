@@ -1,0 +1,34 @@
+﻿@model EPrescription.Web.Models.InvestigationModel
+@using (Html.BeginForm("Add", "Investigation", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">Add/Edit</h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.InvestigationName, new { @class = "col-sm-5 control-label text-left" })
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(model => model.InvestigationName, new { @class = "form-control", @placeholder = "Name" })
+                            @Html.ValidationMessageFor(model => model.InvestigationName)
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <a href="@Url.Action("Index","Investigation")" class="btn btn-warning">Cancel</a>
+            <button type="submit" class="btn btn-info pull-right">Save</button>
+        </div>
+    </div>
+}
+
+
+
+
+

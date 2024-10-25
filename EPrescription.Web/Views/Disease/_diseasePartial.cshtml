@@ -1,0 +1,38 @@
+﻿@model EPrescription.Web.Models.DiseaseModel
+@using (Html.BeginForm("Add", "Disease", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data",@id="diseaseForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.Hidden("InitialDiseaseName","undefined")
+    @Html.HiddenFor(model=>model.Id)
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">Add/Edit</h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DiseaseName, new { @class = "col-sm-5 control-label text-left" })
+                        <div class="col-sm-7">
+                            @Html.TextBoxFor(model => model.DiseaseName, new { @class = "form-control", @placeholder = "Name" })
+                            @Html.ValidationMessageFor(model => model.DiseaseName)
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <a href="@Url.Action("Index","Disease")" class="btn btn-warning">Cancel</a>
+            <button id="submitBtn" type="submit" class="btn btn-info pull-right">Save</button>
+        </div>
+    </div>
+}
+
+
+
+
+
+
+

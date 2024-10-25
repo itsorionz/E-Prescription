@@ -1,0 +1,28 @@
+﻿
+.icheck > label {
+    padding-left: 19px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #1a1a8e !important;
+}
+.pagination {
+    display: inline-block;
+    padding-left: 0;
+    margin: 0px 0 !important;
+    border-radius: 4px;
+}
+.EPres-control-label {
+    padding-top: 7px;
+    margin-bottom: 0;
+    text-align: left;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #444;
+    line-height: 21px;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+     padding-left: 0px; 
+     padding-right: 0px; 
+
+}

@@ -1,0 +1,139 @@
+﻿@model EPrescription.Web.Models.UserModel
+@using EPrescription.Common
+@{
+    ViewBag.Title = "Edit";
+}
+@Styles.Render("~/Content/datepicker")
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        @using (Html.BeginForm("Edit", "User", FormMethod.Post, new { @class = "form-horizontal" ,@enctype = "multipart/form-data"}))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+            @Html.Hidden("InitialUserName", Model.UserName)
+            @Html.Hidden("InitialEmail", Model.Email)
+            @Html.HiddenFor(model => model.Id)
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">User Edit</h3>
+
+                    <div class="box-tools pull-right">
+                        <a href="@Url.Action("Register", "User")" class="btn btn-box-tool" title="Add User">
+                            <i class="fa fa-plus"></i>
+                        </a>
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-box-tool" title="Remove">
+                            <i class="fa fa-times"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    @Html.LabelFor(model => model.FullName, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.FullName, new { @class = "form-control", @placeholder = "Full Name" })
+                                        @Html.ValidationMessageFor(model => model.FullName)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Email, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @placeholder = "E-mail" })
+                                        @Html.ValidationMessageFor(model => model.Email)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.MobileNo, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.MobileNo, new { @class = "form-control", @placeholder = "Phone No" })
+                                        @Html.ValidationMessageFor(model => model.MobileNo)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.UserName, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @placeholder = "User Name", @autocomplete = "off" })
+                                        @Html.ValidationMessageFor(model => model.UserName)
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    @Html.LabelFor(model => model.Address, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.TextAreaFor(model => model.Address, new { @class = "form-control", @placeholder = "Address" })
+                                        @Html.ValidationMessageFor(model => model.Address)
+                                    </div>
+                                </div>
+                                <div class="form-group ">
+                                    @Html.LabelFor(model => model.JoiningDate, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.JoiningDate, new { @class = "form-control datepicker", @placeholder = "Joining Date", @Value = Model.JoiningDate.DateFormat() })
+                                        @Html.ValidationMessageFor(model => model.JoiningDate)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.RoleId, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.DropDownListFor(model => model.RoleId, new SelectList(Model.RoleList, "Id", "RoleName"), new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.RoleId)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ImageFileBase, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-4">
+                                    
+                                        @Html.TextBoxFor(model => model.ImageFileBase, new { @type = "file", @accept = "image/*" })
+                                    </div>
+                                    <div class="col-sm-4">
+                                        @if (Model.ImageFile != null)
+                                        {
+                                            <div class="pull-left image">
+                                                <img src="@Url.Content(Model.ImageFile)" class="img-circle" height="100px" width="100px" alt="User Image">
+                                            </div>
+                                        }
+                                      
+                                       
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--/.col (right) -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <a href="@Url.Action("Index", "User")" class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-info pull-right">Save</button>
+                </div>
+                <!-- /.box-footer-->
+            </div>
+        }
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+@section scripts{
+
+    @Scripts.Render("~/bundles/datepicker")
+    @Scripts.Render("~/bundles/jquery-val")
+    <script>
+        $(".datepicker").datepicker({
+            format: 'dd-M-yyyy',
+            autoclose: true
+        });
+    </script>
+}
+
+
+

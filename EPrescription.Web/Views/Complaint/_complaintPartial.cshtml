@@ -1,0 +1,37 @@
+﻿@model EPrescription.Web.Models.ComplaintModel
+@using (Html.BeginForm("Add", "Complaint", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data",@id="complaintForm" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.Hidden("InitialComplaintType","undefined")
+    @Html.HiddenFor(model=>model.Id)
+    <div class="box box-success">
+        <div class="box-header with-border">
+            <h3 class="box-title">Add/Edit</h3>
+        </div>
+        <div class="box-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ComplaintType, new { @class = "col-sm-4 control-label text-left" })
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(model => model.ComplaintType, new { @class = "form-control", @placeholder = "Name" })
+                            @Html.ValidationMessageFor(model => model.ComplaintType)
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <a  href="@Url.Action("Index","Complaint")" class="btn btn-warning">Cancel</a>
+            <button id="submitBtn" type="submit" class="btn btn-info pull-right">Save</button>
+        </div>
+    </div>
+}
+
+
+
+
+
+

@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title | E-Prescription</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <!-- Bootstrap 3.3.7 -->
+    @Styles.Render("~/Content/bootstrap")
+    <!-- Font Awesome -->
+    @Styles.Render("~/Content/font-awesome")
+    <!-- Ionicons -->
+    @Styles.Render("~/Content/ionicons")
+    <!-- Theme style -->
+    @Styles.Render("~/Content/adminLTE")
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    @Styles.Render("~/Content/allskins")
+    @Styles.Render("~/Content/site")
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+
+<!-- ADD THE CLASS sidebar-collapse TO HIDE THE SIDEBAR PRIOR TO LOADING THE SITE -->
+@if (Request.IsAuthenticated)
+{
+    <body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
+        <!-- Site wrapper -->
+
+        <div class="wrapper">
+
+            @Html.Partial("_headerPartial")
+            @Html.Partial("_sidebarPartial")
+           
+            @RenderBody()
+            <!-- =============================================== -->
+            <!-- Content Wrapper. Contains page content -->
+            <!-- /.content-wrapper -->
+
+            <footer class="main-footer">
+                <div class="pull-right hidden-xs">
+                    <b>Version</b> 1.0.0.1
+                </div>
+                <strong>Copyright &copy; @DateTime.Now.Year <a target="_blank" href="https://www.linkedin.com/in/iamanamulhaquesohel/">Anamul Haque Sohel</a>.</strong> 
+                    All rights reserved. 
+            </footer>
+
+            <!-- Control Sidebar -->
+        </div>
+    </body>
+}
+else
+{
+    @RenderBody()
+}
+<!-- ./wrapper -->
+<!-- jQuery 3 -->
+
+@Scripts.Render("~/bundles/jquery")
+<!-- Bootstrap 3.3.7 -->
+@Scripts.Render("~/bundles/bootstrap")
+<!-- SlimScroll -->
+@Scripts.Render("~/bundles/slimscroll")
+<!-- FastClick -->
+@Scripts.Render("~/bundles/fastclick")
+<!-- AdminLTE App -->
+@Scripts.Render("~/bundles/adminlte")
+<!-- AdminLTE for demo purposes -->
+@Scripts.Render("~/bundles/demo")
+
+
+
+@RenderSection("scripts", required: false)
+
+</html>

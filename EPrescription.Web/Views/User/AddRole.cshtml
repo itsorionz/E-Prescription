@@ -1,0 +1,137 @@
+﻿@using EPrescription.Common
+@model EPrescription.Web.Models.RoleModel
+@{
+    ViewBag.Title = "Add Roles";
+}
+
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        @using (Html.BeginForm("AddRole", "User", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Roles Add</h3>
+
+                    <div class="box-tools pull-right">
+
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-box-tool" title="Remove">
+                            <i class="fa fa-times"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        @Html.AntiForgeryToken()
+                        @Html.Hidden("InitialRoleName", "undefined")
+                        @Html.ValidationSummary(true)
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    @Html.LabelFor(model => model.RoleName, new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.RoleName, new { @class = "form-control", @placeholder = "Role Name" })
+                                        @Html.ValidationMessageFor(model => model.RoleName)
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12">
+
+                                <input class="" data-val="true" data-val-required="The IsActive field is required." id="checkAllCheckBox" type="checkbox" value="true" />
+                                <label for="checkAllCheckBox"> Check All </label>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    <div id="roleTaskCheckboxesArea">
+                                        @if (Model.RoleTaskList.Count > 0)
+                                        {
+                                            int i = 0;
+
+                                            var roleGrp = Model.RoleTaskList.GroupBy(x => x.TaskCategory).ToList();
+                                            int roleGrpCount = roleGrp.Count();
+                                            int divider = 2;
+                                            int mod3 = (roleGrpCount % divider);
+                                            int dividend = (roleGrpCount - mod3) / divider;
+                                            int counter = 0;
+                                            <div class="col-md-6 categoryArea">
+                                                @for (counter = counter; counter < (dividend * 1) + mod3; counter++)
+                                                {
+                                                    <ul class="col-md-12">
+                                                        <li><a href="" class="text-green"><span class="fa fa-tag"></span> @roleGrp[counter].First().TaskCategory </a></li>
+                                                    </ul> <br />
+                                                    foreach (var item in roleGrp[counter])
+                                                    {
+
+                                                        @Html.HiddenFor(model => model.RoleTaskList[i].TaskName)
+                                                        <label class="col-md-12 permissionLabel"> @Html.CheckBoxFor(model => model.RoleTaskList[i].IsChecked, new { @class = "checkboxFor" }) @item.TaskName.Replace("_", " ")</label>
+                                                        i++;
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="col-md-6 categoryArea">
+                                                @for (counter = counter; counter < (dividend * 2) + mod3; counter++)
+                                                {
+                                                    <ul class="col-md-12">
+                                                        <li><a href="" class="text-green"><span class="fa fa-tag"></span> @roleGrp[counter].First().TaskCategory </a></li>
+                                                    </ul> <br />
+                                                    foreach (var item in roleGrp[counter])
+                                                    {
+
+                                                        @Html.HiddenFor(model => model.RoleTaskList[i].TaskName)
+                                                        <label class="col-md-12 permissionLabel"> @Html.CheckBoxFor(model => model.RoleTaskList[i].IsChecked, new { @class = "checkboxFor" }) @item.TaskName.Replace("_", " ")</label>
+                                                        i++;
+                                                    }
+                                                }
+                                            </div>
+
+                                        }
+                                        else
+                                        {
+                                            <span>No Roles Permission available</span>
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--/.col (right) -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <a href="@Url.Action("Roles", "User")" class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-info pull-right">Save</button>
+                </div>
+                <!-- /.box-footer-->
+            </div>
+        }
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(document).ready(function () {
+            $("#checkAllCheckBox").click(function () {
+                var checkedStatus = this.checked;
+                $("#roleTaskCheckboxesArea input:checkbox").each(function () {
+                    this.checked = checkedStatus;
+                });
+            });
+        });
+
+    </script>
+    }
+
+
+
+

@@ -1,0 +1,68 @@
+﻿@{
+    ViewBag.Title = "Upload";
+}
+
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        @using (Html.BeginForm("UploadConfig", "Medicine", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Config Upload</h3>
+
+                    <div class="box-tools pull-right">
+
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <a href="@Url.Action("Index", "User")" class="btn btn-box-tool" title="Remove">
+                            <i class="fa fa-times"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="col-md-6">
+                                <div class="form-group ">
+                                    @Html.Label("Excel File", new { @class = "col-sm-4 control-label text-left" })
+                                    <div class="col-sm-8">
+                                        @Html.TextBox("ExcelFile", null, new { @class = "form-control", type = "file", required = "required" })
+                                        @Html.ValidationMessage("ExcelFile")
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!--/.col (right) -->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <a href="@Url.Action("Index","Medicine")" class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-info pull-right">Save</button>
+                </div>
+                <!-- /.box-footer-->
+            </div>
+        }
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+
+
+
+

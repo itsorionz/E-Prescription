@@ -1,0 +1,399 @@
+﻿@model EPrescription.Web.Models.PatientModel
+@{
+    ViewBag.Title = "Add";
+}
+<style>
+    .sticky {
+        position: fixed;
+        top: 12%;
+        width: 50%;
+    }
+</style>
+@Styles.Render("~/Content/icheck")
+@Styles.Render("~/Content/select2")
+@Styles.Render("~/Content/datePicker")
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        @using (Html.BeginForm("Add", "Patient", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data",@id="patientForm" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true)
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><i class="fa fa-user-md"></i> Patient</h3>
+
+                    <div class="box-tools pull-right">
+
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <a href="@Url.Action("Index", "User")" class="btn btn-box-tool" title="Remove">
+                            <i class="fa fa-times"></i>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td colspan="2" class="alert-success">
+                                        Patient Details
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group ">
+                                            @Html.LabelFor(model => model.Name, new { @class = "col-sm-5 EPres-control-label" })
+                                            <div class="col-sm-7">
+                                                @Html.TextBoxFor(model => model.Name, new { @class = "form-control input-sm", @placeholder = "Patient Name" })
+                                                @Html.ValidationMessageFor(model => model.Name)
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.PhoneNo, new { @class = "col-sm-5 EPres-control-label" })
+                                            <div class="col-sm-7">
+                                                @Html.TextBoxFor(model => model.PhoneNo, new { @class = "form-control input-sm", @placeholder = "Phone No" })
+                                                @Html.ValidationMessageFor(model => model.PhoneNo)
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Age, new { @class = "col-sm-5 EPres-control-label" })
+                                            <div class="col-sm-7">
+                                                @Html.TextBoxFor(model => model.Age, new { @class = "form-control input-sm", @placeholder = "Age" })
+                                                @Html.ValidationMessageFor(model => model.Age)
+                                            </div>
+                                        </div>
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Gender, new { @class = "col-sm-5 EPres-control-label" })
+                                            <div class="col-sm-7">
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.Gender, "Male", new { @class = "flat-red" })
+                                                    Male
+                                                </label>
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.Gender, "Female", new { @class = "flat-red" })
+                                                    Female
+                                                </label>
+                                                @Html.ValidationMessageFor(model => model.Gender)
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.BirthDate, new { @class = "col-sm-5 EPres-control-label" })
+                                            <div class="col-sm-7">
+                                                @Html.TextBoxFor(model => model.BirthDate, new { @class = "form-control datepicker", @placeholder = "Birth Date" })
+                                                @Html.ValidationMessageFor(model => model.BirthDate)
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Address, new { @class = "col-sm-5 EPres-control-label" })
+                                            <div class="col-sm-7">
+                                                @Html.TextBoxFor(model => model.Address, new { @class = "form-control input-sm", @placeholder = "Address" })
+                                                @Html.ValidationMessageFor(model => model.Address)
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-6">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td colspan="2" class="alert-success">
+                                        General Details
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group ">
+                                            @Html.LabelFor(model => model.GeneralDetail.Weigth, new { @class = "col-sm-5 col- EPres-control-label" })
+                                            <div class="col-sm-7">
+                                                @Html.TextBoxFor(model => model.GeneralDetail.Weigth, new { @class = "form-control input-sm", @placeholder = "Weight" })
+                                                @Html.ValidationMessageFor(model => model.GeneralDetail.Weigth)
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group ">
+                                            @Html.LabelFor(model => model.GeneralDetail.Height, new { @class = "col-sm-5 col- EPres-control-label" })
+                                            <div class="col-sm-7">
+                                                @Html.TextBoxFor(model => model.GeneralDetail.Height, new { @class = "form-control input-sm", @placeholder = "Height" })
+                                                @Html.ValidationMessageFor(model => model.GeneralDetail.Height)
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group ">
+                                            @Html.LabelFor(model => model.GeneralDetail.BP, new { @class = " col-sm-5 col- EPres-control-label" })
+                                            <div class="col-sm-7">
+                                                @Html.TextBoxFor(model => model.GeneralDetail.BP, new { @class = "form-control input-sm", @placeholder = "BP" })
+                                                @Html.ValidationMessageFor(model => model.GeneralDetail.BP)
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group ">
+                                            @Html.LabelFor(model => model.GeneralDetail.Pulse, new { @class = " col-sm-5 col- EPres-control-label" })
+                                            <div class="col-sm-7">
+                                                @Html.TextBoxFor(model => model.GeneralDetail.Pulse, new { @class = "form-control input-sm", @placeholder = "Pulse" })
+                                                @Html.ValidationMessageFor(model => model.GeneralDetail.Pulse)
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group ">
+                                            @Html.LabelFor(model => model.GeneralDetail.Temp, new { @class = " col-sm-5 col- EPres-control-label" })
+                                            <div class="col-sm-7">
+                                                @Html.TextBoxFor(model => model.GeneralDetail.Temp, new { @class = "form-control input-sm", @placeholder = "Temp." })
+                                                @Html.ValidationMessageFor(model => model.GeneralDetail.Temp)
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-group ">
+                                            <label class="col-md-5">
+                                                @Html.CheckBoxFor(model => model.GeneralDetail.Smoker, new { @class = "flat-red" })
+                                                Smoker
+                                            </label>
+                                            <label class="col-md-6">
+                                                @Html.CheckBoxFor(model => model.GeneralDetail.Allergy, new { @class = "flat-red" })
+                                                Allergy
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <datalist id="complaint-list">
+                                    @foreach (var complaint in Model.ComplaintList)
+                                    {
+                                        <option value="@complaint.ComplaintType"></option>
+                                    }
+                                </datalist>
+                                <table class="table table-bordered table-striped table-condensed">
+                                    <thead>
+
+                                        <tr class="bg-green-active">
+
+                                            <th>Complaints/Problems</th>
+                                            <th>Remark(Comments)</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="complaintsTbody">
+                                        <tr>
+                                            <td>
+                                                @Html.TextBoxFor(model => model.PrescriptionComplaintList[0].Complaint, new { @class = "form-control input-sm", @list = "complaint-list",@autcomplete="off" })
+                                            </td>
+                                            <td>@Html.TextAreaFor(model => model.PrescriptionComplaintList[0].Remarks, new { @class = "form-control input-sm", @style = "width: 126px; height: 40px;" })</td>
+                                        </tr>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2"></td>
+                                            <td class="text-center">
+                                                <span class="btn btn-sm btn-success" onclick="AddNewComplaintRow()"><i class="fa fa-plus-circle"></i></span>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="col-md-4">
+                                <datalist id="disease-list">
+                                    @foreach (var disease in Model.DiseaseList)
+                                    {
+                                        <option value="@disease.DiseaseName"></option>
+                                    }
+                                </datalist>
+                                <table class="table table-bordered table-striped table-condensed">
+                                    <thead>
+
+                                        <tr class="bg-green-active">
+
+                                            <th>Diseases Name</th>
+                                            <th>Remark(Comments)</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="diseaseTbody">
+                                        <tr>
+                                            <td>@Html.TextBoxFor(model => model.PrescriptionDiseaseList[0].Disease, new { @class = "form-control input-sm", @list = "disease-list",@autcomplete="off" })</td>
+                                            <td>@Html.TextAreaFor(model => model.PrescriptionDiseaseList[0].Remarks, new { @class = "form-control input-sm", @style = "width: 126px; height: 40px;" })</td>
+                                           
+                                        </tr>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2"></td>
+                                            <td class="text-center">
+                                                <span class="btn btn-sm btn-success" onclick="AddNewDiseaseRow()"><i class="fa fa-plus-circle"></i></span>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+                            <div class="col-md-4">
+                                <datalist id="procedure-list">
+                                    @foreach (var procedure in Model.ProcedureList)
+                                    {
+                                        <option value="@procedure.ProcedureName"></option>
+                                    }
+                                </datalist>
+                                <table class="table table-bordered table-striped table-condensed">
+                                    <thead>
+
+                                        <tr class="bg-green-active">
+
+                                            <th nowrap="nowrap">Procedure Name</th>
+                                            <th>Remark(Comments)</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="procedureTbody">
+                                        <tr>
+                                            <td>
+
+                                                @Html.TextBoxFor(model => model.PrescriptionProcedureList[0].Procedure, new { @class = "form-control input-sm", @list = "procedure-list",@autcomplete="off" })
+
+                                            </td>
+                                            <td>@Html.TextAreaFor(model => model.PrescriptionProcedureList[0].Remarks, new { @class = "form-control input-sm", @style = "width: 126px; height: 40px;" })</td>
+                                        </tr>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2"></td>
+                                            <td class="text-center">
+                                                <span class="btn btn-sm btn-success" onclick="AddNewProcedureRow()"><i class="fa fa-plus-circle"></i></span>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <a href="@Url.Action("Index","Medicine")" class="btn btn-danger">Cancel</a>
+                    <button type="button"  onclick="formSubmit()" class="btn btn-info pull-right">Save</button>
+                </div>
+                <!-- /.box-footer-->
+            </div>
+        }
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jquery-val")
+    @Scripts.Render("~/bundles/select2")
+    @Scripts.Render("~/bundles/icheck")
+    @Scripts.Render("~/bundles/datePicker")
+    <script>
+
+    var actionTd = ' <td><span class="btn btn-sm btn-danger" onclick="RemoveTr(this)"><i class="fa fa-times-circle"></i></span></td>';
+        $('.datepicker').datepicker({
+            autoclose: true
+        })
+    function AddNewComplaintRow() {
+        var complaintNameTd = '<td><input class="form-control input-sm" id="PrescriptionComplaintList_0__Complaint" list="complaint-list" name="PrescriptionComplaintList[0].Complaint" type="text" value=""></td>';
+        var commentTd = '<td><textarea class="form-control input-sm" cols="20" id="PrescriptionComplaintList_0__Remarks" name="PrescriptionComplaintList[0].Remarks" rows="2" style="width: 126px; height: 40px"></textarea></td>';
+        $("#complaintsTbody").append('<tr>' + complaintNameTd  + commentTd +actionTd+ '</tr>')
+    }
+    function AddNewDiseaseRow() {
+        var diseaseNametd = '<td><input class="form-control input-sm" id="PrescriptionDiseaseList_0__Disease" list="disease-list" name="PrescriptionDiseaseList[0].Disease" type="text" value=""></td>';
+        var commentTd = '<td><textarea class="form-control input-sm" cols="20" id="PrescriptionDiseaseList_0__Remarks" name="PrescriptionDiseaseList[0].Remarks" rows="2" style="width: 126px; height: 40px"></textarea></td>';
+        $("#diseaseTbody").append('<tr>' + diseaseNametd  + commentTd +actionTd+ '</tr>')
+    }
+    function AddNewProcedureRow() {
+        var procedureNameTd = '<td><input class="form-control input-sm" id="PrescriptionProcedureList_0__Procedure" list="procedure-list" name="PrescriptionProcedureList[0].Procedure" type="text" value=""></td>'
+        var commentTd='<td><textarea class="form-control input-sm" cols="20" id="PrescriptionProcedureList_0__Remarks" name="PrescriptionProcedureList[0].Remarks" rows="2" style="width: 126px; height: 40px"></textarea></td>'
+         $("#procedureTbody").append('<tr>' + procedureNameTd  + commentTd +actionTd +'</tr>')
+    }
+    function RemoveTr(obj) {
+        $(obj).closest('tr').remove();
+    }
+    function formSubmit() {
+          var count1 = 0;
+            $('#complaintsTbody').find('tr').each(function () {
+                var suffix = $(this).find(':input:first').attr('name').match(/\d+/);
+                $.each($(this).find(':input'), function (i, val) {
+                    // Replaced Name
+                    var oldN = $(this).attr('name');
+                    var newN = oldN.replace('[' + suffix + ']', '[' + count1 + ']');
+                    $(this).attr('name', newN);
+                });
+                count1++;
+            });
+        var count2 = 0;
+            $('#diseaseTbody').find('tr').each(function () {
+                var suffix = $(this).find(':input:first').attr('name').match(/\d+/);
+                $.each($(this).find(':input'), function (i, val) {
+                    // Replaced Name
+                    var oldN = $(this).attr('name');
+                    var newN = oldN.replace('[' + suffix + ']', '[' + count2 + ']');
+                    $(this).attr('name', newN);
+                });
+                count2++;
+            });
+        var count3 = 0;
+            $('#diseaseTbody').find('tr').each(function () {
+                var suffix = $(this).find(':input:first').attr('name').match(/\d+/);
+                $.each($(this).find(':input'), function (i, val) {
+                    // Replaced Name
+                    var oldN = $(this).attr('name');
+                    var newN = oldN.replace('[' + suffix + ']', '[' + count3 + ']');
+                    $(this).attr('name', newN);
+                });
+                count3++;
+            });
+        $("#patientForm").submit();
+    }
+    </script>
+}
+
+
