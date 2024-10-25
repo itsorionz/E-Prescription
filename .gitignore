@@ -1,0 +1,18 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/EPrescription.Common/bin
+/EPrescription.Common/obj
+/EPrescription.Entities/bin
+/EPrescription.Entities/obj
+/EPrescription.Repo/.vs
+/EPrescription.Repo/bin
+/EPrescription.Repo/obj
+/EPrescription.Services/bin
+/EPrescription.Services/obj
+/EPrescription.Web/.vs
+/EPrescription.Web/bin
+/EPrescription.Web/obj
+/packages
+/.vs
