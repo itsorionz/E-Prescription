@@ -25,14 +25,15 @@
 <!-- ADD THE CLASS sidebar-collapse TO HIDE THE SIDEBAR PRIOR TO LOADING THE SITE -->
 @if (Request.IsAuthenticated)
 {
-    <body class="hold-transition skin-blue sidebar-collapse sidebar-mini">
+    <!-- <body class="hold-transition skin-blue sidebar-collapse sidebar-mini">-->
+    <body class="hold-transition skin-blue sidebar sidebar">
         <!-- Site wrapper -->
 
         <div class="wrapper">
 
             @Html.Partial("_headerPartial")
             @Html.Partial("_sidebarPartial")
-           
+
             @RenderBody()
             <!-- =============================================== -->
             <!-- Content Wrapper. Contains page content -->
@@ -42,8 +43,8 @@
                 <div class="pull-right hidden-xs">
                     <b>Version</b> 1.0.0.1
                 </div>
-                <strong>Copyright &copy; @DateTime.Now.Year <a target="_blank" href="https://www.linkedin.com/in/iamanamulhaquesohel/">Anamul Haque Sohel</a>.</strong> 
-                    All rights reserved. 
+                <strong>Copyright &copy; @DateTime.Now.Year <a target="_blank" href="https://www.linkedin.com/in/iamanamulhaquesohel/">Anamul Haque Sohel</a>.</strong>
+                All rights reserved.
             </footer>
 
             <!-- Control Sidebar -->
