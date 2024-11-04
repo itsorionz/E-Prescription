@@ -16,7 +16,7 @@ namespace EPrescription.Entities
         [Required]
         public string Name { get; set; }
         public int? Age { get; set; }
-        [Display(Name= "Birth Date")]
+        [Display(Name= "Date Of Birth")]
         public DateTime? BirthDate { get; set; }
         public string Address { get; set; }
         [Display(Name = "Phone No")]
