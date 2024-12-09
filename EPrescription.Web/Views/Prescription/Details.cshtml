@@ -1,5 +1,82 @@
 ﻿@model EPrescription.Web.Models.PrescriptionModel
 
+<style>
+    body {
+       color: white;
+    }
+</style>
 
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header text-center bg-primary">
+                <h2>Prescription</h2>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h5>Patient Information</h5>
+                        <p><strong>Name:</strong> @Model.Patient.Name</p>
+                        <p><strong>Age:</strong> @Model.Patient.Age</p>
+                        @*<p><strong>Contact:</strong> @Model.Patient.Contact</p>*@
+                    </div>
+                    <div class="col-md-6">
+                        <h5>Doctor Information</h5>
+                        <p><strong>Name:</strong> @Model.Doctor.Name</p>
+                        <p><strong>Specialty:</strong> @Model.Doctor.Specialty</p>
+                        @*<p><strong>Contact:</strong> @Model.Doctor.Contact</p>*@
+                    </div>
+                </div>
 
+                <!-- Clinic Details -->
+                <div class="mb-4">
+                    <h5>Clinics</h5>
+                    <ul>
+                        @foreach (var clinic in Model.Clinics)
+                        {
+                            <li>
+                                <strong>@clinic.Name</strong> - @clinic.Address
+                            </li>
+                        }
+                    </ul>
+                </div>
 
+                <!-- Medicines -->
+                <div class="mb-4">
+                    <h5>Medicines</h5>
+                    <table class="table table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Medicine</th>
+                                <th>Dosage</th>
+                                <th>Frequency</th>
+                                <th>Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Dosage</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Investigations -->
+                <div class="mb-4">
+                    <h5>Investigations</h5>
+                    <ul>
+                        <li>investigation</li>
+                    </ul>
+                </div>
+
+                <!-- Dosage Comments -->
+                <div>
+                    <h5>Dosage Comments</h5>
+                    <ul>
+                        <li>Comment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
