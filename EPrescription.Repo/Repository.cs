@@ -28,7 +28,6 @@ namespace EPrescription.Repo
         {
             return _context.Set<T>().ToList();
         }
-
         public virtual T GetById(int id)
         {
             //return _context.Set<T>().Where(x => x.Id == id).FirstOrDefault();
@@ -62,7 +61,6 @@ namespace EPrescription.Repo
         {
            _context = context;
         }
-
         public virtual int GetCount()
         {
             return  _context.Set<T>().Count();

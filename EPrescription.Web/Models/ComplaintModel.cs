@@ -23,8 +23,6 @@ namespace EPrescription.Web.Models
             set { base.ComplaintType = value; }
         }
 
-      
-
         public ComplaintModel()
         {
             complaintService = new ComplaintService();
@@ -54,7 +52,7 @@ namespace EPrescription.Web.Models
 
         public IEnumerable<Complaint> GetAllComplaints()
         {
-            return complaintService.GetAllComplaints();
+            return complaintService.GetAllComplaints().Where(s => s.StatusFlag == 1);
         }
 
         public void Add()
@@ -69,6 +67,13 @@ namespace EPrescription.Web.Models
         public bool IsComplaintTypeExist(string complaintType, string initialComplaintType)
         {
             return complaintService.IsComplaintTypeExist(complaintType, initialComplaintType);
+        }
+        public void Inactive()
+        {
+            base.UpdatedAt = DateTime.Now;
+            base.UpdatedBy = AuthenticatedUser.GetUserFromIdentity().UserId;
+            base.StatusFlag = (byte)EnumActiveDeative.Inactive;
+            complaintService.Inactive(this);
         }
     }
 }

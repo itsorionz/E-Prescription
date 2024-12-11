@@ -37,5 +37,10 @@ namespace EPrescription.Web.Controllers
             model.Edit();
             return RedirectToAction("Index");
         }
+        public ActionResult Inactive(ComplaintModel model)
+        {
+            model.Inactive();
+            return RedirectToAction("Index");
+        }
     }
 }
