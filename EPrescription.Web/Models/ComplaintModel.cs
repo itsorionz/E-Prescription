@@ -52,7 +52,7 @@ namespace EPrescription.Web.Models
 
         public IEnumerable<Complaint> GetAllComplaints()
         {
-            return complaintService.GetAllComplaints().Where(s => s.StatusFlag == 1);
+            return complaintService.GetAllComplaints().Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active);
         }
 
         public void Add()

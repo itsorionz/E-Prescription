@@ -51,7 +51,7 @@ namespace EPrescription.Web.Models
         }
         public IEnumerable<Disease> GetAllDiseases()
         {
-            return diseaseService.GetAllDiseases().Where(s => s.StatusFlag == 1);
+            return diseaseService.GetAllDiseases().Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active);
         }
 
         public void Add()
