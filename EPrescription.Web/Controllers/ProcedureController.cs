@@ -20,5 +20,25 @@ namespace EPrescription.Web.Controllers
             model.Add();
             return RedirectToAction("Index");
         }
+        public JsonResult IsProcedureNameExist(string ProcedureName, string InitialProcedureNmae)
+        {
+            bool isNotExist = new ProcedureModel().IsProcedureNameExist(ProcedureName, InitialProcedureNmae);
+            return Json(isNotExist, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult LoadProcedure(int id)
+        {
+            var model = new ProcedureModel(id);
+            return Json(new { ProcedureName = model.ProcedureName, Id = model.Id });
+        }
+        public ActionResult Edit(ProcedureModel model)
+        {
+            model.Edit();
+            return RedirectToAction("Index");
+        }
+        public ActionResult Inactive(ProcedureModel model)
+        {
+            model.Inactive();
+            return RedirectToAction("Index");
+        }
     }
 }

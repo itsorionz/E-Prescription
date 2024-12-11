@@ -65,7 +65,6 @@ namespace EPrescription.Services
             var complaintEntry = GetComplaintById(complaint.Id);
             if (complaintEntry != null)
             {
-                complaintEntry.ComplaintType = complaint.ComplaintType;
                 complaintEntry.UpdatedAt = complaint.UpdatedAt;
                 complaintEntry.UpdatedBy = complaint.UpdatedBy;
                 complaintUnitOfWork.ComplaintRepository.DeleteByItem(complaintEntry);

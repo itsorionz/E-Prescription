@@ -18,6 +18,8 @@ function ajaxCall(url, paramData, callback, method, obj) {
                 rendeDosageTypeLoad(response);
             } else if (callback == "rendeLoadAvailablity") {
                 rendeLoadAvailablity(response);
+            } else if (callback == "renderProcedureLoad") {
+                renderProcedureLoad(response);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {

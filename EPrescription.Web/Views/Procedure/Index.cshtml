@@ -42,7 +42,7 @@
                                         <td>
                                             @if (item.StatusFlag.IsActive())
                                             {
-                                                <a href="@Url.Action("Edit","User",new { @id=item.Id})" class="btn btn-sm btn-success"> <i class="fa fa-edit"></i></a>
+                                                <a onclick="getDataForEdit('@item.Id')" class="btn btn-sm btn-success"> <i class="fa fa-edit"></i></a>
                                                 <a data-toggle="modal" data-target="#@item.Id" class="btn btn-sm btn-danger"> <i class="fa fa-ban"></i></a>
                                                 <div class="modal modal-danger fade in" id="@item.Id">
                                                     <div class="modal-dialog">
@@ -51,14 +51,16 @@
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
-                                                                <h4 class="modal-title">Confirm Dialog</h4>
+                                                                <h4 class="modal-title">Confirm</h4>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <p>Are You Sure To Delete ?&hellip;</p>
+                                                                <p>
+                                                                    Are you sure you want to Inactive this Procedure?
+                                                                </p>
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
-                                                                <a href="@Url.Action("Delete","User",new { id=item.Id})" class="btn btn-outline">Confirm</a>
+                                                                <a href="@Url.Action("Inactive","Procedure",new { id=item.Id})" class="btn btn-outline">Confirm</a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -85,6 +87,26 @@
         </div>
     </section>
 </div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jquery-val")
+    @Scripts.Render("~/bundles/ajaxCall")
+    <script>
+      function getDataForEdit(id) {
+                var url = '@Url.Action("LoadProcedure", "Procedure")';
+                var paramData = { id: id };
+                ajaxCall(url, paramData, "renderProcedureLoad");
+    }
+    function renderProcedureLoad(data) {
+        var editUrl = '@Url.Action("Edit", "Procedure")';
+                $('#procedureForm').attr('action', editUrl);
+                $("#Id").val(data.Id);
+                $("#InitialProcedureName").val(data.ProcedureName);
+                $("#ProcedureName").val(data.ProcedureName);
+                $("#submitBtn").html('<i class="fa fa-save"></i> Update');
+    }
+    </script>
+}
 
 
 

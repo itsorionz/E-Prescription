@@ -22,6 +22,10 @@ namespace EPrescription.Services
         {
             return procedureUnitOfWork.ProcedureRepository.GetAll();
         }
+        public Procedure GetProceduretById(int id)
+        {
+            return procedureUnitOfWork.ProcedureRepository.GetById(id);
+        }
 
         public void Add(Procedure procedure)
         {
@@ -35,9 +39,34 @@ namespace EPrescription.Services
             procedureUnitOfWork.Save();
         }
 
-        public bool IsProcedureNameExist(string procedureName, string initialProcedureName)
+        public bool IsProcedureNameExist(string procedureName, string InitialProcedureName)
         {
-            return procedureUnitOfWork.ProcedureRepository.IsProcedureNameExist(procedureName, initialProcedureName);
+            return procedureUnitOfWork.ProcedureRepository.IsProcedureNameExist(procedureName, InitialProcedureName);
+        }
+
+        public void Edit(Procedure procedure)
+        {
+            var procedureEntry = GetProceduretById(procedure.Id);
+            if (procedureEntry != null)
+            {
+                procedureEntry.ProcedureName = procedure.ProcedureName;
+                procedureEntry.UpdatedAt = procedure.UpdatedAt;
+                procedureEntry.UpdatedBy = procedure.UpdatedBy;
+                procedureUnitOfWork.ProcedureRepository.Update(procedureEntry);
+                procedureUnitOfWork.Save();
+            }
+        }
+
+        public void Inactive(Procedure procedure)
+        {
+            var procedureEntry = GetProceduretById(procedure.Id);
+            if (procedureEntry != null)
+            {
+                procedureEntry.UpdatedAt = procedure.UpdatedAt;
+                procedureEntry.UpdatedBy = procedure.UpdatedBy;
+                procedureUnitOfWork.ProcedureRepository.DeleteByItem(procedureEntry);
+                procedureUnitOfWork.Save();
+            }
         }
     }
 }

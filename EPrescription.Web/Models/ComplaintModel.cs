@@ -14,8 +14,7 @@ namespace EPrescription.Web.Models
     {
         private ComplaintService complaintService;
         [Required]
-        [Remote("IsComplaintTypeExist", "Complaint", AdditionalFields = "InitialComplaintType",
-            ErrorMessage = "Complaint Type already Exist")]
+        [Remote("IsComplaintTypeExist", "Complaint", AdditionalFields = "InitialComplaintType", ErrorMessage = "Complaint Type already Exist")]
         [Display(Name = "Complaint Type")]
         public new string ComplaintType
         {
