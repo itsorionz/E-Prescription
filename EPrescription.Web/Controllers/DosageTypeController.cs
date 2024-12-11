@@ -35,5 +35,10 @@ namespace EPrescription.Web.Controllers
             var model = new DosageTypeModel(id);
             return Json(new { TypeName = model.TypeName, Id = model.Id });
         }
+        public ActionResult Inactive(DosageTypeModel model)
+        {
+            model.Inactive();
+            return RedirectToAction("Index");
+        }
     }
 }

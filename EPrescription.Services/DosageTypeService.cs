@@ -60,6 +60,18 @@ namespace EPrescription.Services
             }
         }
 
+        public void Inactive(DosageType dosageType)
+        {
+            var dosageTypeEntry = GetDosageTypeById(dosageType.Id);
+            if (dosageTypeEntry != null)
+            {
+                dosageTypeEntry.UpdatedAt = dosageType.UpdatedAt;
+                dosageTypeEntry.UpdatedBy = dosageType.UpdatedBy;
+                dosageTypeUnitOfWork.DosageTypeRepository.DeleteByItem(dosageTypeEntry);
+                dosageTypeUnitOfWork.Save();
+            }
+        }
+
         public DosageType GetDosageByName(string strDosageType)
         {
             return dosageTypeUnitOfWork.DosageTypeRepository.GetDosageTypeByName(strDosageType);

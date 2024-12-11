@@ -13,17 +13,15 @@ namespace EPrescription.Web.Models
     public class DosageTypeModel: DosageType
     {
         private DosageTypeService dosageTypeService;
+
         [Required]
-        [Remote("IsDosageTypeExist", "DosageType", AdditionalFields = "InitialTypeName",
-            ErrorMessage = "Dosage Type already Exist")]
+        [Remote("IsDosageTypeExist", "DosageType", AdditionalFields = "InitialTypeName", ErrorMessage = "Dosage Type already Exist")]
         [Display(Name = "Dosage Type")]
         public new string TypeName
         {
             get { return base.TypeName; }
             set { base.TypeName = value; }
         }
-
-      
 
         public DosageTypeModel()
         {
@@ -47,7 +45,7 @@ namespace EPrescription.Web.Models
 
         public IEnumerable<DosageType> GetDosageTypes()
         {
-            return dosageTypeService.GetAllDosageTypes();
+            return dosageTypeService.GetAllDosageTypes().Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active);
         }
 
         public void Add()
@@ -59,12 +57,20 @@ namespace EPrescription.Web.Models
         }
         public void Edit()
         {
+            base.UpdatedAt = DateTime.Now;
             base.UpdatedBy = AuthenticatedUser.GetUserFromIdentity().UserId;
             dosageTypeService.Edit(this);
         }
         public bool IsDosageTypeExist(string typeName, string initialTypeName)
         {
             return dosageTypeService.IsDosageTypeExist( typeName, initialTypeName);
+        }
+        public void Inactive()
+        {
+            base.UpdatedAt = DateTime.Now;
+            base.UpdatedBy = AuthenticatedUser.GetUserFromIdentity().UserId;
+            base.StatusFlag = (byte)EnumActiveDeative.Inactive;
+            dosageTypeService.Inactive(this);
         }
     }
 }
