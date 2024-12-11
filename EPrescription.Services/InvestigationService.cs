@@ -12,6 +12,7 @@ namespace EPrescription.Services
     {
         private EPrescriptionDbContext _context;
         private InvestigationUnitOfWork investigationUnitOfWork;
+
         public InvestigationService()
         {
             _context = new EPrescriptionDbContext();
@@ -21,6 +22,11 @@ namespace EPrescription.Services
         public IEnumerable<Investigation> GetAllInvestigations()
         {
             return investigationUnitOfWork.InvestigationRepository.GetAll();
+        }
+
+        public Investigation GetInvestigationById(int id)
+        {
+            return investigationUnitOfWork.InvestigationRepository.GetById(id);
         }
 
         public void Add(Investigation investigation)
@@ -38,6 +44,30 @@ namespace EPrescription.Services
         public bool IsInvestigationNameExist(string investigationName, string initialInvestigationName)
         {
             return investigationUnitOfWork.InvestigationRepository.IsInvestigationNameExist(investigationName, initialInvestigationName);
+        }
+
+        public void Edit(Investigation investigation)
+        {
+            var investigationEntry = GetInvestigationById(investigation.Id);
+            if (investigationEntry != null)
+            {
+                investigationEntry.InvestigationName = investigation.InvestigationName;
+                investigationEntry.UpdatedAt = investigation.UpdatedAt;
+                investigationEntry.UpdatedBy = investigation.UpdatedBy;
+                investigationUnitOfWork.InvestigationRepository.Update(investigationEntry);
+                investigationUnitOfWork.Save();
+            }
+        }
+        public void Inactive(Investigation investigation)
+        {
+            var investigationEntry = GetInvestigationById(investigation.Id);
+            if (investigationEntry != null)
+            {
+                investigationEntry.UpdatedAt = investigation.UpdatedAt;
+                investigationEntry.UpdatedBy = investigation.UpdatedBy;
+                investigationUnitOfWork.InvestigationRepository.DeleteByItem(investigationEntry);
+                investigationUnitOfWork.Save();
+            }
         }
     }
 }

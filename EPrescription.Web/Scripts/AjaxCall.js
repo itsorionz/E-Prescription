@@ -12,7 +12,7 @@ function ajaxCall(url, paramData, callback, method, obj) {
             if (callback == "renderComplaintLoad") {
                 renderComplaintLoad(response);
             }
-            else if (callback == "renderDiseaseLoad") {
+              else if (callback == "renderDiseaseLoad") {
                 renderDiseaseLoad(response);
             } else if (callback == "rendeDosageTypeLoad") {
                 rendeDosageTypeLoad(response);
@@ -20,6 +20,8 @@ function ajaxCall(url, paramData, callback, method, obj) {
                 rendeLoadAvailablity(response);
             } else if (callback == "renderProcedureLoad") {
                 renderProcedureLoad(response);
+            } else if (callback == "renderLoadInvestigation") {
+                renderLoadInvestigation(response);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {

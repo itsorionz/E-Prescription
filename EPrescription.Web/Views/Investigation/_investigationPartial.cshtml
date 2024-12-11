@@ -1,8 +1,10 @@
 ﻿@model EPrescription.Web.Models.InvestigationModel
-@using (Html.BeginForm("Add", "Investigation", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Add", "Investigation", FormMethod.Post, new { @class = "form-horizontal", @enctype = "multipart/form-data", @id = "investicationForm" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
+    @Html.Hidden("InitialInvestigationName", "undefined")
+    @Html.HiddenFor(model => model.Id)
     <div class="box box-success">
         <div class="box-header with-border">
             <h3 class="box-title">Add/Edit</h3>
@@ -23,7 +25,7 @@
         </div>
         <div class="box-footer">
             <a href="@Url.Action("Index","Investigation")" class="btn btn-warning">Cancel</a>
-            <button type="submit" class="btn btn-info pull-right">Save</button>
+            <button id="submitBtn" type="submit" class="btn btn-info pull-right">Save</button>
         </div>
     </div>
 }
