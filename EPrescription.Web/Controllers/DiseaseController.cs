@@ -35,5 +35,10 @@ namespace EPrescription.Web.Controllers
             var model = new DiseaseModel(id);
             return Json(new { DiseaseName = model.DiseaseName, Id = model.Id });
         }
+        public ActionResult Inactive(DiseaseModel model)
+        {
+            model.Inactive();
+            return RedirectToAction("Index");
+        }
     }
 }

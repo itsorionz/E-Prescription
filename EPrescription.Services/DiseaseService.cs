@@ -58,5 +58,16 @@ namespace EPrescription.Services
         {
             return diseaseUnitOfWork.DiseaseRepository.IsDiseaseNameExist(diseaseName,  initialDiseaseName);
         }
+        public void Inactive(Disease disease)
+        {
+            var diseaseEntry = GetDiseaseById(disease.Id);
+            if (diseaseEntry != null)
+            {
+                diseaseEntry.UpdatedBy = disease.UpdatedBy;
+                diseaseEntry.DiseaseName = disease.DiseaseName;
+                diseaseUnitOfWork.DiseaseRepository.DeleteByItem(diseaseEntry);
+                diseaseUnitOfWork.Save();
+            }
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace EPrescription.Web.Models
         }
         public IEnumerable<Disease> GetAllDiseases()
         {
-            return diseaseService.GetAllDiseases();
+            return diseaseService.GetAllDiseases().Where(s => s.StatusFlag == 1);
         }
 
         public void Add()
@@ -64,6 +64,13 @@ namespace EPrescription.Web.Models
         public bool IsDiseaseNameExist(string diseaseName, string initialDiseaseName)
         {
             return diseaseService.IsDiseaseNameExist( diseaseName,  initialDiseaseName);
+        }
+        public void Inactive()
+        {
+            base.UpdatedAt = DateTime.Now;
+            base.UpdatedBy = AuthenticatedUser.GetUserFromIdentity().UserId;
+            base.StatusFlag = (byte)EnumActiveDeative.Inactive;
+            diseaseService.Inactive(this);
         }
     }
 }
