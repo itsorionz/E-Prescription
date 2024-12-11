@@ -22,6 +22,8 @@ function ajaxCall(url, paramData, callback, method, obj) {
                 renderProcedureLoad(response);
             } else if (callback == "renderLoadInvestigation") {
                 renderLoadInvestigation(response);
+            } else if (callback == "renderLoadStrength") {
+                renderLoadStrength(response);
             }
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
