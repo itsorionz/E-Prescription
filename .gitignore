@@ -16,3 +16,6 @@
 /EPrescription.Web/obj
 /packages
 /.vs
+/EPrescription.Common/.vs
+/EPrescription.Entities/.vs
+/EPrescription.Services/.vs
