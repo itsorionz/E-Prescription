@@ -11,8 +11,7 @@ function ajaxCall(url, paramData, callback, method, obj) {
         success: function (response) {
             if (callback == "renderComplaintLoad") {
                 renderComplaintLoad(response);
-            }
-              else if (callback == "renderDiseaseLoad") {
+            } else if (callback == "renderDiseaseLoad") {
                 renderDiseaseLoad(response);
             } else if (callback == "rendeDosageTypeLoad") {
                 rendeDosageTypeLoad(response);
@@ -24,8 +23,10 @@ function ajaxCall(url, paramData, callback, method, obj) {
                 renderLoadInvestigation(response);
             } else if (callback == "renderLoadStrength") {
                 renderLoadStrength(response);
+            } else if (callback == "renderLoadGeneric") {
+                renderLoadGeneric(response);
             }
-        },
+        }, 
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             alert(textStatus + "! please try again", '<i class="fa fa-exclamation-circle" aria-hidden="true"> Alert</i>');
         }
