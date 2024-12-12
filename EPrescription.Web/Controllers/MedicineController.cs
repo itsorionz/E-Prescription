@@ -34,8 +34,7 @@ namespace EPrescription.Web.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Upload(HttpPostedFileBase ExcelFile)
-        {
-           
+        {  
             string msg= new MedicineModel().UploadExcel(ExcelFile);
             ModelState.AddModelError("", msg);
             return View();
@@ -59,9 +58,13 @@ namespace EPrescription.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult UploadConfig(HttpPostedFileBase ExcelFile)
         {
-
             new MedicineModel().UploadConfigExcel(ExcelFile);
             return View();
+        }
+        public ActionResult Inactive(MedicineModel model)
+        {
+            model.Inactive();
+            return RedirectToAction("Index");
         }
     }
 }

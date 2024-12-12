@@ -95,5 +95,39 @@ namespace EPrescription.Services
             medicineUnitOfWork.GenericNameMedicineRepository.Add(newGenericNameRelation);
             medicineUnitOfWork.Save();
         }
+
+        public Medicine GetMedicineById(int id)
+        {
+            return medicineUnitOfWork.MedicineRepository.GetById(id);
+        }
+
+        //public bool IsGenericExist(string complaintType, string initialComplaintType)
+        //{
+        //    return medicineUnitOfWork.MedicineRepository.IsComplaintTypeExist(complaintType, initialComplaintType);
+        //}
+
+        //public void Edit(Medicine medicine)
+        //{
+        //    var medicineEntry = GetMedicineById(medicine.Id);
+        //    if (medicineEntry != null)
+        //    {
+        //        medicineEntry. = complaint.ComplaintType;
+        //        medicineEntry.UpdatedAt = complaint.UpdatedAt;
+        //        medicineEntry.UpdatedBy = complaint.UpdatedBy;
+        //        medicineUnitOfWork.ComplaintRepository.Update(complaintEntry);
+        //        medicineUnitOfWork.Save();
+        //    }
+        //}
+        public void Inactive(Medicine medicine)
+        {
+            var medicineEntry = GetMedicineById(medicine.Id);
+            if (medicineEntry != null)
+            {
+                medicineEntry.UpdatedAt = medicine.UpdatedAt;
+                medicineEntry.UpdatedBy = medicine.UpdatedBy;
+                medicineUnitOfWork.MedicineRepository.DeleteByItem(medicineEntry);
+                medicineUnitOfWork.Save();
+            }
+        }
     }
 }

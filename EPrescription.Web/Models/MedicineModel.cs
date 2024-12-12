@@ -72,7 +72,7 @@ namespace EPrescription.Web.Models
         }
         public IEnumerable<Medicine> GetAllMedicines()
         {
-            return medicineService.GetAllMedicines();
+            return medicineService.GetAllMedicines().Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active);
         }
         public void Add()
         {
@@ -360,6 +360,13 @@ namespace EPrescription.Web.Models
                     }
                 }
             }
+        }
+        public void Inactive()
+        {
+            base.UpdatedAt = DateTime.Now;
+            base.UpdatedBy = AuthenticatedUser.GetUserFromIdentity().UserId;
+            base.StatusFlag = (byte)EnumActiveDeative.Inactive;
+            medicineService.Inactive(this);
         }
     }
 }
