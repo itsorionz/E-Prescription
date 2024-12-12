@@ -3,6 +3,7 @@ using EPrescription.Repo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,6 +47,43 @@ namespace EPrescription.Services
         public MedicineManufacturer GetManufacturerByName(string strCompanyName)
         {
             return medicineManufacturerUnitOfWork.MedicineManufacturerRepository.GetManufacturerByName(strCompanyName);
+        }
+
+        public MedicineManufacturer GetManufacturerById(int id)
+        {
+            return medicineManufacturerUnitOfWork.MedicineManufacturerRepository.GetById(id);
+        }
+
+        public bool IsCompanyNameExist(string companyName, string initialCompanyName)
+        {
+            return medicineManufacturerUnitOfWork.MedicineManufacturerRepository.IsCompanyNameExist(companyName, initialCompanyName);
+        }
+
+        public void Edit(MedicineManufacturer manufacturer)
+        {
+            var manufacturerEntry = GetManufacturerById(manufacturer.Id);
+            if (manufacturerEntry != null)
+            {
+                manufacturerEntry.CompanyName = manufacturer.CompanyName;
+                manufacturerEntry.ContactNumber = manufacturer.ContactNumber;
+                manufacturerEntry.Address = manufacturer.Address;
+                manufacturerEntry.Email = manufacturer.Email;
+                manufacturerEntry.UpdatedAt = manufacturer.UpdatedAt;
+                manufacturerEntry.UpdatedBy = manufacturer.UpdatedBy;
+                medicineManufacturerUnitOfWork.MedicineManufacturerRepository.Update(manufacturerEntry);
+                medicineManufacturerUnitOfWork.Save();
+            }
+        }
+        public void Inactive(MedicineManufacturer manufacturer)
+        {
+            var manufacturerEntry = GetManufacturerById(manufacturer.Id);
+            if (manufacturerEntry != null)
+            {
+                manufacturerEntry.UpdatedAt = manufacturer.UpdatedAt;
+                manufacturerEntry.UpdatedBy = manufacturer.UpdatedBy;
+                medicineManufacturerUnitOfWork.MedicineManufacturerRepository.DeleteByItem(manufacturerEntry);
+                medicineManufacturerUnitOfWork.Save();
+            }
         }
     }
 }

@@ -20,5 +20,25 @@ namespace EPrescription.Web.Controllers
             model.Add();
             return RedirectToAction("Index");
         }
+        public JsonResult IsCompanyNameExist(string companyName, string InitialCompanyName)
+        {
+            bool isNotExist = new MedicineManufacturerModel().IsCompanyNameExist(companyName, InitialCompanyName);
+            return Json(isNotExist, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult LoadManufacturer(int id)
+        {
+            var model = new MedicineManufacturerModel(id);
+            return Json(new { CompanyName = model.CompanyName, Id = model.Id, Address = model.Address, Email = model.Email, ContactNumber = model.ContactNumber });
+        }
+        public ActionResult Edit(MedicineManufacturerModel model)
+        {
+            model.Edit();
+            return RedirectToAction("Index");
+        }
+        public ActionResult Inactive(MedicineManufacturerModel model)
+        {
+            model.Inactive();
+            return RedirectToAction("Index");
+        }
     }
 }

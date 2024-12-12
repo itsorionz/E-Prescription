@@ -25,6 +25,8 @@ function ajaxCall(url, paramData, callback, method, obj) {
                 renderLoadStrength(response);
             } else if (callback == "renderLoadGeneric") {
                 renderLoadGeneric(response);
+            } else if (callback == "renderLoadManufacturer") {
+                renderLoadManufacturer(response);
             }
         }, 
         error: function (XMLHttpRequest, textStatus, errorThrown) {

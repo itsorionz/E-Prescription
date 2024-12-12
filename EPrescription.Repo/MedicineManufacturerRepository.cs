@@ -19,5 +19,27 @@ namespace EPrescription.Repo
         {
             return _context.MedicineManufacturers.FirstOrDefault(s => s.CompanyName.ToUpper() == strCompanyName.ToUpper());
         }
+
+        public bool IsCompanyNameExist(string companyName, string initialCompanyName)
+        {
+            bool isNotExist = true;
+            if (companyName != string.Empty && initialCompanyName == "undefined")
+            {
+                var isExist = _context.MedicineManufacturers.Any(x => x.CompanyName.ToLower().Equals(companyName.ToLower()));
+                if (isExist)
+                {
+                    isNotExist = false;
+                }
+            }
+            if (companyName != string.Empty && initialCompanyName != "undefined")
+            {
+                var isExist = _context.MedicineManufacturers.Any(x => x.CompanyName.ToLower() == companyName.ToLower() && x.CompanyName.ToLower() != initialCompanyName.ToLower());
+                if (isExist)
+                {
+                    isNotExist = false;
+                }
+            }
+            return isNotExist;
+        }
     }
 }
