@@ -1,4 +1,6 @@
-﻿using EPrescription.Web.Models;
+﻿using EPrescription.Entities;
+using EPrescription.Services;
+using EPrescription.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,6 +63,27 @@ namespace EPrescription.Web.Controllers
             new MedicineModel().UploadConfigExcel(ExcelFile);
             return View();
         }
+        public ActionResult Edit(int id)
+        {
+            var medicineModel = new MedicineModel().Edit(id);
+            if (medicineModel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(medicineModel); 
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(MedicineModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                new MedicineService().Edit(model);
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+
         public ActionResult Inactive(MedicineModel model)
         {
             model.Inactive();

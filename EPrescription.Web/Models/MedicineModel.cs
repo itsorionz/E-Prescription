@@ -15,9 +15,6 @@ namespace EPrescription.Web.Models
     {
         private MedicineService medicineService;
         private MedicineManufacturerService medicineManufacturerService;
-
-
-
         private DosageTypeService dosageTypeService;
         private StrengthService strengthService;
         private GenericNameService genericNameService;
@@ -26,18 +23,13 @@ namespace EPrescription.Web.Models
         private InvestigationService investigationService;
         private DiseaseService diseaseService;
         private ProcedureService procedureService;
+
         public IEnumerable<MedicineManufacturer> MedicineManufactureList { get; set; }
-
-
-
         public IEnumerable<DosageType> DosageTypeList { get; set; }
         public IEnumerable<GenericName> GenericNameList { get; set; }
         public IEnumerable<Strength> StrengthList { get; set; }
         [Display(Name = "Generic Name")]
         public List<int> GenericNameIds { get; set; }
-
-
-
         [Display(Name = "Dosages")]
         public List<int> DosageIds { get; set; }
         [Display(Name = "Strengths")]
@@ -54,6 +46,26 @@ namespace EPrescription.Web.Models
             GenericNameList = genericNameService.GetAllGenericNames();
             DosageTypeList = dosageTypeService.GetAllDosageTypes();
             StrengthList = strengthService.GetAllStrength();
+        }
+        public MedicineModel(int id) : this()
+        {
+            var medicineEntry = medicineService.GetMedicineById(id);
+            if (medicineEntry != null)
+            {
+                base.Id = medicineEntry.Id;
+                base.BrandName = medicineEntry.BrandName;
+                base.MedicineManufacturer = medicineEntry.MedicineManufacturer;
+                base.Dar = medicineEntry.Dar;
+                base.CreatedAt = medicineEntry.CreatedAt;
+                base.StatusFlag = medicineEntry.StatusFlag;
+                base.UpdatedAt = medicineEntry.UpdatedAt;
+                base.UpdatedBy = medicineEntry.UpdatedBy;
+                base.CreatedBy = medicineEntry.CreatedBy;
+                base.MedicineManufacturerId = medicineEntry.MedicineManufacturerId;
+                base.DosageTypeMedicineRelations = medicineEntry.DosageTypeMedicineRelations;
+                base.GenericNameMedicineRelations = medicineEntry.GenericNameMedicineRelations;
+                base.StrengthMedicineRelations = medicineEntry.StrengthMedicineRelations;
+            }
         }
 
         public IEnumerable<string> GetAvailablity(string medicineName)
@@ -361,6 +373,33 @@ namespace EPrescription.Web.Models
                 }
             }
         }
+
+        public MedicineModel Edit(int id)
+        {
+            var medicine = medicineService.GetMedicineById(id);
+            if (medicine == null)
+            {
+                return null; 
+            }
+            var medicineModel = new MedicineModel
+            {
+                Id = medicine.Id,
+                BrandName = medicine.BrandName,
+                MedicineManufacturerId = medicine.MedicineManufacturerId,
+                StatusFlag = medicine.StatusFlag,
+                CreatedBy = medicine.CreatedBy,
+                UseFor = medicine.UseFor,
+                Dar = medicine.Dar,
+            };
+            return medicineModel;
+        }
+        public void Edit(MedicineModel model)
+        {
+            base.UpdatedAt = DateTime.Now;
+            base.UpdatedBy = AuthenticatedUser.GetUserFromIdentity().UserId;
+            medicineService.Edit(this);
+        }
+
         public void Inactive()
         {
             base.UpdatedAt = DateTime.Now;

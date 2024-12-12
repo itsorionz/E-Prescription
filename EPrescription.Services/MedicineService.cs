@@ -13,10 +13,17 @@ namespace EPrescription.Services
     {
         private EPrescriptionDbContext _context;
         private MedicineUnitOfWork medicineUnitOfWork;
+        private GenericNameUnitOfWork genericNameUnitOfWork;
+        private DosageTypeUnitOfWork dosageTypeUnitOfWork;
+        private StrengthUnitOfWork strengthUnitOfWork;
+
         public MedicineService()
         {
             _context = new EPrescriptionDbContext();
             medicineUnitOfWork = new MedicineUnitOfWork(_context);
+            genericNameUnitOfWork = new GenericNameUnitOfWork(_context);
+            dosageTypeUnitOfWork = new DosageTypeUnitOfWork(_context);
+            strengthUnitOfWork = new StrengthUnitOfWork(_context);
         }
 
         public IEnumerable<Medicine> GetAllMedicines()
@@ -100,24 +107,23 @@ namespace EPrescription.Services
         {
             return medicineUnitOfWork.MedicineRepository.GetById(id);
         }
+        public void Edit(Medicine model)
+        {
+            var medicine = medicineUnitOfWork.MedicineRepository.GetById(model.Id);
+            if (medicine != null)
+            {
+                medicine.BrandName = model.BrandName;
+                medicine.MedicineManufacturerId = model.MedicineManufacturerId;
+                medicine.StatusFlag = model.StatusFlag;
+                medicine.CreatedBy = model.CreatedBy;
+                medicine.UseFor = model.UseFor;
+                medicine.Dar = model.Dar;
+                medicine.DosageTypeMedicineRelations = model.DosageTypeMedicineRelations;
+                medicine.GenericNameMedicineRelations = model.GenericNameMedicineRelations;
+                medicine.StrengthMedicineRelations = model.StrengthMedicineRelations;
+            }
+        }
 
-        //public bool IsGenericExist(string complaintType, string initialComplaintType)
-        //{
-        //    return medicineUnitOfWork.MedicineRepository.IsComplaintTypeExist(complaintType, initialComplaintType);
-        //}
-
-        //public void Edit(Medicine medicine)
-        //{
-        //    var medicineEntry = GetMedicineById(medicine.Id);
-        //    if (medicineEntry != null)
-        //    {
-        //        medicineEntry. = complaint.ComplaintType;
-        //        medicineEntry.UpdatedAt = complaint.UpdatedAt;
-        //        medicineEntry.UpdatedBy = complaint.UpdatedBy;
-        //        medicineUnitOfWork.ComplaintRepository.Update(complaintEntry);
-        //        medicineUnitOfWork.Save();
-        //    }
-        //}
         public void Inactive(Medicine medicine)
         {
             var medicineEntry = GetMedicineById(medicine.Id);
@@ -129,5 +135,33 @@ namespace EPrescription.Services
                 medicineUnitOfWork.Save();
             }
         }
+        public void DeleteStrengthRelationsByMedicineId(int medicineId)
+        {
+            var strengthRelations = medicineUnitOfWork.StrengthMedicineRepository.GetAll().Where(rel => rel.MedicineId == medicineId).ToList();
+            foreach (var relation in strengthRelations)
+            {
+                medicineUnitOfWork.StrengthMedicineRepository.DeleteByItem(relation);
+            }
+            medicineUnitOfWork.Save();
+        }
+        public void DeleteGenericNameRelationsByMedicineId(int medicineId)
+        {
+            var genericNameRelations = medicineUnitOfWork.GenericNameMedicineRepository.GetAll().Where(rel => rel.MedicineId == medicineId).ToList();
+            foreach (var relation in genericNameRelations)
+            {
+                medicineUnitOfWork.GenericNameMedicineRepository.DeleteByItem(relation);
+            }
+            medicineUnitOfWork.Save();
+        }
+        public void DeleteDosageTypeRelationsByMedicineId(int medicineId)
+        {
+            var dosageTypeRelations = medicineUnitOfWork.DosageTypeMedicineRepository.GetAll().Where(rel => rel.MedicineId == medicineId).ToList();
+            foreach (var relation in dosageTypeRelations)
+            {
+                medicineUnitOfWork.DosageTypeMedicineRepository.DeleteByItem(relation);
+            }
+            medicineUnitOfWork.Save();
+        }
+
     }
 }
