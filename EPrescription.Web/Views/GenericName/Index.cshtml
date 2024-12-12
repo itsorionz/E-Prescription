@@ -98,7 +98,7 @@
               ajaxCall(url, paramData, "renderLoadGeneric");
         }
         function renderLoadGeneric(data) {
-            console.log(data)
+            //console.log(data)
             var editUrl = '@Url.Action("Edit", "GenericName")';
                 $('#genericForm').attr('action', editUrl);
                 $("#Id").val(data.Id);
