@@ -54,34 +54,37 @@
                                     <div class="col-sm-8">
                                         @Html.ListBoxFor(
                                             model => model.GenericNameIds,
-                                            new SelectList(Model.GenericNameList, "Id", "TypeName", Model.GenericNameIds),
+                                            new MultiSelectList(Model.GenericNameList, "Id", "TypeName", Model.GenericNameIds),
                                             new { @class = "form-control select2" }
                                         )
                                         @Html.ValidationMessageFor(model => model.GenericNameIds)
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.StrengthIds, new { @class = "col-sm-4 control-label text-left" })
                                     <div class="col-sm-8">
                                         @Html.ListBoxFor(
                                             model => model.StrengthIds,
-                                            new SelectList(Model.StrengthList, "Id", "StrengthName", Model.StrengthIds),
+                                            new MultiSelectList(Model.StrengthList, "Id", "StrengthName", Model.StrengthIds),
                                             new { @class = "form-control select2" }
                                         )
                                         @Html.ValidationMessageFor(model => model.StrengthIds)
                                     </div>
                                 </div>
+
                                 <div class="form-group">
                                     @Html.LabelFor(model => model.DosageIds, new { @class = "col-sm-4 control-label text-left" })
                                     <div class="col-sm-8">
-                                        @Html.DropDownListFor(
+                                        @Html.ListBoxFor(
                                             model => model.DosageIds,
-                                            new SelectList(Model.DosageTypeList, "Id", "TypeName", Model.DosageIds),
-                                            new { @class = "form-control select2", @multiple = true }
+                                            new MultiSelectList(Model.DosageTypeList, "Id", "TypeName", Model.DosageIds),
+                                            new { @class = "form-control select2" }
                                         )
                                         @Html.ValidationMessageFor(model => model.DosageIds)
                                     </div>
                                 </div>
+
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -113,8 +116,14 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/select2")
     <script>
-        $(".select2").select2();
-        $(".select2").attr("data-placeholder", "Select---");
-        $(".select2").css("width: 100%;");
+        $(".select2").select2({
+        placeholder: "---Select---",
+        allowClear: true,
+        width: '100%'
+        });
+        $(".select2").each(function () {
+            var selectedValues = $(this).val();
+            $(this).val(selectedValues).trigger("change");
+        });
     </script>
 }

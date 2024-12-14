@@ -12,7 +12,7 @@ namespace EPrescription.Repo
   public class MedicineRepository:Repository<Medicine>
     {
         private EPrescriptionDbContext _context;
-        private MedicineRepository medicineRepository;
+
         public MedicineRepository(EPrescriptionDbContext context) : base(context)
         {
             _context = context;

@@ -377,6 +377,9 @@ namespace EPrescription.Web.Models
         public MedicineModel Edit(int id)
         {
             var medicine = medicineService.GetMedicineById(id);
+            List<int> genericNameIds = medicineService.GetGenericNameIdsByMedicineId(medicine.Id)?.ToList() ?? new List<int>();
+            List<int> strengthIds = medicineService.GetStrengthIdsByMedicineId(medicine.Id)?.ToList() ?? new List<int>();
+            List<int> dosageTypeIds = medicineService.GetDosageTypeIdsByMedicineId(medicine.Id)?.ToList() ?? new List<int>();
             if (medicine == null)
             {
                 return null; 
@@ -390,7 +393,14 @@ namespace EPrescription.Web.Models
                 CreatedBy = medicine.CreatedBy,
                 UseFor = medicine.UseFor,
                 Dar = medicine.Dar,
-            };
+                GenericNameIds = genericNameIds,
+                StrengthIds = strengthIds,
+                DosageIds = dosageTypeIds,
+                MedicineManufactureList = MedicineManufactureList, 
+                GenericNameList = GenericNameList, 
+                StrengthList = StrengthList, 
+                DosageTypeList = DosageTypeList
+            };      
             return medicineModel;
         }
         public void Edit(MedicineModel model)
@@ -398,6 +408,37 @@ namespace EPrescription.Web.Models
             base.UpdatedAt = DateTime.Now;
             base.UpdatedBy = AuthenticatedUser.GetUserFromIdentity().UserId;
             medicineService.Edit(this);
+            foreach (int strengthId in StrengthIds)
+            {
+                var strengthMedicineRelation = new StrengthMedicineRelation()
+                {
+                    MedicineId = model.Id,
+                    StrengthId = strengthId,
+                    StatusFlag = (byte)EnumActiveDeative.Active
+                };
+                medicineService.UpdateStrengthRelation(strengthMedicineRelation);
+            }
+            foreach (int dosageTypeId in DosageIds)
+            {
+                var dosageTypeMedicineRelation = new DosageTypeMedicineRelation()
+                {
+                    MedicineId = model.Id,
+                    DosageTypeId = dosageTypeId,
+                    StatusFlag = (byte)EnumActiveDeative.Active,
+                };
+                medicineService.UpdateDosageTypeRelation(dosageTypeMedicineRelation);
+            }
+            foreach (int genericId in GenericNameIds)
+            {
+                var genericNameMedicineRelation = new GenericNameMedicineRelation()
+                {
+                    GenericTypeId = genericId,
+                    MedicineId = model.Id,
+                    StatusFlag = (byte)EnumActiveDeative.Active
+                };
+                medicineService.UpdateGenericNameRelation(genericNameMedicineRelation);
+            }
+            
         }
 
         public void Inactive()
