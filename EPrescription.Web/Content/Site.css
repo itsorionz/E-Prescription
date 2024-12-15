@@ -1,4 +1,6 @@
-﻿
+﻿/*---------------------------------------*/
+/*----------------Site CSS---------------*/
+/*---------------------------------------*/
 .icheck > label {
     padding-left: 19px;
 }
@@ -26,3 +28,163 @@
      padding-right: 0px; 
 
 }
+/*---------------------------------------*/
+/*-------------Prescription-------------*/
+/*---------------------------------------*/
+.vl {
+    border-left: 1px dashed black;
+    height: 600px;
+    position: absolute;
+    left: 60%;
+    margin-left: 10px;
+    top: 25%;
+}
+/* General container styling */
+.pres-container {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px; 
+    margin: 20px auto; 
+}
+
+/* Header section */
+.pres-header {
+    text-align: right;
+    background-image: url('prescription/header.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    /* background-color: #2F5596;*/
+    color: #fff;
+    padding: 20px;
+    border-top-left-radius: 10px;
+    /*border-top-right-radius: 10px;*/
+    /*border-bottom-left-radius: 10px;*/
+    border-bottom-right-radius: 10px;
+    min-height: 200px;
+}
+
+.pres-header h2 {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 24px;
+}
+
+.pres-header p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Body section */
+.pres-body {
+    padding: 20px;
+    min-height: 600px;
+    position: relative;
+    color: #2F5596; 
+    background-color: #fff; 
+}
+
+.pres-body::before {
+    content: ''; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('prescription/watermark.jpg');
+    background-size: contain; 
+    background-repeat: no-repeat; 
+    background-position: center;
+    opacity: 0.1;
+    z-index: 0; 
+    pointer-events: none;
+}
+
+.pres-body * {
+    position: relative;
+    z-index: 1;
+}
+
+.pres-body h4 {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.pres-body .row {
+    align-items: center;
+}
+
+.pres-body img {
+    width: 50px;
+    height: auto;
+}
+
+.pres-body p {
+    margin: 5px 0;
+}
+
+.pres-date {
+    margin-bottom: 60px;
+}
+/* Footer section */
+.pres-footer {
+    border-top: 1px solid #ccc;
+    padding: 15px 10px;
+    background-color: #2F5596;
+    color: #fff;
+    padding: 25px;
+    border-top-left-radius: 10px;
+    /*border-top-right-radius: 10px;*/
+    /*border-bottom-left-radius: 10px;*/
+    border-bottom-right-radius: 10px;
+}
+.pres-footer .row {
+    align-items: center;
+}
+
+.pres-footer .fa {
+    font-size: 20px;
+    color: #333;
+    margin-right: 10px;
+}
+
+.pres-footer p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.pres-footer img {
+    display: block;
+    margin: auto;
+}
+
+
+@media print {
+    body
+
+{
+    -webkit-print-color-adjust: exact; /* For Chrome and Safari */
+    print-color-adjust: exact; /* For other browsers */
+}
+
+.pres-body {
+    padding: 20px;
+    min-height: 600px;
+    background-image: url('/Content/prescription/watermark.jpg'); /* Ensure the path is correct */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #2F5596;
+}
+
+.btn {
+    display: none; /* Hides buttons during print */
+}
+
+@page {
+    margin: 1cm; /* Adjust page margins */
+}
+
+}
+

@@ -26,17 +26,19 @@
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-bordered">
+                        <table class="table table-striped">
                             <thead>
                                 <tr class="text-bold text-blue">
                                     <th>@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().PatientNo)</th>
                                     <th>@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().Name)</th>
                                     <th>@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().PhoneNo)</th>
-                                    <th>@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().Age)</th>
-                                    <th>@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().BirthDate)</th>
-                                    <th>@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().Gender)</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th class="text-center">@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().Age)</th>
+                                    <th class="text-center">@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().BirthDate)</th>
+                                    <th class="text-center">@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().Gender)</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Prescription</th>
+                                    <th class="text-center">Actions</thclass="text-center">
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,7 +49,7 @@
                                             <a href="@Url.Action("Details","Prescription",new {id=item.Id })">
                                                 @Html.DisplayFor(itemElement => item.PatientNo)
                                             </a>
-                                          
+
                                         </td>
                                         <td>
                                             @Html.DisplayFor(itemElement => item.Name)
@@ -56,20 +58,24 @@
                                             @Html.DisplayFor(itemElement => item.PhoneNo)
                                         </td>
 
-                                        <td>
+                                        <td class="text-center">
                                             @Html.DisplayFor(itemElement => item.Age)
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             @item.BirthDate.DateFormat()
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             @Html.DisplayFor(itemElement => item.Gender)
                                         </td>
-                                        <td></td>
-
-                                        <td>
+                                        <td class="text-center"> @Html.DisplayFor(itemElement => item.StatusFlag)</td>
+                                        <td class="text-center">
+                                            <a href="@Url.Action("Details","Prescription",new {id=item.Id })">
+                                                <i class="fa fa-download"></i>
+                                            </a>
+                                        </td>
+                                        <td class="text-center">
                                             <a href="@Url.Action("Add", "Prescription",new { patientId=item.Id})" class="btn btn-box-tool" title="Add" data-toggle="tooltip">
-                                                <i class="fa fa-file-excel-o"></i>
+                                                <i class="fa fa-plus"></i>
                                             </a>
                                         </td>
                                     </tr>

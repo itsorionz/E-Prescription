@@ -12,7 +12,8 @@ namespace EPrescription.Web.Models
         public Patient Patient { get; set; }
         public Doctor Doctor { get; set; }
         public List<Clinic> Clinics { get; set; }
-        public List<PatientMedicine> PatientMedicineList { get; set; } 
+        public List<PatientMedicine> PatientMedicineList { get; set; }
+        public List<PatientInvestigation> PatientInvestigationList { get; set; }
         private PatientService patientService;
         private MedicineService medicineService;
         private DosageCommentService dosageCommentService;
@@ -24,7 +25,7 @@ namespace EPrescription.Web.Models
 
         public IEnumerable<Investigation> InvestigationList { get; set; }
         public List<string> Investigations { get; set; }
-       
+
         public PrescriptionModel()
         {
             patientService = new PatientService();
@@ -33,19 +34,19 @@ namespace EPrescription.Web.Models
             investigationService = new InvestigationService();
             doctorService = new DoctorService();
             clinicService = new ClinicService();
-            MedicineList = medicineService.GetAllMedicines().OrderBy(s=>s.BrandName);
+            MedicineList = medicineService.GetAllMedicines().OrderBy(s => s.BrandName);
             DosageComments = dosageCommentService.GetAllDosageComment();
             InvestigationList = investigationService.GetAllInvestigations();
         }
 
         public void Add()
         {
-           foreach(var patientMedicine in PatientMedicineList)
+            foreach (var patientMedicine in PatientMedicineList)
             {
                 patientMedicine.PatientId = Patient.Id;
                 patientService.AddPatientMedicine(patientMedicine);
             }
-           foreach(var investigation in Investigations)
+            foreach (var investigation in Investigations)
             {
                 var newPatientInvestigation = new PatientInvestigation()
                 {
@@ -56,14 +57,14 @@ namespace EPrescription.Web.Models
             }
         }
 
-        public PrescriptionModel(int patientId):this()
+        public PrescriptionModel(int patientId) : this()
         {
             Patient = patientService.GetPatientById(patientId);
             Doctor = doctorService.GetFirstDefault();
             Clinics = clinicService.GetAllClinics().Take(2).ToList();
-           
+            PatientMedicineList = patientService.GetPatientMedicines(patientId);
+            PatientInvestigationList = patientService.GetPatientInvestigation(patientId);
         }
-    }
-  
 
+    }
 }

@@ -1,11 +1,14 @@
 ﻿using EPrescription.Entities;
 using EPrescription.Repo;
+using EPrescription.Services;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace EPrescription.Services
 {
@@ -86,8 +89,15 @@ namespace EPrescription.Services
                 DurationUnit = patientMedicine.DurationUnit
             };
             patientUnitOfWork.PatientMedicineRepository.Add(patientMedicine);
-            patientUnitOfWork.Save();
-            
+            patientUnitOfWork.Save(); 
         }
+        public List<PatientMedicine> GetPatientMedicines(int patientId)
+        {
+            return patientUnitOfWork.PatientMedicineRepository.FindAll(p => p.PatientId == patientId).ToList();
+        }
+        public List<PatientInvestigation> GetPatientInvestigation(int patientId)
+        {
+            return patientUnitOfWork.PatientInvestigationRepository.FindAll(p => p.PatientId == patientId).ToList();
+        } 
     }
 }

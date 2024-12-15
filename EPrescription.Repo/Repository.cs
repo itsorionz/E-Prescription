@@ -33,6 +33,10 @@ namespace EPrescription.Repo
             //return _context.Set<T>().Where(x => x.Id == id).FirstOrDefault();
             return _context.Set<T>().Find(id);
         }
+        public IEnumerable<T> FindAll(Func<T, bool> predicate)
+        {
+            return _context.Set<T>().Where(predicate);
+        }
         public virtual void DeleteById(int id)
         {
             T item = GetById(id);

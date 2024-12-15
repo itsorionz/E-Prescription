@@ -1,82 +1,198 @@
 ﻿@model EPrescription.Web.Models.PrescriptionModel
 
-<style>
-    body {
-       color: white;
-    }
-</style>
 
-<body>
-    <div class="container">
-        <div class="card">
-            <div class="card-header text-center bg-primary">
-                <h2>Prescription</h2>
+<div class="content-wrapper">
+    <section class="content">
+        <div class="container">
+
+            <!-- Buttons for Export and Print -->
+            <div class="mb-3 d-flex justify-content-end">
+                <!-- Export to PDF -->
+                <button class="btn btn-danger me-2" id="exportToPdf">
+                    <i class="fa fa-file-pdf-o"></i> Export to PDF
+                </button>
+                <!-- Print Prescription -->
+                <button class="btn btn-primary" onclick="printPrescription()">
+                    <i class="fa fa-print"></i> Print
+                </button>
+                <a href="@Url.Action("ExportToPdf", "Prescription", new { patientId = Model.Patient.Id })" class="btn btn-danger">
+                    <i class="fa fa-file-pdf-o"></i> Export to PDF
+                </a>
+
+
             </div>
-            <div class="card-body">
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <h5>Patient Information</h5>
-                        <p><strong>Name:</strong> @Model.Patient.Name</p>
-                        <p><strong>Age:</strong> @Model.Patient.Age</p>
-                        @*<p><strong>Contact:</strong> @Model.Patient.Contact</p>*@
-                    </div>
-                    <div class="col-md-6">
-                        <h5>Doctor Information</h5>
-                        <p><strong>Name:</strong> @Model.Doctor.Name</p>
-                        <p><strong>Specialty:</strong> @Model.Doctor.Specialty</p>
-                        @*<p><strong>Contact:</strong> @Model.Doctor.Contact</p>*@
+
+            <div class="pres-container">
+                <!-- Header -->
+                <div class="pres-header">
+                    <div class="col-12">
+                        <h2>DR. @Model.Doctor.Name</h2>
+                        <p>@Model.Doctor.Specialty</p>
+                        <p>@Model.Doctor.Degree</p>
+                        <p>@Model.Doctor.Institute</p>
                     </div>
                 </div>
 
-                <!-- Clinic Details -->
-                <div class="mb-4">
-                    <h5>Clinics</h5>
-                    <ul>
-                        @foreach (var clinic in Model.Clinics)
-                        {
-                            <li>
-                                <strong>@clinic.Name</strong> - @clinic.Address
-                            </li>
-                        }
-                    </ul>
+                <!-- Body -->
+                <div class="pres-body">
+                    <div class="row mb-3">
+                        <!-- Date -->
+                        <div class="col-md-8">
+                            <div class="pres-date">
+                                <p><strong>Date:</strong> @(Model.Patient.CreatedAt?.ToString("dd-MM-yyyy") ?? "Not Available")</p>
+                            </div>
+
+                            <!-- RX Icon -->
+                            <div class="rx">
+                                <img src="~/Content/prescription/rx.png" alt="Rx" width="60" height="60" />
+                            </div>
+                        </div>
+
+                        <!-- Patient Info -->
+                        <div class="col-md-4">
+                            <p><strong>Patient No:</strong> @Model.Patient.PatientNo</p>
+                            <p><strong>Name:</strong> @Model.Patient.Name</p>
+                            <p><strong>Age:</strong> @Model.Patient.Age</p>
+                            <p><strong>Sex:</strong> @Model.Patient.Gender</p>
+                            <p><strong>Phone:</strong> @Model.Patient.PhoneNo</p>
+                            <p><strong>Advice:</strong> @Model.Patient.Comments</p>
+
+                        </div>
+
+                    </div>
+                    <hr />
+
+                    <!-- Medicine List -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <h4 class="border-bottom pb-2">Prescribed Medicines:</h4>
+
+                            @if (Model.PatientMedicineList != null && Model.PatientMedicineList.Any())
+                            {
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Sl.</th>
+                                            <th>Medicine Name</th>
+                                            <th>Dosage</th>
+                                            <th>Duration Unit</th>
+                                            <th>Duration</th>
+                                            <th>Instructions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var medicine in Model.PatientMedicineList.Select((item, index) => new { item, index }))
+                                        {
+                                            <tr>
+                                                <td>@(medicine.index + 1)</td>
+                                                <td>@medicine.item.Medicine</td>
+                                                <td>@medicine.item.Dosage</td>
+                                                <td>@medicine.item.DurationUnit</td>
+                                                <td>@medicine.item.Duration</td>
+                                                <td>@medicine.item.DosageComment</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <p>No medicines prescribed.</p>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Investigation List -->
+                    <div class="row mb-3">
+                        <h4 class="border-bottom pb-2">Investigations:</h4>
+
+                        <div class="col-md-4">
+                            @if (Model.PatientInvestigationList != null && Model.PatientInvestigationList.Any())
+                            {
+                                <ul class="list-group">
+                                    @foreach (var investigation in Model.PatientInvestigationList)
+                                    {
+                                        <li class="list-group-item">@investigation.Investigation</li>
+                                    }
+                                </ul>
+                            }
+                            else
+                            {
+                                <p>No investigations suggested.</p>
+                            }
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Medicines -->
-                <div class="mb-4">
-                    <h5>Medicines</h5>
-                    <table class="table table-bordered">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Medicine</th>
-                                <th>Dosage</th>
-                                <th>Frequency</th>
-                                <th>Duration</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Dosage</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <!-- Footer -->
+                <div class="pres-footer">
+                    <div class="row">
+                        <!-- Contact Info -->
+                        <div class="col-md-1">
+                            <div class="mb-2">
+                                <i class="fa fa-medkit text-right" style="font-size: 60px; color: #fff;"></i>
+                            </div>
+                        </div>
 
-                <!-- Investigations -->
-                <div class="mb-4">
-                    <h5>Investigations</h5>
-                    <ul>
-                        <li>investigation</li>
-                    </ul>
-                </div>
+                        <!-- Address Info -->
+                        <div class="col-md-6">
+                            <p><strong>Clinic:</strong> @Model.Clinics.FirstOrDefault().Name</p>
+                            <p><strong>Phone:</strong> @Model.Clinics.FirstOrDefault().Phone</p>
+                            <p><strong>Address:</strong> @Model.Clinics.FirstOrDefault().Address</p>
+                        </div>
 
-                <!-- Dosage Comments -->
-                <div>
-                    <h5>Dosage Comments</h5>
-                    <ul>
-                        <li>Comment</li>
-                    </ul>
+                        <!-- Additional Info -->
+                        <div class="col-md-3">
+                            <div>
+                                <p><i class="fa fa-calendar" style="color:#fff;"></i> <strong>Off Days:</strong> @Model.Clinics.FirstOrDefault().OffDays</p>
+                                <p><i class="fa fa-clock-o" style="color:#fff;"></i> <strong>Timings:</strong> @Model.Clinics.FirstOrDefault().Timings</p>
+                            </div>
+                        </div>
+
+                        <!-- QR Code -->
+                        <div class="col-md-2 text-center">
+                            <img src="~/Content/prescription/qr.png" alt="QR Code" height="80" width="80" />
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
-    </div>
-</body>
+    </section>
+</div>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script>
+        function printPrescription() {
+            window.print();
+        }
+        //function printPdf() {
+        //    document.getElementById('exportToPdf').addEventListener('click', function () {
+        //        const { jsPDF } = window.jspdf;
+        //        const doc = new jsPDF();
+        //        const content = document.querySelector('.pres-container');
+        //        doc.html(content, {
+        //            callback: function (doc) {
+        //                doc.save('Prescription.pdf');
+        //            },
+        //            x: 10,
+        //            y: 10
+        //        });
+        //    });
+        //}
+
+        document.getElementById('exportToPdf').addEventListener('click', function () {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const content = document.querySelector('.pres-container');
+            doc.html(content, {
+                callback: function (doc) {
+                    doc.save('Prescription.pdf');
+                },
+                x: 10,
+                y: 10
+            });
+        });
+
+    </script>
+}
