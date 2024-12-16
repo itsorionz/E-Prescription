@@ -1,8 +1,5 @@
 ﻿using EPrescription.Web.Models;
-using PdfSharp.Pdf;
 using System.Web.Mvc;
-using TheArtOfDev.HtmlRenderer.PdfSharp;
-using System.IO;
 
 namespace EPrescription.Web.Controllers
 {
