@@ -55,7 +55,7 @@
                             <p><strong>Age:</strong> @Model.Patient.Age</p>
                             <p><strong>Sex:</strong> @Model.Patient.Gender</p>
                             <p><strong>Phone:</strong> @Model.Patient.PhoneNo</p>
-                            <p><strong>Advice:</strong> @Model.Patient.Comments</p>
+                            @*<p><strong>Advice:</strong> @Model.Patient.Comments</p>*@
 
                         </div>
 
@@ -104,9 +104,8 @@
 
                     <!-- Investigation List -->
                     <div class="row mb-3">
-                        <h4 class="border-bottom pb-2">Investigations:</h4>
-
                         <div class="col-md-4">
+                            <h4 class="border-bottom pb-2">Investigations:</h4>
                             @if (Model.PatientInvestigationList != null && Model.PatientInvestigationList.Any())
                             {
                                 <ul class="list-group">
@@ -120,6 +119,10 @@
                             {
                                 <p>No investigations suggested.</p>
                             }
+                        </div> 
+                        <div class="col-md-6">
+                            <h4 class="border-bottom pb-2">Advice:</h4>
+                            <p> @Model.Patient.Comments</p>
                         </div>
                     </div>
                 </div>
