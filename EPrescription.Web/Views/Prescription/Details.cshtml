@@ -1,27 +1,27 @@
 ﻿@model EPrescription.Web.Models.PrescriptionModel
 
-
 <div class="content-wrapper">
     <section class="content">
         <div class="container">
 
             <!-- Buttons for Export and Print -->
-            <div class="mb-3 d-flex justify-content-end">
-                <!-- Export to PDF -->
-                <button class="btn btn-danger me-2" id="exportToPdf">
-                    <i class="fa fa-file-pdf-o"></i> Export to PDF
-                </button>
-                <!-- Print Prescription -->
-                <button class="btn btn-primary" onclick="printPrescription()">
-                    <i class="fa fa-print"></i> Print
-                </button>
-                <a href="@Url.Action("ExportToPdf", "Prescription", new { patientId = Model.Patient.Id })" class="btn btn-danger">
-                    <i class="fa fa-file-pdf-o"></i> Export to PDF
-                </a>
-
-
+            <div class="row text-right" style="margin-bottom: 20px;">
+                <div class="col-md-10">
+                    <!-- Container for the buttons aligned to the right -->
+                    <div class="mb-3">
+                        <!-- Export to PDF Button -->
+                        <button class="btn btn-primary mr-2 no-print" id="exportToPdf">
+                            <i class="fa fa-file-pdf-o"></i> Export to PDF
+                        </button>
+                        <!-- Print Button -->
+                        <button class="btn btn-primary no-print" onclick="printPrescription()">
+                            <i class="fa fa-print"></i> Print
+                        </button>
+                    </div>
+                </div>
             </div>
 
+            <!-- Prescription -->
             <div class="pres-container">
                 <!-- Header -->
                 <div class="pres-header">
@@ -101,11 +101,11 @@
                             }
                         </div>
                     </div>
-
+                    <hr />
                     <!-- Investigation List -->
                     <div class="row mb-3">
                         <div class="col-md-4">
-                            <h4 class="border-bottom pb-2">Investigations:</h4>
+                            <h4 class="border-bottom pb-3">Investigations:</h4>
                             @if (Model.PatientInvestigationList != null && Model.PatientInvestigationList.Any())
                             {
                                 <ul class="list-group">
@@ -119,7 +119,7 @@
                             {
                                 <p>No investigations suggested.</p>
                             }
-                        </div> 
+                        </div>
                         <div class="col-md-6">
                             <h4 class="border-bottom pb-2">Advice:</h4>
                             <p> @Model.Patient.Comments</p>
@@ -133,19 +133,19 @@
                         <!-- Contact Info -->
                         <div class="col-md-1">
                             <div class="mb-2">
-                                <i class="fa fa-medkit text-right" style="font-size: 60px; color: #fff;"></i>
+                                <i class="fa fa-medkit text-right" style="font-size: 40px; color: #fff;"></i>
                             </div>
                         </div>
 
                         <!-- Address Info -->
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <p><strong>Clinic:</strong> @Model.Clinics.FirstOrDefault().Name</p>
                             <p><strong>Phone:</strong> @Model.Clinics.FirstOrDefault().Phone</p>
                             <p><strong>Address:</strong> @Model.Clinics.FirstOrDefault().Address</p>
                         </div>
 
                         <!-- Additional Info -->
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div>
                                 <p><i class="fa fa-calendar" style="color:#fff;"></i> <strong>Off Days:</strong> @Model.Clinics.FirstOrDefault().OffDays</p>
                                 <p><i class="fa fa-clock-o" style="color:#fff;"></i> <strong>Timings:</strong> @Model.Clinics.FirstOrDefault().Timings</p>
@@ -154,7 +154,7 @@
 
                         <!-- QR Code -->
                         <div class="col-md-2 text-center">
-                            <img src="~/Content/prescription/qr.png" alt="QR Code" height="80" width="80" />
+                            <img src="~/Content/prescription/qr.png" alt="QR Code" height="60" width="60" />
                         </div>
                     </div>
                 </div>
@@ -165,37 +165,37 @@
 </div>
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
         function printPrescription() {
             window.print();
         }
-        //function printPdf() {
-        //    document.getElementById('exportToPdf').addEventListener('click', function () {
-        //        const { jsPDF } = window.jspdf;
-        //        const doc = new jsPDF();
-        //        const content = document.querySelector('.pres-container');
-        //        doc.html(content, {
-        //            callback: function (doc) {
-        //                doc.save('Prescription.pdf');
-        //            },
-        //            x: 10,
-        //            y: 10
-        //        });
-        //    });
-        //}
-
         document.getElementById('exportToPdf').addEventListener('click', function () {
             const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
             const content = document.querySelector('.pres-container');
-            doc.html(content, {
-                callback: function (doc) {
-                    doc.save('Prescription.pdf');
-                },
-                x: 10,
-                y: 10
+            const pdf = new jsPDF('p', 'pt', 'a4');
+
+            html2canvas(content, {
+                scale: 2,
+                useCORS: true,
+                logging: true
+            }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 595;
+                const pageHeight = 842;
+                let imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
+                while (heightLeft > 0) {
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                    position -= pageHeight;
+                    if (heightLeft > 0) pdf.addPage();
+                }
+                pdf.save('Prescription.pdf');
             });
         });
+
 
     </script>
 }

@@ -19,6 +19,8 @@
          folder instead of downloading all of them to reduce the load. -->
     @Styles.Render("~/Content/allskins")
     @Styles.Render("~/Content/site")
+
+    @RenderSection("styles", required: false)
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 
