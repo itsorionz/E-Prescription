@@ -8,25 +8,28 @@
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     background-color: #1a1a8e !important;
 }
+
 .pagination {
     display: inline-block;
     padding-left: 0;
     margin: 0px 0 !important;
     border-radius: 4px;
 }
+
 .EPres-control-label {
     padding-top: 7px;
     margin-bottom: 0;
     text-align: left;
 }
+
 .select2-container--default .select2-selection--single .select2-selection__rendered {
     color: #444;
     line-height: 21px;
 }
-.select2-container .select2-selection--single .select2-selection__rendered {
-     padding-left: 0px; 
-     padding-right: 0px; 
 
+.select2-container .select2-selection--single .select2-selection__rendered {
+    padding-left: 0px;
+    padding-right: 0px;
 }
 /*---------------------------------------*/
 /*-------------Prescription-------------*/
@@ -165,10 +168,84 @@
         margin: auto;
     }
 
+    /*PRINT VIEW FIXES*/
 
 @media print {
-    .vl
-    {
+    body {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+    .row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+    }
+
+    .col, .col-*, .col-md-*, .col-sm-*, .col-lg-* {
+        display: block !important;
+        width: 100% !important;
+    }
+    .col-md-8 {
+        width: 66.6667% !important;
+        float: left !important;
+    }
+/*
+    .col-md-4 {
+        width: 33.3333% !important;
+        float: left !important;
+    }*/
+
+    .row {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        margin-right: -15px !important;
+        margin-left: -15px !important;
+    }
+
+    [class*="col-"] {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+        box-sizing: border-box !important;
+    }
+    .container, .container-fluid {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+    }
+
+    table {
+        border-collapse: collapse !important;
+        width: 100% !important;
+    }
+
+        table th, table td {
+            border: 1px solid #000 !important; 
+            padding: 8px !important;
+            text-align: left !important;
+        }
+
+    .table thead th {
+        background-color: #f8f9fa !important; 
+        color: #000 !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .table-striped tbody tr:nth-of-type(odd) {
+        background-color: #f9f9f9 !important;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .table-bordered {
+        border: 1px solid #000 !important;
+    }
+
+    /* Table cells */
+    .table td, .table th {
+        page-break-inside: avoid !important; 
+    }
+    
+
+    .vl {
         border-left: 1px dashed black;
         height: 600px;
         position: absolute;
@@ -177,121 +254,152 @@
         top: 25%;
     }
 
-/* General container styling */
-.pres-container {
-    position: relative;
-    width: 100%;
-    max-width: 794px;
-    min-height: 1123px;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-    border: 1px solid #000;
-    font-family: Arial, sans-serif;
-    background: #fff;
-}
-
-/* Header section */
-.pres-header {
-    text-align: right;
-    background-image: url('/Content/prescription/header.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    color: #fff;
-    padding: 20px;
-    border-top-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    min-height: 200px;
-}
-
-    .pres-header h2 {
-        font-weight: bold;
-        margin-bottom: 5px;
-        font-size: 24px;
+    /* General container styling */
+    .pres-container {
+        position: relative !important;
+        width: 100% !important;
+        max-width: 794px !important;
+        min-height: 1123px !important;
+        margin: 0 auto !important;
+        padding: 20px !important;
+        box-sizing: border-box !important;
+        border: 1px solid #000 !important;
+        font-family: Arial, sans-serif !important;
+        background: #fff !important;
     }
 
-    .pres-header p {
-        margin: 0;
-        font-size: 14px;
+    /* Header section */
+    .pres-header {
+        text-align: right !important;
+        background-image: url('/Content/prescription/header.png') !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        color: #fff !important;
+        padding: 20px !important;
+        border-top-left-radius: 10px !important;
+        border-bottom-right-radius: 10px !important;
+        min-height: 200px !important;
     }
 
-/* Body section */
-.pres-body {
-    padding: 20px;
-    position: relative;
-    color: #2F5596;
-    background-color: #fff;
-}
+        .pres-header h2 {
+            font-weight: bold !important;
+            margin-bottom: 5px !important;
+            font-size: 24px !important;
+            color: #fff !important;
+        }
 
-    .pres-body::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url('/Content/prescription/watermark.jpg');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        opacity: 0.1;
-        z-index: 0;
-        pointer-events: none;
+        .pres-header p {
+            margin: 0 !important;
+            font-size: 14px !important;
+            color: #fff !important;
+        }
+
+    /* Body section */
+    .pres-body {
+        padding: 20px !important;
+        position: relative !important;
+        color: #2F5596 !important;
+        background-color: #fff !important;
     }
 
-    .pres-body * {
-        position: relative;
-        z-index: 1;
+        .pres-body::before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            background-image: url('/Content/prescription/watermark.jpg') !important;
+            background-size: contain !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            opacity: 0.1 !important;
+            z-index: 0 !important;
+            pointer-events: none !important;
+        }
+
+        .pres-body * {
+            position: relative !important;
+            z-index: 1 !important;
+        }
+
+        .pres-body h4 {
+            font-weight: bold !important;
+            text-decoration: underline !important;
+            font-size: 18px !important;
+        }
+
+        .pres-body img {
+            width: 50px !important;
+            height: auto !important;
+        }
+
+        .pres-body p {
+            margin: 5px 0 !important;
+            font-size: 12px !important;
+        }
+
+    /* Footer section */
+    .pres-footer {
+        border-top: 1px solid #ccc !important;
+        padding: 15px 10px !important;
+        background-color: #2F5596 !important;
+        color: #fff !important;
+        padding: 15px !important;
+        border-top-left-radius: 10px !important;
+        border-bottom-right-radius: 10px !important;
     }
 
-    .pres-body h4 {
-        font-weight: bold;
-        text-decoration: underline;
-        font-size: 18px;
+        .pres-footer .fa {
+            font-size: 15px !important;
+            margin-right: 10px !important;
+            color: #fff !important;
+        }
+
+        .pres-footer p  {
+            margin: 5px 0 !important;
+            font-size: 10px !important;
+            color: #fff !important;
+        }
+        .pres-footer strong {
+            color: #fff !important;
+        }
+        .pres-footer fa-medkit, fa-calendar, fa-clock-o {
+            color: #fff !important;
+        }
+        .pres-footer i {
+            color: #fff !important;
+        }
+
+    .fa, .fa::before {
+        font-family: "FontAwesome" !important;
+        font-style: normal !important;
+        font-weight: normal !important;
+        text-decoration: inherit !important;
+        color: #fff !important;
     }
 
-    .pres-body img {
-        width: 50px;
-        height: auto;
+    .fa-print::before {
+        content: "\f02f" !important;
+        color: #fff !important;
     }
 
-    .pres-body p {
-        margin: 5px 0;
-        font-size: 12px;
+    .fa-file-pdf-o::before {
+        content: "\f1c1" !important;
+        color: #fff !important;
     }
+        .pres-footer img {
+            display: block !important;
+            margin: auto !important;
+        }
 
-/* Footer section */
-.pres-footer {
-    border-top: 1px solid #ccc;
-    padding: 15px 10px;
-    background-color: #2F5596;
-    color: #fff;
-    padding: 15px;
-    border-top-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-    .pres-footer .fa {
-        font-size: 15px;
-        color: #333;
-        margin-right: 10px;
-    }
-
-    .pres-footer p {
-        margin: 5px 0;
-        font-size: 10px;
-    }
-
-    .pres-footer img {
-        display: block;
-        margin: auto;
-    }
     .no-print {
         display: none;
     }
 
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
 }
-@page {
-    size: A4;
-    margin: 10mm;
-}
+
