@@ -78,7 +78,7 @@ namespace EPrescription.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                new MedicineModel().Edit(model);
+                model.Edit(model);
                 return RedirectToAction("Index");
             }
             return View(model);

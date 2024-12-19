@@ -117,52 +117,143 @@ namespace EPrescription.Services
 
         public List<int> GetGenericNameIdsByMedicineId(int medicineId)
         {
-            var genericNameIds = medicineUnitOfWork.GenericNameMedicineRepository.GetAll().Where(rel => rel.MedicineId == medicineId).Select(rel => rel.Id).ToList();
+            var genericNameIds = medicineUnitOfWork.GenericNameMedicineRepository
+                .GetAll()
+                .Where(rel => rel.MedicineId == medicineId && rel.GenericTypeId.HasValue && rel.StatusFlag == (byte)EnumActiveDeative.Active)
+                .Select(rel => rel.GenericTypeId.Value)
+                .ToList();
             return genericNameIds;
         }
 
         public List<int> GetStrengthIdsByMedicineId(int medicineId)
         {
-            var strengthIds = medicineUnitOfWork.StrengthMedicineRepository.GetAll().Where(rel => rel.MedicineId == medicineId).Select(rel => rel.Id).ToList();
+            var strengthIds = medicineUnitOfWork.StrengthMedicineRepository
+                .GetAll()
+                .Where(rel => rel.MedicineId == medicineId && rel.StrengthId.HasValue && rel.StatusFlag == (byte)EnumActiveDeative.Active)
+                .Select(rel => rel.StrengthId.Value)
+                .ToList();
             return strengthIds;
         }
         
         public List<int> GetDosageTypeIdsByMedicineId(int medicineId)
         {
-            var dosageTypeRelations = medicineUnitOfWork.DosageTypeMedicineRepository.GetAll().Where(rel => rel.MedicineId == medicineId).Select(rel => rel.Id).ToList();
+            var dosageTypeRelations = medicineUnitOfWork.DosageTypeMedicineRepository
+                .GetAll()
+                .Where(rel => rel.MedicineId == medicineId && rel.DosageTypeId.HasValue && rel.StatusFlag == (byte)EnumActiveDeative.Active)
+                .Select(rel => rel.DosageTypeId.Value)
+                .ToList();
             return dosageTypeRelations;
         }
-        public void UpdateGenericNameRelation(GenericNameMedicineRelation genericNameMedicineRelation)
+        public void UpdateGenericNameRelations(int medicineId, List<int> genericNameIds)
         {
-            var newGenericNameRelation = new GenericNameMedicineRelation()
+            var existingRelations = medicineUnitOfWork.GenericNameMedicineRepository
+                .GetAll()
+                .Where(r => r.MedicineId == medicineId && r.StatusFlag == (byte)EnumActiveDeative.Active)
+                .ToList();
+
+            var existingGenericTypeIds = existingRelations
+                .Where(r => r.GenericTypeId.HasValue)
+                .Select(r => r.GenericTypeId.Value)
+                .ToList();
+
+            var relationsToRemove = existingRelations
+                .Where(r => !genericNameIds.Contains(r.GenericTypeId ?? 0))
+                .ToList();
+
+            var idsToAdd = genericNameIds
+                .Where(id => !existingGenericTypeIds.Contains(id))
+                .ToList();
+
+            foreach (var relation in relationsToRemove)
             {
-                GenericTypeId = genericNameMedicineRelation.GenericTypeId,
-                MedicineId = genericNameMedicineRelation.MedicineId,
-                StatusFlag = genericNameMedicineRelation.StatusFlag
-            };
-            medicineUnitOfWork.GenericNameMedicineRepository.Update(newGenericNameRelation);
+                medicineUnitOfWork.GenericNameMedicineRepository.DeleteByItem(relation);
+            }
+
+            foreach (var id in idsToAdd)
+            {
+                var newRelation = new GenericNameMedicineRelation
+                {
+                    MedicineId = medicineId,
+                    GenericTypeId = id,
+                    StatusFlag = (byte)EnumActiveDeative.Active
+                };
+                medicineUnitOfWork.GenericNameMedicineRepository.Add(newRelation);
+            }
             medicineUnitOfWork.Save();
         }
-        public void UpdateStrengthRelation(StrengthMedicineRelation strengthMedicineRelation)
+
+        public void UpdateStrengthRelations(int medicineId, List<int> strengthIds)
         {
-            var newStrengthRelation = new StrengthMedicineRelation()
+            var existingRelations = medicineUnitOfWork.StrengthMedicineRepository
+                .GetAll()
+                .Where(r => r.MedicineId == medicineId && r.StatusFlag == (byte)EnumActiveDeative.Active)
+                .ToList();
+
+            var existingStrengthIds = existingRelations
+                .Select(r => r.StrengthId)
+                .ToList();
+
+            var relationsToRemove = existingRelations
+                .Where(r => !strengthIds.Contains(r.StrengthId ?? 0))
+                .ToList();
+
+            var idsToAdd = strengthIds
+                .Where(id => !existingStrengthIds.Contains(id))
+                .ToList();
+
+            foreach (var relation in relationsToRemove)
             {
-                MedicineId = strengthMedicineRelation.MedicineId,
-                StrengthId = strengthMedicineRelation.StrengthId,
-                StatusFlag = strengthMedicineRelation.StatusFlag
-            };
-            medicineUnitOfWork.StrengthMedicineRepository.Update(newStrengthRelation);
+                medicineUnitOfWork.StrengthMedicineRepository.DeleteByItem(relation);
+            }
+
+            foreach (var id in idsToAdd)
+            {
+                var newRelation = new StrengthMedicineRelation
+                {
+                    MedicineId = medicineId,
+                    StrengthId = id,
+                    StatusFlag = (byte)EnumActiveDeative.Active
+                };
+                medicineUnitOfWork.StrengthMedicineRepository.Add(newRelation);
+            }
             medicineUnitOfWork.Save();
         }
-        public void UpdateDosageTypeRelation(DosageTypeMedicineRelation dosageTypeMedicineRelation)
+
+
+        public void UpdateDosageTypeRelations(int medicineId, List<int> dosageTypeIds)
         {
-            var newDosageTypeRelation = new DosageTypeMedicineRelation()
+            var existingRelations = medicineUnitOfWork.DosageTypeMedicineRepository
+                .GetAll()
+                .Where(r => r.MedicineId == medicineId && r.StatusFlag == (byte)EnumActiveDeative.Active)
+                .ToList();
+
+            var existingDosageTypeIds = existingRelations
+                .Select(r => r.DosageTypeId)
+                .ToList();
+
+            var relationsToRemove = existingRelations
+                .Where(r => !dosageTypeIds.Contains(r.DosageTypeId ?? 0))
+                .ToList();
+
+            var idsToAdd = dosageTypeIds
+                .Where(id => !existingDosageTypeIds.Contains(id))
+                .ToList();
+
+            foreach (var relation in relationsToRemove)
             {
-                DosageTypeId = dosageTypeMedicineRelation.DosageTypeId,
-                MedicineId = dosageTypeMedicineRelation.MedicineId,
-                StatusFlag = dosageTypeMedicineRelation.StatusFlag
-            };
-            medicineUnitOfWork.DosageTypeMedicineRepository.Update(newDosageTypeRelation);
+                medicineUnitOfWork.DosageTypeMedicineRepository.DeleteByItem(relation);
+            }
+
+            foreach (var id in idsToAdd)
+            {
+                var newRelation = new DosageTypeMedicineRelation
+                {
+                    MedicineId = medicineId,
+                    DosageTypeId = id,
+                    StatusFlag = (byte)EnumActiveDeative.Active
+                };
+                medicineUnitOfWork.DosageTypeMedicineRepository.Add(newRelation);
+            }
             medicineUnitOfWork.Save();
         }
 
@@ -177,7 +268,5 @@ namespace EPrescription.Services
                 medicineUnitOfWork.Save();
             }
         }
-
-
     }
 }

@@ -407,38 +407,11 @@ namespace EPrescription.Web.Models
         {
             base.UpdatedAt = DateTime.Now;
             base.UpdatedBy = AuthenticatedUser.GetUserFromIdentity().UserId;
+            base.StatusFlag = (byte)EnumActiveDeative.Active;
             medicineService.Edit(this);
-            foreach (int strengthId in StrengthIds)
-            {
-                var strengthMedicineRelation = new StrengthMedicineRelation()
-                {
-                    MedicineId = model.Id,
-                    StrengthId = strengthId,
-                    StatusFlag = (byte)EnumActiveDeative.Active
-                };
-                medicineService.UpdateStrengthRelation(strengthMedicineRelation);
-            }
-            foreach (int dosageTypeId in DosageIds)
-            {
-                var dosageTypeMedicineRelation = new DosageTypeMedicineRelation()
-                {
-                    MedicineId = model.Id,
-                    DosageTypeId = dosageTypeId,
-                    StatusFlag = (byte)EnumActiveDeative.Active,
-                };
-                medicineService.UpdateDosageTypeRelation(dosageTypeMedicineRelation);
-            }
-            foreach (int genericId in GenericNameIds)
-            {
-                var genericNameMedicineRelation = new GenericNameMedicineRelation()
-                {
-                    GenericTypeId = genericId,
-                    MedicineId = model.Id,
-                    StatusFlag = (byte)EnumActiveDeative.Active
-                };
-                medicineService.UpdateGenericNameRelation(genericNameMedicineRelation);
-            }
-            
+            medicineService.UpdateGenericNameRelations(model.Id, model.GenericNameIds);
+            medicineService.UpdateStrengthRelations(model.Id, model.StrengthIds);
+            medicineService.UpdateDosageTypeRelations(model.Id, model.DosageIds);
         }
 
         public void Inactive()

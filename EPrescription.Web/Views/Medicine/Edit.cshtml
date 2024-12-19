@@ -50,10 +50,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    @Html.LabelFor(model => model.GenericNameIds, new { @class = "col-sm-4 control-label text-left" })
+                                    @Html.LabelFor(Model => Model.GenericNameIds, new { @class = "col-sm-4 control-label text-left" })
                                     <div class="col-sm-8">
                                         @Html.ListBoxFor(
-                                            model => model.GenericNameIds,
+                                            Model => Model.GenericNameIds,
                                             new MultiSelectList(Model.GenericNameList, "Id", "TypeName", Model.GenericNameIds),
                                             new { @class = "form-control select2" }
                                         )

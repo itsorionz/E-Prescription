@@ -20,16 +20,17 @@ namespace EPrescription.Repo
 
         public IPagedList<Medicine> GetAllIPagedMedicine(int page, int pageSize, string name, int? companyId, string genericName)
         {
-            return _context.Medicines.Where( s => 
-                                    (name == null ||
-                                    s.BrandName.ToUpper().Contains(name.ToUpper())) &&
-                                    (companyId == null || s.MedicineManufacturerId == companyId) &&
-                                    ( s.StatusFlag == (byte)EnumActiveDeative.Active) &&
-                                    (genericName == null || 
-                                    s.GenericNameMedicineRelations.Any(a => a.GenericName.TypeName.ToUpper()
-                                    .Contains(genericName.ToUpper()))))
-                                    .OrderBy(o => o.BrandName)
-                                    .ToPagedList(page, pageSize);
+            return _context.Medicines
+                .Where(s =>
+                    (name == null || s.BrandName.ToUpper().Contains(name.ToUpper())) &&
+                    (companyId == null || s.MedicineManufacturerId == companyId) &&
+                    (s.StatusFlag == (byte)EnumActiveDeative.Active) &&
+                    (genericName == null ||
+                     s.GenericNameMedicineRelations.Any(a =>
+                         a.StatusFlag == (byte)EnumActiveDeative.Active &&
+                         a.GenericName.TypeName.ToUpper().Contains(genericName.ToUpper()))))
+                .OrderBy(o => o.BrandName)
+                .ToPagedList(page, pageSize);
         }
 
         public IEnumerable<string> GetAllMedicineName()
