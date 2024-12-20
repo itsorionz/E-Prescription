@@ -27,8 +27,8 @@ namespace EPrescription.Repo
                     (s.StatusFlag == (byte)EnumActiveDeative.Active) &&
                     (genericName == null ||
                      s.GenericNameMedicineRelations.Any(a =>
-                         a.StatusFlag == (byte)EnumActiveDeative.Active &&
-                         a.GenericName.TypeName.ToUpper().Contains(genericName.ToUpper()))))
+                             a.StatusFlag == (byte)EnumActiveDeative.Active &&
+                             a.GenericName.TypeName.ToUpper().Contains(genericName.ToUpper()))))
                 .OrderBy(o => o.BrandName)
                 .ToPagedList(page, pageSize);
         }

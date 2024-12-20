@@ -23,9 +23,21 @@ namespace EPrescription.Services
 
         public IEnumerable<Medicine> GetAllMedicines()
         {
-            return medicineUnitOfWork.MedicineRepository.GetAll();
+            return medicineUnitOfWork.MedicineRepository.GetAll().Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active);
         }
 
+        //public IEnumerable<GenericNameMedicineRelation> GetAllGenericNameMedicineRelation()
+        //{
+        //    return medicineUnitOfWork.GenericNameMedicineRepository.GetAll().Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active);
+        //}
+        //public IEnumerable<StrengthMedicineRelation> GetAllStrengthMedicineRelation()
+        //{
+        //    return medicineUnitOfWork.StrengthMedicineRepository.GetAll().Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active);
+        //}
+        //public IEnumerable<DosageTypeMedicineRelation> GetAllDosageTypeMedicineRelation()
+        //{
+        //    return medicineUnitOfWork.DosageTypeMedicineRepository.GetAll().Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active);
+        //}
         public int Add(Medicine medicine)
         {
             var newMedicine = new Medicine()

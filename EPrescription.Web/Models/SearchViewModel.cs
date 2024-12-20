@@ -47,6 +47,10 @@ namespace EPrescription.Web.Models
         public Int32 Page { get; set; }
         public Int32 PageSize { get; set; }
         public string GenericName { get; set; }
+        public string Strength { get; set; } 
+        public string DosageType { get; set; }
+        public byte StatusFlag { get; set; }
+        public string Dar { get; set; }
         public IPagedList<Medicine> MedicinePagedList;
         public MedicineViewModel()
         {

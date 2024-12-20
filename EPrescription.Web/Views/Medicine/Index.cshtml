@@ -1,6 +1,5 @@
 ﻿@model EPrescription.Web.Models.MedicineViewModel
 @using EPrescription.Common
-@using EPrescription.Web.Models
 @using PagedList.Mvc
 @{
     ViewBag.Title = "Medicines";
@@ -59,17 +58,17 @@
 
                                         <td>
                                             <small>
-                                                @item.GenericNameMedicineRelations.Select(s => s.GenericName.TypeName).JoinString("+")
+                                                @item.GenericNameMedicineRelations.Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active).Select(s => s.GenericName.TypeName).JoinString(" +")
                                             </small>
                                         </td>
                                         <td>
                                             <small>
-                                                @item.StrengthMedicineRelations.Select(s => s.Strength.StrengthName).JoinString("+")
+                                                @item.StrengthMedicineRelations.Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active).Select(s => s.Strength.StrengthName).JoinString(" +")
                                             </small>
                                         </td>
                                         <td>
                                             <small>
-                                                @item.DosageTypeMedicineRelations.Select(s => s.DosageType.TypeName).JoinString("+")
+                                                @item.DosageTypeMedicineRelations.Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active).Select(s => s.DosageType.TypeName).JoinString(" +")
                                             </small>
                                         </td>
                                         <td><small> @Html.DisplayFor(itemElement => item.Dar)</small> </td>

@@ -1,4 +1,5 @@
-﻿using EPrescription.Entities;
+﻿using EPrescription.Common;
+using EPrescription.Entities;
 using EPrescription.Repo;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace EPrescription.Services
 
         public IEnumerable<DosageType> GetAllDosageTypes()
         {
-            return dosageTypeUnitOfWork.DosageTypeRepository.GetAll();
+            return dosageTypeUnitOfWork.DosageTypeRepository.GetAll().Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active);
         }
 
         public int Add(DosageType dosageType)
