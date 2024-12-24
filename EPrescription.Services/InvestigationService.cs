@@ -1,4 +1,5 @@
-﻿using EPrescription.Entities;
+﻿using EPrescription.Common;
+using EPrescription.Entities;
 using EPrescription.Repo;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace EPrescription.Services
 
         public IEnumerable<Investigation> GetAllInvestigations()
         {
-            return investigationUnitOfWork.InvestigationRepository.GetAll();
+            return investigationUnitOfWork.InvestigationRepository.GetAll().Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active);
         }
 
         public Investigation GetInvestigationById(int id)

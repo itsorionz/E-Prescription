@@ -106,6 +106,11 @@ namespace EPrescription.Services
         public List<PatientInvestigation> GetPatientInvestigation(int patientId)
         {
             return patientUnitOfWork.PatientInvestigationRepository.FindAll(p => p.PatientId == patientId).ToList();
-        } 
+        }
+        public List<int> GetPatientInvestigationByPatientId(int patientId)
+        {
+            return patientUnitOfWork.PatientInvestigationRepository.FindAll(p => p.PatientId == patientId).Select(p => p.Id).ToList();
+        }
+
     }
 }

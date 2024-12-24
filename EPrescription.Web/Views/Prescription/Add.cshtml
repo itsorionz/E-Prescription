@@ -146,7 +146,7 @@
                                             <td colspan="3">Patient Diseases</td>
                                         </tr>
                                         <tr>
-                                            <td>#SN</td>
+                                            <td>SL.</td>
                                             <td>Disease Name</td>
                                             <td>Remarks</td>
                                         </tr>
@@ -173,7 +173,7 @@
                                             <td colspan="3">Patient Procedures</td>
                                         </tr>
                                         <tr>
-                                            <td>#SN</td>
+                                            <td>SL.</td>
                                             <td>Procedure Name</td>
                                             <td>Remarks</td>
                                         </tr>
@@ -215,11 +215,10 @@
                                 }
                             </datalist>
                             <table class="table table-bordered">
-
                                 <thead>
                                     <tr class="alert-success">
                                         <th width="30%">Medicine Name</th>
-                                        <th width="12%">Availablity</th>
+                                        <th width="12%">Availability</th>
                                         <th width="12%">Dosage</th>
                                         <th>Dosage Comment</th>
                                         <th>Duration</th>
@@ -227,41 +226,61 @@
                                         <th></th>
                                     </tr>
                                 </thead>
-
                                 <tbody id="medicineTbody">
-                                    <tr>
-                                        <td width="30%">
-                                            @Html.TextBoxFor(model => model.PatientMedicineList[0].Medicine, new { @class = "form-control input-sm", @list = "medicine-list", @onchange = "LoadAvailablity(this)", @autocomplete = "off" })
-                                        </td>
-                                        <td width="12%">@Html.TextBoxFor(model => model.PatientMedicineList[0].Avaiablity, new { @class = "form-control input-sm", @list = "availablity-list", @autocomplete = "off" })</td>
-                                        <td width="12%">@Html.TextBoxFor(model => model.PatientMedicineList[0].Dosage, new { @class = "form-control input-sm-x dosage" })</td>
-                                        <td>@Html.TextBoxFor(model => model.PatientMedicineList[0].DosageComment, new { @class = "form-control input-sm ", @list = "dosage-comment-list", @autocomplete = "off" })</td>
-                                        <td width="12%">@Html.TextBoxFor(model => model.PatientMedicineList[0].Duration, new { @class = "form-control input-sm", @type = "number", @autocomplete = "off" })</td>
-                                        <td>@Html.TextBoxFor(model => model.PatientMedicineList[0].DurationUnit, new { @class = "form-control input-sm", @list = "duration-unit-list", @autocomplete = "off" })</td>
-                                        <td></td>
-                                    </tr>
+                                    @if (Model.PatientMedicineList != null && Model.PatientMedicineList.Any())
+                                    {
+                                        for (int i = 0; i < Model.PatientMedicineList.Count; i++)
+                                        {
+                                            <tr>
+                                                <td width="30%">
+                                                    @Html.TextBoxFor(model => model.PatientMedicineList[i].Medicine, new { @class = "form-control input-sm", @list = "medicine-list", @onchange = "LoadAvailablity(this)", @autocomplete = "off" })
+                                                </td>
+                                                <td width="12%">
+                                                    @Html.TextBoxFor(model => model.PatientMedicineList[i].Avaiablity, new { @class = "form-control input-sm", @list = "availability-list", @autocomplete = "off" })
+                                                </td>
+                                                <td width="12%">
+                                                    @Html.TextBoxFor(model => model.PatientMedicineList[i].Dosage, new { @class = "form-control input-sm dosage" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.PatientMedicineList[i].DosageComment, new { @class = "form-control input-sm", @list = "dosage-comment-list", @autocomplete = "off" })
+                                                </td>
+                                                <td width="12%">
+                                                    @Html.TextBoxFor(model => model.PatientMedicineList[i].Duration, new { @class = "form-control input-sm", @type = "number", @autocomplete = "off" })
+                                                </td>
+                                                <td>
+                                                    @Html.TextBoxFor(model => model.PatientMedicineList[i].DurationUnit, new { @class = "form-control input-sm", @list = "duration-unit-list", @autocomplete = "off" })
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-danger btn-sm" onclick="RemoveRow(this)"><i class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <td colspan="6"></td>
-                                        <td><span class="btn btn-sm btn-success" onclick="AddNewRow()"><i class="fa fa-plus-circle"></i></span></td>
+                                        <td>
+                                            <span class="btn btn-success btn-sm" onclick="AddNewRow()"><i class="fa fa-plus-circle"></i></span>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="7">
                                             <div class="form-group">
                                                 @Html.LabelFor(model => model.Investigations, new { @class = "col-sm-5 EPres-control-label" })
                                                 <div class="col-sm-7">
-                                                    @Html.DropDownListFor(model => model.Investigations, new SelectList(Model.InvestigationList, "InvestigationName", "InvestigationName"), new { @class = "form-control select2", @multiple = true })
-                                                    @Html.ValidationMessageFor(model => model.Investigations)
+                                                    @Html.ListBoxFor(
+                                                        model => model.InvestigationIds,
+                                                        new MultiSelectList(Model.InvestigationList, "Id", "InvestigationName", Model.InvestigationIds),
+                                                        new { @class = "form-control select2", @multiple = "multiple" }
+                                                    )
+                                                    @Html.ValidationMessageFor(model => model.InvestigationIds)
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
                                 </tfoot>
                             </table>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -283,10 +302,21 @@
     @Scripts.Render("~/bundles/input-mask")
     @Scripts.Render("~/bundles/select2")
     <script>
-           $(".select2").select2();
-        $(".select2").attr("data-placeholder", "Select---");
-        $(".select2").css("width: 100%;");
-    AssignInputMask();
+        $(".select2").select2({
+            placeholder: "---Select---",
+            allowClear: true,
+            width: '100%'
+        });
+        $(document).on('change', '.select2', function () {
+            $(this).select2({
+                placeholder: "---Select---",
+                allowClear: true,
+                width: '100%'
+            });
+        });
+
+        AssignInputMask();
+
         function LoadAvailablity(obj)
         {
             var name = $(obj).val();
@@ -297,10 +327,8 @@
             var paramData = { medicineName: name };
             ajaxCall(url, paramData, "rendeLoadAvailablity");
             }
-
-
-
         }
+
         function rendeLoadAvailablity(data)
         {
             $(data.list).each(function ()
@@ -328,13 +356,12 @@
     function RemoveTr(obj) {
         $(obj).closest('tr').remove();
             }
-      function formSubmit() {
+        function formSubmit() {
             var count1 = 0;
             $('#medicineTbody').find('tr').each(function () {
                 var suffix = $(this).find(':input:first').attr('name').match(/\d+/);
                 $.each($(this).find(':input'), function (i, val) {
-                    // Replaced Name
-                    var oldN = $(this).attr('name');
+                    var oldN = $(this).attr('name'); 
                     var newN = oldN.replace('[' + suffix + ']', '[' + count1 + ']');
                     $(this).attr('name', newN);
                 });

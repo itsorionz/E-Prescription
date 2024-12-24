@@ -25,6 +25,7 @@ namespace EPrescription.Web.Models
 
         public IEnumerable<Investigation> InvestigationList { get; set; }
         public List<string> Investigations { get; set; }
+        public List<int> InvestigationIds { get; set; }
 
         public PrescriptionModel()
         {
@@ -64,6 +65,7 @@ namespace EPrescription.Web.Models
             Clinics = clinicService.GetAllClinics().Take(2).ToList();
             PatientMedicineList = patientService.GetPatientMedicines(patientId);
             PatientInvestigationList = patientService.GetPatientInvestigation(patientId);
+            InvestigationIds = patientService.GetPatientInvestigationByPatientId(patientId);
         }
 
     }
