@@ -93,7 +93,15 @@ namespace EPrescription.Services
         }
         public List<PatientMedicine> GetPatientMedicines(int patientId)
         {
-            return patientUnitOfWork.PatientMedicineRepository.FindAll(p => p.PatientId == patientId).ToList();
+            var medicines = patientUnitOfWork.PatientMedicineRepository.FindAll(p => p.PatientId == patientId).ToList();
+            if (!medicines.Any()) 
+            {
+                medicines.Add(new PatientMedicine
+                {
+                    Medicine = string.Empty
+                });
+            }
+            return medicines;
         }
         public List<PatientInvestigation> GetPatientInvestigation(int patientId)
         {
