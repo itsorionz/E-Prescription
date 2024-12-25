@@ -13,7 +13,7 @@ namespace EPrescription.Entities
         public int PatientId { get; set; }
         [ForeignKey("PatientId")]
         public virtual Patient Patient { get; set; }
-
+        public int InvestigationId { get; set; }
         public string Investigation { get; set; }
     }
 }

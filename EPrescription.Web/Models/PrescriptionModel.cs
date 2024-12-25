@@ -105,7 +105,7 @@ namespace EPrescription.Web.Models
             {
                 foreach (var investigationId in InvestigationIds)
                 {
-                    var existingInvestigation = existingInvestigations.FirstOrDefault(i => i.Id == investigationId);
+                    var existingInvestigation = existingInvestigations.FirstOrDefault(i => i.InvestigationId == investigationId);
                     if (existingInvestigation != null)
                     {
                         existingInvestigation.StatusFlag = (byte)EnumActiveDeative.Active;
@@ -119,7 +119,7 @@ namespace EPrescription.Web.Models
                             var newPatientInvestigation = new PatientInvestigation
                             {
                                 PatientId = Patient.Id,
-                                Id = investigationId,
+                                InvestigationId = investigationId,
                                 Investigation = investigationDetails.InvestigationName,
                                 StatusFlag = (byte)EnumActiveDeative.Active
                             };
@@ -127,7 +127,7 @@ namespace EPrescription.Web.Models
                         }
                     }
                 }
-                var investigationsToDeactivate = existingInvestigations.Where(i => !InvestigationIds.Contains(i.Id)).ToList();
+                var investigationsToDeactivate = existingInvestigations.Where(i => !InvestigationIds.Contains(i.InvestigationId)).ToList();
                 foreach (var investigation in investigationsToDeactivate)
                 {
                     investigation.StatusFlag = (byte)EnumActiveDeative.Inactive;

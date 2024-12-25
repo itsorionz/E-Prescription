@@ -72,6 +72,7 @@ namespace EPrescription.Services
             {
                 PatientId = patientInvestigation.PatientId,
                 Investigation = patientInvestigation.Investigation,
+                InvestigationId = patientInvestigation.InvestigationId,
                 StatusFlag = (byte)EnumActiveDeative.Active
             };
             patientUnitOfWork.PatientInvestigationRepository.Add(newPatientInvestigation);
@@ -112,7 +113,7 @@ namespace EPrescription.Services
         }
         public List<int> GetPatientInvestigationByPatientId(int patientId)
         {
-            return patientUnitOfWork.PatientInvestigationRepository.FindAll(p => p.PatientId == patientId && p.StatusFlag == (byte)EnumActiveDeative.Active).Select(p => p.Id).ToList();
+            return patientUnitOfWork.PatientInvestigationRepository.FindAll(p => p.PatientId == patientId && p.StatusFlag == (byte)EnumActiveDeative.Active).Select(p => p.InvestigationId).ToList();
         }
 
         public PatientMedicine GetPatientMedicine(int patientId, string medicineName)
