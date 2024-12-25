@@ -302,115 +302,110 @@
     @Scripts.Render("~/bundles/ajaxCall")
     @Scripts.Render("~/bundles/input-mask")
     @Scripts.Render("~/bundles/select2")
-    <script>
+<script>
+    $(document).ready(function () {
         $(".select2").select2({
             placeholder: "---Select---",
             allowClear: true,
             width: '100%'
         });
+    });
 
-        $(document).on('change', '.select2', function () {
-            $(this).select2({
-                placeholder: "---Select---",
-                allowClear: true,
-                width: '100%'
-            });
-        });
+    function UpdateInvestigations() {
+        var investigationIds = $('#InvestigationIds').val();
+        console.log("Selected Investigation IDs:", investigationIds);
+        /*$('#InvestigationIdsHidden').remove();*/
 
-        AssignInputMask();
+        // Create a new hidden input and append it to the form
+        //$('<input>').attr({
+        //    type: 'hidden',
+        //    id: 'InvestigationIdsHidden',
+        //    name: 'InvestigationIds',
+        //    value: investigationIds ? investigationIds.join(',') : ''
+        //}).appendTo('#prescriptionForm');
 
-        function LoadAvailablity(obj) {
-            var name = $(obj).val();
+        console.log("Hidden input added with value:", $('#InvestigationIdsHidden').val());
+    }
+
+
+    AssignInputMask();
+
+    function LoadAvailablity(obj)
+    {
+        var name = $(obj).val();
             $(obj).closest('tr').find("[name$='.Avaiablity']").val('');
-            $("#availability-list").empty();
+            $("#availablity-list").empty();
             if (name != '') {
                 var url = '@Url.Action("LoadAvailablity", "Medicine")';
-                var paramData = { medicineName: name };
-                ajaxCall(url, paramData, "rendeLoadAvailablity");
-            }
+            var paramData = { medicineName: name };
+            ajaxCall(url, paramData, "rendeLoadAvailablity");
         }
+    }
+    function rendeLoadAvailablity(data)
+    {
+        $(data.list).each(function ()
+        {
+            $("#availablity-list").append($("<option>").attr('value', this));
+        });
+    }
 
-        function rendeLoadAvailablity(data) {
-            $(data.list).each(function () {
-                $("#availability-list").append($("<option>").attr('value', this));
+    function AddNewRow() {
+        var rowCount = $('#medicineTbody tr').length;
+        var rowHtml = `
+            <tr>
+                <td width="30%">
+                    <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Medicine" list="medicine-list" onchange="LoadAvailablity(this)" type="text">
+                </td>
+                <td width="12%">
+                    <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Avaiablity" list="availability-list" type="text">
+                </td>
+                <td width="12%">
+                    <input autocomplete="off" class="form-control input-sm dosage" name="PatientMedicineList[${rowCount}].Dosage" type="text">
+                </td>
+                <td>
+                    <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].DosageComment" list="dosage-comment-list" type="text">
+                </td>
+                <td width="12%">
+                    <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Duration" type="number">
+                </td>
+                <td>
+                    <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].DurationUnit" list="duration-unit-list" type="text">
+                </td>
+                <td>
+                    <button class="btn btn-danger btn-sm" onclick="RemoveTr(this)"><i class="fa fa-trash"></i></button>
+                </td>
+            </tr>`;
+        $("#medicineTbody").append(rowHtml);
+        AssignInputMask();
+    }
+
+    function RemoveTr(obj) {
+        $(obj).closest('tr').remove();
+        UpdateRowIndices();
+    }
+
+    function UpdateRowIndices() {
+        $('#medicineTbody tr').each(function (index, row) {
+            $(row).find(':input').each(function () {
+                var oldName = $(this).attr('name');
+                if (oldName) {
+                    var newName = oldName.replace(/\[\d+\]/, `[${index}]`);
+                    $(this).attr('name', newName);
+                }
             });
-        }
+        });
+    }
 
-        function AddNewRow() {
-            var rowCount = $('#medicineTbody tr').length;
-            var rowHtml = `
-                <tr>
-                    <td width="30%">
-                        <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Medicine" list="medicine-list" onchange="LoadAvailablity(this)" type="text">
-                    </td>
-                    <td width="12%">
-                        <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Avaiablity" list="availability-list" type="text">
-                    </td>
-                    <td width="12%">
-                        <input autocomplete="off" class="form-control input-sm dosage" name="PatientMedicineList[${rowCount}].Dosage" type="text">
-                    </td>
-                    <td>
-                        <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].DosageComment" list="dosage-comment-list" type="text">
-                    </td>
-                    <td width="12%">
-                        <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Duration" type="number">
-                    </td>
-                    <td>
-                        <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].DurationUnit" list="duration-unit-list" type="text">
-                    </td>
-                    <td>
-                        <button class="btn btn-danger btn-sm" onclick="RemoveTr(this)"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>`;
-            $("#medicineTbody").append(rowHtml);
-            AssignInputMask();
-        }
-
-        function RemoveTr(obj) {
-            $(obj).closest('tr').remove();
-            UpdateRowIndices();
-        }
-
-        function UpdateRowIndices() {
-            $('#medicineTbody tr').each(function (index, row) {
-                $(row).find(':input').each(function () {
-                    var oldName = $(this).attr('name');
-                    if (oldName) {
-                        var newName = oldName.replace(/\[\d+\]/, `[${index}]`);
-                        $(this).attr('name', newName);
-                    }
-                });
-            });
-        }
-
-        function AssignInputMask() {
-            $('.dosage').inputmask({ "mask": "9-9-9" });
-        }
-
-        function UpdateInvestigations() {
-            var investigationIds = [];
-            $('#InvestigationIds option:selected').each(function () {
-                investigationIds.push($(this).val());
-            });
-
-            if ($('#InvestigationIdsHidden').length > 0) {
-                $('#InvestigationIdsHidden').remove();
-            }
-
-            $('<input>').attr({
-                type: 'hidden',
-                id: 'InvestigationIdsHidden',
-                name: 'InvestigationIds',
-                value: investigationIds.join(',')
-            }).appendTo('#prescriptionForm');
-        }
-
-        function formSubmit() {
-            UpdateRowIndices();
-            UpdateInvestigations();
-            $("#prescriptionForm").submit();
-        }
-    </script>
+    function AssignInputMask() {
+        $('.dosage').inputmask({ "mask": "9-9-9" })
+        $('[data-mask]').inputmask({ "mask": "9-9-9" })
+    }
+    function formSubmit() {
+        UpdateRowIndices();
+        UpdateInvestigations();
+        $("#prescriptionForm").submit();
+    }
+</script>
 }
 
 

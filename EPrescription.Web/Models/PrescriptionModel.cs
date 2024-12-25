@@ -41,20 +41,32 @@ namespace EPrescription.Web.Models
             InvestigationList = investigationService.GetAllInvestigations();
         }
 
+        public PrescriptionModel(int patientId) : this()
+        {
+            Patient = patientService.GetPatientById(patientId);
+            Doctor = doctorService.GetFirstDefault();
+            Clinics = clinicService.GetAllClinics().Take(2).ToList();
+            PatientMedicineList = patientService.GetPatientMedicines(patientId);
+            PatientInvestigationList = patientService.GetPatientInvestigation(patientId);
+            InvestigationIds = patientService.GetPatientInvestigationByPatientId(patientId);
+        }
+
         public void AddOrUpdate()
         {
-            var existingMedicines = patientService.GetPatientMedicines(Patient.Id);
+            UpdateMedicines();
+            UpdateInvestigations();
+        }
 
+        private void UpdateMedicines()
+        {
+            var existingMedicines = patientService.GetPatientMedicines(Patient.Id);
             if (PatientMedicineList != null && PatientMedicineList.Any())
             {
                 foreach (var patientMedicine in PatientMedicineList)
                 {
                     patientMedicine.PatientId = Patient.Id;
                     patientMedicine.StatusFlag = (byte)EnumActiveDeative.Active;
-
-                    var existingMedicine = existingMedicines
-                        .FirstOrDefault(m => m.Medicine == patientMedicine.Medicine);
-
+                    var existingMedicine = existingMedicines.FirstOrDefault(m => m.Medicine == patientMedicine.Medicine);
                     if (existingMedicine != null)
                     {
                         existingMedicine.Avaiablity = patientMedicine.Avaiablity;
@@ -69,9 +81,7 @@ namespace EPrescription.Web.Models
                         patientService.AddPatientMedicine(patientMedicine);
                     }
                 }
-
                 var medicinesToDelete = existingMedicines.Where(m => !PatientMedicineList.Any(pm => pm.Medicine == m.Medicine)).ToList();
-
                 foreach (var medicine in medicinesToDelete)
                 {
                     medicine.StatusFlag = (byte)EnumActiveDeative.Inactive;
@@ -86,65 +96,52 @@ namespace EPrescription.Web.Models
                     patientService.UpdatePatientMedicine(medicine);
                 }
             }
-
-
-            //var existingInvestigations = patientService.GetPatientInvestigationsByPatientId(Patient.Id);
-
-            //if (Investigations != null && Investigations.Any())
-            //{
-            //    foreach (var investigation in Investigations)
-            //    {
-            //        var existingInvestigation = existingInvestigations
-            //            .FirstOrDefault(i => i.Investigation == investigation);
-
-            //        if (existingInvestigation != null)
-            //        {
-            //            // Update existing investigation
-            //            existingInvestigation.StatusFlag = (byte)EnumActiveDeative.Active;
-            //            patientService.UpdatePatientInvestigation(existingInvestigation);
-            //        }
-            //        else
-            //        {
-            //            // Add new investigation
-            //            var newPatientInvestigation = new PatientInvestigation
-            //            {
-            //                PatientId = Patient.Id,
-            //                StatusFlag = (byte)EnumActiveDeative.Active,
-            //                Investigation = investigation
-            //            };
-            //            patientService.AddPatientInvestigation(newPatientInvestigation);
-            //        }
-            //    }
-
-            //    // Delete investigations that are not in the passed list
-            //    var investigationsToDelete = existingInvestigations
-            //        .Where(i => !Investigations.Contains(i.Investigation))
-            //        .ToList();
-
-            //    foreach (var investigation in investigationsToDelete)
-            //    {
-            //        patientService.DeletePatientInvestigation(investigation);
-            //    }
-            //}
-            //else
-            //{
-            //    foreach (var investigation in existingInvestigations)
-            //    {
-            //        patientService.DeletePatientInvestigation(investigation);
-            //    }
-            //}
         }
 
-
-        public PrescriptionModel(int patientId) : this()
+        private void UpdateInvestigations()
         {
-            Patient = patientService.GetPatientById(patientId);
-            Doctor = doctorService.GetFirstDefault();
-            Clinics = clinicService.GetAllClinics().Take(2).ToList();
-            PatientMedicineList = patientService.GetPatientMedicines(patientId);
-            PatientInvestigationList = patientService.GetPatientInvestigation(patientId);
-            InvestigationIds = patientService.GetPatientInvestigationByPatientId(patientId);
+            var existingInvestigations = patientService.GetPatientInvestigation(Patient.Id);
+            if (InvestigationIds != null && InvestigationIds.Any())
+            {
+                foreach (var investigationId in InvestigationIds)
+                {
+                    var existingInvestigation = existingInvestigations.FirstOrDefault(i => i.Id == investigationId);
+                    if (existingInvestigation != null)
+                    {
+                        existingInvestigation.StatusFlag = (byte)EnumActiveDeative.Active;
+                        patientService.UpdatePatientInvestigation(existingInvestigation);
+                    }
+                    else
+                    {
+                        var investigationDetails = investigationService.GetInvestigationById(investigationId);
+                        if (investigationDetails != null)
+                        {
+                            var newPatientInvestigation = new PatientInvestigation
+                            {
+                                PatientId = Patient.Id,
+                                Id = investigationId,
+                                Investigation = investigationDetails.InvestigationName,
+                                StatusFlag = (byte)EnumActiveDeative.Active
+                            };
+                            patientService.AddPatientInvestigation(newPatientInvestigation);
+                        }
+                    }
+                }
+                var investigationsToDeactivate = existingInvestigations.Where(i => !InvestigationIds.Contains(i.Id)).ToList();
+                foreach (var investigation in investigationsToDeactivate)
+                {
+                    investigation.StatusFlag = (byte)EnumActiveDeative.Inactive;
+                    patientService.UpdatePatientInvestigation(investigation);
+                }
+            }
+            else
+            {
+                foreach (var investigation in existingInvestigations)
+                {
+                    investigation.StatusFlag = (byte)EnumActiveDeative.Inactive;
+                    patientService.UpdatePatientInvestigation(investigation);
+                }
+            }
         }
-
     }
 }
