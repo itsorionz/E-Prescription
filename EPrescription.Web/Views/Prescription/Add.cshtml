@@ -214,6 +214,7 @@
                                     <option value="@dosageComment.CommentType"></option>
                                 }
                             </datalist>
+                            
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="alert-success">
@@ -251,7 +252,7 @@
                                                     @Html.TextBoxFor(model => model.PatientMedicineList[i].DurationUnit, new { @class = "form-control input-sm", @list = "duration-unit-list", @autocomplete = "off" })
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-danger btn-sm" onclick="RemoveRow(this)"><i class="fa fa-trash"></i></button>
+                                                    <button class="btn btn-danger btn-sm" onclick="RemoveTr(this)"><i class="fa fa-trash"></i></button>
                                                 </td>
                                             </tr>
                                         }
@@ -272,7 +273,7 @@
                                                     @Html.ListBoxFor(
                                                         model => model.InvestigationIds,
                                                         new MultiSelectList(Model.InvestigationList, "Id", "InvestigationName", Model.InvestigationIds),
-                                                        new { @class = "form-control select2", @multiple = "multiple" }
+                                                        new { @class = "form-control select2", @id = "InvestigationIds", @multiple = "multiple" }
                                                     )
                                                     @Html.ValidationMessageFor(model => model.InvestigationIds)
                                                 </div>
@@ -281,6 +282,7 @@
                                     </tr>
                                 </tfoot>
                             </table>
+
                         </div>
                     </div>
                 </div>
@@ -295,7 +297,6 @@
     <!-- /.content -->
 </div>
 
-
 @section Scripts {
     @Scripts.Render("~/bundles/jquery-val")
     @Scripts.Render("~/bundles/ajaxCall")
@@ -307,6 +308,7 @@
             allowClear: true,
             width: '100%'
         });
+
         $(document).on('change', '.select2', function () {
             $(this).select2({
                 placeholder: "---Select---",
@@ -317,61 +319,102 @@
 
         AssignInputMask();
 
-        function LoadAvailablity(obj)
-        {
+        function LoadAvailablity(obj) {
             var name = $(obj).val();
             $(obj).closest('tr').find("[name$='.Avaiablity']").val('');
-            $("#availablity-list").empty();
+            $("#availability-list").empty();
             if (name != '') {
-             var url = '@Url.Action("LoadAvailablity", "Medicine")';
-            var paramData = { medicineName: name };
-            ajaxCall(url, paramData, "rendeLoadAvailablity");
+                var url = '@Url.Action("LoadAvailablity", "Medicine")';
+                var paramData = { medicineName: name };
+                ajaxCall(url, paramData, "rendeLoadAvailablity");
             }
         }
 
-        function rendeLoadAvailablity(data)
-        {
-            $(data.list).each(function ()
-            {
-                $("#availablity-list").append($("<option>").attr('value', this));
+        function rendeLoadAvailablity(data) {
+            $(data.list).each(function () {
+                $("#availability-list").append($("<option>").attr('value', this));
             });
         }
 
-        function AddNewRow()
-        {
-            var medicineRow = '<td width="30%"><input autocomplete="off" class="form-control input-sm" id="PatientMedicineList_0__Medicine" list="medicine-list" name="PatientMedicineList[0].Medicine" onchange="LoadAvailablity(this)" type="text" value=""></td>'
-            var availablityRow = '<td width="12%"><input autocomplete="off" class="form-control input-sm" id="PatientMedicineList_0__Avaiablity" list="availablity-list" name="PatientMedicineList[0].Avaiablity" type="text" value=""></td>'
-            var dosageRow ='<td width="12%"><input autocomplete="off" class="form-control input-sm-x dosage" id="PatientMedicineList_0__Dosage" name="PatientMedicineList[0].Dosage" type="text" value=""></td>'
-            var dosageCommentRow = '<td><input autocomplete="off" class="form-control input-sm " id="PatientMedicineList_0__DosageComment" list="dosage-comment-list" name="PatientMedicineList[0].DosageComment" type="text" value=""></td>'
-            var durationRow ='<td width="12%"><input  autocomplete="off" class="form-control input-sm" data-val="true" data-val-number="The field Duration must be a number." data-val-required="The Duration field is required." id="PatientMedicineList_0__Duration" name="PatientMedicineList[0].Duration" type="number" value=""></td>'
-            var durationUnitRow = '<td><input autocomplete="off" class="form-control input-sm" id="PatientMedicineList_0__DurationUnit" list="duration-unit-list" name="PatientMedicineList[0].DurationUnit" type="text" value=""></td>';
-            var actionRow = '<td><span class="btn btn-sm btn-danger" onclick="RemoveTr(this)"><i class="fa fa-times"></i></span></td>'
-            $("#medicineTbody").append('<tr>' + medicineRow + availablityRow + dosageRow + dosageCommentRow + durationRow + durationUnitRow + actionRow+ '</tr>')
+        function AddNewRow() {
+            var rowCount = $('#medicineTbody tr').length;
+            var rowHtml = `
+                <tr>
+                    <td width="30%">
+                        <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Medicine" list="medicine-list" onchange="LoadAvailablity(this)" type="text">
+                    </td>
+                    <td width="12%">
+                        <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Avaiablity" list="availability-list" type="text">
+                    </td>
+                    <td width="12%">
+                        <input autocomplete="off" class="form-control input-sm dosage" name="PatientMedicineList[${rowCount}].Dosage" type="text">
+                    </td>
+                    <td>
+                        <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].DosageComment" list="dosage-comment-list" type="text">
+                    </td>
+                    <td width="12%">
+                        <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Duration" type="number">
+                    </td>
+                    <td>
+                        <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].DurationUnit" list="duration-unit-list" type="text">
+                    </td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="RemoveTr(this)"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>`;
+            $("#medicineTbody").append(rowHtml);
             AssignInputMask();
         }
-    function AssignInputMask() {
-           $('.dosage').inputmask({"mask": "9-9-9"})
-             $('[data-mask]').inputmask({ "mask": "9-9-9" })
-    }
-    function RemoveTr(obj) {
-        $(obj).closest('tr').remove();
-            }
-        function formSubmit() {
-            var count1 = 0;
-            $('#medicineTbody').find('tr').each(function () {
-                var suffix = $(this).find(':input:first').attr('name').match(/\d+/);
-                $.each($(this).find(':input'), function (i, val) {
-                    var oldN = $(this).attr('name'); 
-                    var newN = oldN.replace('[' + suffix + ']', '[' + count1 + ']');
-                    $(this).attr('name', newN);
+
+        function RemoveTr(obj) {
+            $(obj).closest('tr').remove();
+            UpdateRowIndices();
+        }
+
+        function UpdateRowIndices() {
+            $('#medicineTbody tr').each(function (index, row) {
+                $(row).find(':input').each(function () {
+                    var oldName = $(this).attr('name');
+                    if (oldName) {
+                        var newName = oldName.replace(/\[\d+\]/, `[${index}]`);
+                        $(this).attr('name', newName);
+                    }
                 });
-                count1++;
             });
+        }
+
+        function AssignInputMask() {
+            $('.dosage').inputmask({ "mask": "9-9-9" });
+        }
+
+        function UpdateInvestigations() {
+            var investigationIds = [];
+            $('#InvestigationIds option:selected').each(function () {
+                investigationIds.push($(this).val());
+            });
+
+            if ($('#InvestigationIdsHidden').length > 0) {
+                $('#InvestigationIdsHidden').remove();
+            }
+
+            $('<input>').attr({
+                type: 'hidden',
+                id: 'InvestigationIdsHidden',
+                name: 'InvestigationIds',
+                value: investigationIds.join(',')
+            }).appendTo('#prescriptionForm');
+        }
+
+        function formSubmit() {
+            UpdateRowIndices();
+            UpdateInvestigations();
             $("#prescriptionForm").submit();
         }
     </script>
-
 }
+
+
+
 
 
 

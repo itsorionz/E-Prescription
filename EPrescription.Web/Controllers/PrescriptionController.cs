@@ -1,4 +1,5 @@
 ﻿using EPrescription.Web.Models;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace EPrescription.Web.Controllers
@@ -20,7 +21,7 @@ namespace EPrescription.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Add(PrescriptionModel model)
         {
-            model.Add();
+            model.AddOrUpdate();
             return RedirectToAction("Index");
         }
         public ActionResult Details(int id)

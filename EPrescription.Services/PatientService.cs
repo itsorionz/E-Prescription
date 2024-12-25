@@ -1,4 +1,5 @@
-﻿using EPrescription.Entities;
+﻿using EPrescription.Common;
+using EPrescription.Entities;
 using EPrescription.Repo;
 using EPrescription.Services;
 using PagedList;
@@ -112,5 +113,23 @@ namespace EPrescription.Services
             return patientUnitOfWork.PatientInvestigationRepository.FindAll(p => p.PatientId == patientId).Select(p => p.Id).ToList();
         }
 
+        public PatientMedicine GetPatientMedicine(int patientId, string medicineName)
+        {
+            return patientUnitOfWork.PatientMedicineRepository.FindAll(p => p.PatientId == patientId && p.Medicine == medicineName && p.StatusFlag == (byte)EnumActiveDeative.Active).FirstOrDefault();
+        }
+        public void UpdatePatientMedicine(PatientMedicine patientMedicine)
+        {
+            patientUnitOfWork.PatientMedicineRepository.Update(patientMedicine);
+            patientUnitOfWork.Save();
+        }
+        public PatientInvestigation GetPatientInvestigation(int patientId, string investigation)
+        {
+            return patientUnitOfWork.PatientInvestigationRepository.FindAll(p => p.PatientId == patientId && p.Investigation == investigation && p.StatusFlag == (byte)EnumActiveDeative.Active).FirstOrDefault();
+        }
+        public void UpdatePatientInvestigation(PatientInvestigation patientInvestigation)
+        {
+            patientUnitOfWork.PatientInvestigationRepository.Update(patientInvestigation);
+            patientUnitOfWork.Save();
+        }
     }
 }
