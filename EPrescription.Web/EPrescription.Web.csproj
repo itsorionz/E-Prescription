@@ -340,6 +340,7 @@
     <Content Include="Content\icheck\yellow.png" />
     <Content Include="Content\icheck\_all.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\Images\loginbg.jpg" />
     <Content Include="Content\ionicons.min.css" />
     <Content Include="Content\jquery-jvectormap.css" />
     <Content Include="Content\PagedList.css" />

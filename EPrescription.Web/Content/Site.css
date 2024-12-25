@@ -31,6 +31,26 @@
     padding-left: 0px;
     padding-right: 0px;
 }
+.login-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/Content/Images/loginbg.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 0.3;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.login-page * {
+    position: relative;
+    z-index: 1;
+}
 /*---------------------------------------*/
 /*-------------Prescription-------------*/
 /*---------------------------------------*/
