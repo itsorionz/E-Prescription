@@ -49,7 +49,9 @@ namespace EPrescription.Web.Controllers
         }
         public JsonResult LoadAvailablity(string medicineName)
         {
-            var list = new MedicineModel().GetAvailablity(medicineName);
+            if (string.IsNullOrEmpty(medicineName))
+                return Json(new { list = new List<string>() }, JsonRequestBehavior.AllowGet);
+            var list = new MedicineModel().GetAvailablity(medicineName) ?? Enumerable.Empty<string>();
             return Json(new { list }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult UploadConfig()

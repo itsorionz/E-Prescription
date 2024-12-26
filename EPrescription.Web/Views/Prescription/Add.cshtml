@@ -327,54 +327,72 @@
         /*console.log("Hidden input added with value:", $('#InvestigationIdsHidden').val());*/
     }
 
-
     AssignInputMask();
 
-    function LoadAvailablity(obj)
-    {
+    function LoadAvailablity(obj) {
         var name = $(obj).val();
-            $(obj).closest('tr').find("[name$='.Avaiablity']").val('');
-            $("#availablity-list").empty();
-            if (name != '') {
-                var url = '@Url.Action("LoadAvailablity", "Medicine")';
+        var availabilityListId = $(obj).closest('tr').find("input[name$='.Avaiablity']").attr("list");
+        $(obj).closest('tr').find("[name$='.Avaiablity']").val('');
+        $("#" + availabilityListId).empty();
+
+        if (name && name.trim() !== '') {
+            var url = '@Url.Action("LoadAvailablity", "Medicine")';
             var paramData = { medicineName: name };
-            ajaxCall(url, paramData, "rendeLoadAvailablity");
+            $.ajax({
+                url: url,
+                type: "GET",
+                data: paramData,
+                success: function (response) {
+                    if (response && response.list && response.list.length > 0) {
+                        rendeLoadAvailablity(response.list, availabilityListId);
+                    } else {
+                        console.log("No availability data found for the medicine.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error loading availability: ", error);
+                }
+            });
+        } else {
+            console.log("Medicine name is empty or invalid.");
         }
     }
-    function rendeLoadAvailablity(data)
-    {
-        $(data.list).each(function ()
-        {
-            $("#availablity-list").append($("<option>").attr('value', this));
+
+    function rendeLoadAvailablity(data, availabilityListId) {
+        $("#" + availabilityListId).empty();
+        $(data).each(function () {
+            $("#" + availabilityListId).append($("<option>").val(this).text(this));
         });
     }
 
     function AddNewRow() {
         var rowCount = $('#medicineTbody tr').length;
+        var availabilityListId = `availability-list-${rowCount}`;
         var rowHtml = `
-            <tr>
-                <td width="30%">
-                    <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Medicine" list="medicine-list" onchange="LoadAvailablity(this)" type="text">
-                </td>
-                <td width="12%">
-                    <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Avaiablity" list="availability-list" type="text">
-                </td>
-                <td width="12%">
-                    <input autocomplete="off" class="form-control input-sm dosage" name="PatientMedicineList[${rowCount}].Dosage" type="text">
-                </td>
-                <td>
-                    <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].DosageComment" list="dosage-comment-list" type="text">
-                </td>
-                <td width="12%">
-                    <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Duration" type="number">
-                </td>
-                <td>
-                    <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].DurationUnit" list="duration-unit-list" type="text">
-                </td>
-                <td>
-                    <button class="btn btn-danger btn-sm" onclick="RemoveTr(this)"><i class="fa fa-trash"></i></button>
-                </td>
-            </tr>`;
+        <tr>
+            <td width="30%">
+                <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Medicine" list="medicine-list" onchange="LoadAvailablity(this)" type="text">
+            </td>
+            <td width="12%">
+                <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Avaiablity" list="${availabilityListId}" type="text">
+                <datalist id="${availabilityListId}"></datalist>
+            </td>
+            <td width="12%">
+                <input autocomplete="off" class="form-control input-sm dosage" name="PatientMedicineList[${rowCount}].Dosage" type="text">
+            </td>
+            <td>
+                <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].DosageComment" list="dosage-comment-list" type="text">
+            </td>
+            <td width="12%">
+                <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Duration" type="number">
+            </td>
+            <td>
+                <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].DurationUnit" list="duration-unit-list" type="text">
+            </td>
+            <td>
+                <button class="btn btn-danger btn-sm" onclick="RemoveTr(this)"><i class="fa fa-trash"></i></button>
+            </td>
+        </tr>`;
         $("#medicineTbody").append(rowHtml);
         AssignInputMask();
     }

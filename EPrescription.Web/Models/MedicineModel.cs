@@ -70,7 +70,9 @@ namespace EPrescription.Web.Models
 
         public IEnumerable<string> GetAvailablity(string medicineName)
         {
-            return medicineService.GetAvailablity(medicineName);
+            if (string.IsNullOrEmpty(medicineName))
+                return Enumerable.Empty<string>();
+            return medicineService.GetAvailablity(medicineName) ?? Enumerable.Empty<string>();
         }
 
         public IEnumerable<string> GetMedicineNameByStr(string name)
