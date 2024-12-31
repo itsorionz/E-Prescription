@@ -9,13 +9,13 @@ using System.ComponentModel.DataAnnotations;
 namespace EPrescription.Entities
 {
     public class BaseEntity
-
     {
         [Key]
         public int Id { get; set; }
         [Display(Name = "Status")]
         public byte? StatusFlag { get; set; }
     }
+
     public class Entity : BaseEntity
     {
         [Display(Name = "Created At")]

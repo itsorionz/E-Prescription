@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace EPrescription.Entities
 {
     [Table("GenericNames")]
-   public class GenericName:Entity
+    public class GenericName:Entity
     {
         [Display(Name ="Type Name")]
         public string TypeName { get; set; }

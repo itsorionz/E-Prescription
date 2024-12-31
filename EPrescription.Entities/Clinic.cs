@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 namespace EPrescription.Entities
 {
     [Table("Clinics")]
-   public class Clinic:Entity
-    {
-      
+    public class Clinic : Entity
+    {    
         public string Name { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
@@ -20,6 +19,5 @@ namespace EPrescription.Entities
         public string OffDays { get; set; }
         public string Email { get; set; }
         public string Mobile { get; set; }
-
     }
 }

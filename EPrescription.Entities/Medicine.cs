@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace EPrescription.Entities
 {
     [Table("Medicines")]
-   public class Medicine:Entity
+    public class Medicine:Entity
     {
         [Display(Name="Manufacturer")]
         public int? MedicineManufacturerId { get; set; }
@@ -17,10 +17,8 @@ namespace EPrescription.Entities
         public virtual MedicineManufacturer MedicineManufacturer { get; set; }
         [Display(Name = "Brand Name")]
         public string BrandName { get; set; }
-
         [Display(Name = "Use For")]
         public string UseFor { get; set; }
-
         [Display(Name = "DAR")]
         public string Dar { get; set; }
         public virtual ICollection<DosageTypeMedicineRelation> DosageTypeMedicineRelations { get; set; }

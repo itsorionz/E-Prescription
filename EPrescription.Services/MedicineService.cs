@@ -25,7 +25,6 @@ namespace EPrescription.Services
         {
             return medicineUnitOfWork.MedicineRepository.GetAll().Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active);
         }
-
         //public IEnumerable<GenericNameMedicineRelation> GetAllGenericNameMedicineRelation()
         //{
         //    return medicineUnitOfWork.GenericNameMedicineRepository.GetAll().Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active);
@@ -53,27 +52,22 @@ namespace EPrescription.Services
             medicineUnitOfWork.Save();
             return newMedicine.Id;
         }
-
         public IEnumerable<string> GetAllMedicinesName()
         {
             return medicineUnitOfWork.MedicineRepository.GetAllMedicineName();
         }
-
         public IEnumerable<string> GetAvailablity(string medicineName)
         {
             return medicineUnitOfWork.MedicineRepository.GetAvailablity(medicineName);
         }
-
         public IEnumerable<string> GetMedicinesNameByStr(string name)
         {
             return medicineUnitOfWork.MedicineRepository.GetMedicineNameByStr(name);
         }
-
         public IPagedList<Medicine> GetAllIPagedMedicine(int page, int pageSize, string name, int? companyId, string genericName)
         {
             return medicineUnitOfWork.MedicineRepository.GetAllIPagedMedicine(page, pageSize, name, companyId, genericName);
         }
-
         public Medicine GetMedicineById(int id)
         {
             return medicineUnitOfWork.MedicineRepository.GetById(id);
@@ -111,7 +105,6 @@ namespace EPrescription.Services
             medicineUnitOfWork.DosageTypeMedicineRepository.Add(newDosageTypeRelation);
             medicineUnitOfWork.Save();
         }
-
         public void Edit(Medicine model)
         {
             var medicineEntry = medicineUnitOfWork.MedicineRepository.GetById(model.Id);
@@ -126,7 +119,6 @@ namespace EPrescription.Services
                 medicineUnitOfWork.Save();
             }
          }
-
         public List<int> GetGenericNameIdsByMedicineId(int medicineId)
         {
             var genericNameIds = medicineUnitOfWork.GenericNameMedicineRepository
@@ -136,7 +128,6 @@ namespace EPrescription.Services
                 .ToList();
             return genericNameIds;
         }
-
         public List<int> GetStrengthIdsByMedicineId(int medicineId)
         {
             var strengthIds = medicineUnitOfWork.StrengthMedicineRepository
@@ -145,8 +136,7 @@ namespace EPrescription.Services
                 .Select(rel => rel.StrengthId.Value)
                 .ToList();
             return strengthIds;
-        }
-        
+        }      
         public List<int> GetDosageTypeIdsByMedicineId(int medicineId)
         {
             var dosageTypeRelations = medicineUnitOfWork.DosageTypeMedicineRepository
@@ -193,7 +183,6 @@ namespace EPrescription.Services
             }
             medicineUnitOfWork.Save();
         }
-
         public void UpdateStrengthRelations(int medicineId, List<int> strengthIds)
         {
             var existingRelations = medicineUnitOfWork.StrengthMedicineRepository
@@ -230,8 +219,6 @@ namespace EPrescription.Services
             }
             medicineUnitOfWork.Save();
         }
-
-
         public void UpdateDosageTypeRelations(int medicineId, List<int> dosageTypeIds)
         {
             var existingRelations = medicineUnitOfWork.DosageTypeMedicineRepository
@@ -268,7 +255,6 @@ namespace EPrescription.Services
             }
             medicineUnitOfWork.Save();
         }
-
         public void Inactive(Medicine medicine)
         {
             var medicineEntry = GetMedicineById(medicine.Id);

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace EPrescription.Entities
 {
     [Table("MedicineManufacturers")]
-   public class MedicineManufacturer:Entity
+    public class MedicineManufacturer : Entity
     {
         [Display(Name = "Company Name")]
         public string CompanyName { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EPrescription.Repo
 {
-  public class GenericNameRepository:Repository<GenericName>
+    public class GenericNameRepository : Repository<GenericName>
     {
         private EPrescriptionDbContext _context;
         public GenericNameRepository(EPrescriptionDbContext context) : base(context)
@@ -25,7 +25,8 @@ namespace EPrescription.Repo
             bool isNotExist = true;
             if (genericType != string.Empty && initialGenericType == "undefined")
             {
-                var isExist = _context.GenericNames.Any(x => x.TypeName.ToLower().Equals(genericType.ToLower()));
+                var isExist = _context.GenericNames
+                    .Any(x => x.TypeName.ToLower().Equals(genericType.ToLower()));
                 if (isExist)
                 {
                     isNotExist = false;
@@ -33,7 +34,9 @@ namespace EPrescription.Repo
             }
             if (genericType != string.Empty && initialGenericType != "undefined")
             {
-                var isExist = _context.GenericNames.Any(x => x.TypeName.ToLower() == genericType.ToLower() && x.TypeName.ToLower() != initialGenericType.ToLower());
+                var isExist = _context.GenericNames
+                    .Any(x => x.TypeName.ToLower() == genericType.ToLower() 
+                    && x.TypeName.ToLower() != initialGenericType.ToLower());
                 if (isExist)
                 {
                     isNotExist = false;

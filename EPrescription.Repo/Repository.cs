@@ -13,8 +13,7 @@ namespace EPrescription.Repo
         public BaseRepository(DbContext context)
         {
             _context = context;
-        }
-     
+        }   
         public virtual void Add(T item)
         {
             _context.Set<T>().Add(item);

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace EPrescription.Entities
 {
     [Table("Patients")]
-   public class Patient:Entity
+    public class Patient : Entity
     {
         [Display(Name = "Patient No")]
         public string PatientNo { get; set; }
@@ -23,7 +23,6 @@ namespace EPrescription.Entities
         public string PhoneNo { get; set; }
         public string Gender { get; set; }
         public string Comments { get; set; }
-
         public int GeneralDetailId { get; set; }
         [ForeignKey("GeneralDetailId")]
         public virtual GeneralDetail GeneralDetail { get; set; }

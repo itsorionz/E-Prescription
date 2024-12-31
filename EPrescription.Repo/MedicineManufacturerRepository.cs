@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace EPrescription.Repo
 {
-   public class MedicineManufacturerRepository:Repository<MedicineManufacturer>
+    public class MedicineManufacturerRepository : Repository<MedicineManufacturer>
     {
         private EPrescriptionDbContext _context;
+        
         public MedicineManufacturerRepository(EPrescriptionDbContext context) : base(context)
         {
             _context = context;
@@ -25,7 +26,8 @@ namespace EPrescription.Repo
             bool isNotExist = true;
             if (companyName != string.Empty && initialCompanyName == "undefined")
             {
-                var isExist = _context.MedicineManufacturers.Any(x => x.CompanyName.ToLower().Equals(companyName.ToLower()));
+                var isExist = _context.MedicineManufacturers
+                    .Any(x => x.CompanyName.ToLower().Equals(companyName.ToLower()));
                 if (isExist)
                 {
                     isNotExist = false;
@@ -33,7 +35,9 @@ namespace EPrescription.Repo
             }
             if (companyName != string.Empty && initialCompanyName != "undefined")
             {
-                var isExist = _context.MedicineManufacturers.Any(x => x.CompanyName.ToLower() == companyName.ToLower() && x.CompanyName.ToLower() != initialCompanyName.ToLower());
+                var isExist = _context.MedicineManufacturers
+                    .Any(x => x.CompanyName.ToLower() == companyName.ToLower() 
+                    && x.CompanyName.ToLower() != initialCompanyName.ToLower());
                 if (isExist)
                 {
                     isNotExist = false;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EPrescription.Repo
 {
-   public class PatientInvestigationRepository:Repository<PatientInvestigation>
+    public class PatientInvestigationRepository:Repository<PatientInvestigation>
     {
         private EPrescriptionDbContext _context;
 

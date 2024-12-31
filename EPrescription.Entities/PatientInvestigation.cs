@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace EPrescription.Entities
 {
     [Table("PatientInvestigations")]
-   public class PatientInvestigation:Entity
+    public class PatientInvestigation : Entity
     {
         public int PatientId { get; set; }
         [ForeignKey("PatientId")]

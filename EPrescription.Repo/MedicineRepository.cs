@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EPrescription.Repo
 {
-  public class MedicineRepository:Repository<Medicine>
+    public class MedicineRepository : Repository<Medicine>
     {
         private EPrescriptionDbContext _context;
 
@@ -32,20 +32,21 @@ namespace EPrescription.Repo
                 .OrderBy(o => o.BrandName)
                 .ToPagedList(page, pageSize);
         }
-
         public IEnumerable<string> GetAllMedicineName()
         {
             return _context.Medicines.Select(s => s.BrandName);
         }
-
         public IEnumerable<string> GetMedicineNameByStr(string name)
         {
             return _context.Medicines.Where(s => s.BrandName.ToLower().StartsWith(name.ToLower())).Select(x => x.BrandName);
         }
-
         public IEnumerable<string> GetAvailablity(string medicineName)
         {
-            return _context.Medicines.FirstOrDefault(s => s.BrandName.ToLower().Contains(medicineName.ToLower())).DosageTypeMedicineRelations.Select(s => s.DosageType.TypeName).Distinct();
+            return _context.Medicines
+                .FirstOrDefault(s => s.BrandName.ToLower()
+                .Contains(medicineName.ToLower())).DosageTypeMedicineRelations
+                .Select(s => s.DosageType.TypeName)
+                .Distinct();
         }
     }
 }

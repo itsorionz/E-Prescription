@@ -9,15 +9,10 @@ namespace EPrescription.Repo
     public interface IBaseRepository<T> where T : BaseEntity
     {
         void Add(T item);
-
         IEnumerable<T> GetAll();
-
         T GetById(int id);
-
         void DeleteById(int id);
-
-        void DeleteByItem(T item);
-        
+        void DeleteByItem(T item);     
     }
 
     public interface IRepository<T>:IBaseRepository<T> where T : Entity
