@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EPrescription.Services
 {
-   public class GenericNameService
+    public class GenericNameService
     {
         private EPrescriptionDbContext _context;
         private GenericNameUnitOfWork genericNameUnitOfWork;
@@ -18,9 +18,7 @@ namespace EPrescription.Services
         {
             _context = new EPrescriptionDbContext();
             genericNameUnitOfWork = new GenericNameUnitOfWork(_context);
-
         }
-
         public IEnumerable<GenericName> GetAllGenericNames()
         {
             return genericNameUnitOfWork.GenericNameRepository.GetAll().Where(s=> s.StatusFlag == (byte)EnumActiveDeative.Active);
@@ -54,7 +52,6 @@ namespace EPrescription.Services
         {
             return genericNameUnitOfWork.GenericNameRepository.IsGenericTypeExist(genericType, initialGenericType);
         }
-
         public void Edit(GenericName generic)
         {
             var genericEntry = GetGenericById(generic.Id);

@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace EPrescription.Services
 {
-   public class ProcedureService
+    public class ProcedureService
     {
         private EPrescriptionDbContext _context;
         private ProcedureUnitOfWork procedureUnitOfWork;
+        
         public ProcedureService()
         {
             _context = new EPrescriptionDbContext();
@@ -26,7 +27,6 @@ namespace EPrescription.Services
         {
             return procedureUnitOfWork.ProcedureRepository.GetById(id);
         }
-
         public void Add(Procedure procedure)
         {
             var newProcedure = new Procedure()
@@ -38,12 +38,10 @@ namespace EPrescription.Services
             procedureUnitOfWork.ProcedureRepository.Add(newProcedure);
             procedureUnitOfWork.Save();
         }
-
         public bool IsProcedureNameExist(string procedureName, string InitialProcedureName)
         {
             return procedureUnitOfWork.ProcedureRepository.IsProcedureNameExist(procedureName, InitialProcedureName);
         }
-
         public void Edit(Procedure procedure)
         {
             var procedureEntry = GetProceduretById(procedure.Id);
@@ -56,7 +54,6 @@ namespace EPrescription.Services
                 procedureUnitOfWork.Save();
             }
         }
-
         public void Inactive(Procedure procedure)
         {
             var procedureEntry = GetProceduretById(procedure.Id);

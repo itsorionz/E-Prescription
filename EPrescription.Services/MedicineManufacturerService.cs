@@ -9,22 +9,21 @@ using System.Threading.Tasks;
 
 namespace EPrescription.Services
 {
-  public  class MedicineManufacturerService
+    public  class MedicineManufacturerService
     {
         private EPrescriptionDbContext _context;
         private MedicineManufacturerUnitOfWork medicineManufacturerUnitOfWork;
+        
         public MedicineManufacturerService()
         {
             _context = new EPrescriptionDbContext();
             medicineManufacturerUnitOfWork = new MedicineManufacturerUnitOfWork(_context);
-
         }
 
         public IEnumerable<MedicineManufacturer> GetAllMedicineManufacturers()
         {
             return medicineManufacturerUnitOfWork.MedicineManufacturerRepository.GetAll();
         }
-
         public int Add(MedicineManufacturer medicineManufacturer)
         {
             var newMedicineManufacturer = new MedicineManufacturer()
@@ -43,22 +42,18 @@ namespace EPrescription.Services
             medicineManufacturerUnitOfWork.Save();
             return newMedicineManufacturer.Id;
         }
-
         public MedicineManufacturer GetManufacturerByName(string strCompanyName)
         {
             return medicineManufacturerUnitOfWork.MedicineManufacturerRepository.GetManufacturerByName(strCompanyName);
         }
-
         public MedicineManufacturer GetManufacturerById(int id)
         {
             return medicineManufacturerUnitOfWork.MedicineManufacturerRepository.GetById(id);
         }
-
         public bool IsCompanyNameExist(string companyName, string initialCompanyName)
         {
             return medicineManufacturerUnitOfWork.MedicineManufacturerRepository.IsCompanyNameExist(companyName, initialCompanyName);
         }
-
         public void Edit(MedicineManufacturer manufacturer)
         {
             var manufacturerEntry = GetManufacturerById(manufacturer.Id);

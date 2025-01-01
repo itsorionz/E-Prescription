@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EPrescription.Services
 {
-   public class InvestigationService
+    public class InvestigationService
     {
         private EPrescriptionDbContext _context;
         private InvestigationUnitOfWork investigationUnitOfWork;
@@ -24,12 +24,10 @@ namespace EPrescription.Services
         {
             return investigationUnitOfWork.InvestigationRepository.GetAll().Where(s => s.StatusFlag == (byte)EnumActiveDeative.Active);
         }
-
         public Investigation GetInvestigationById(int id)
         {
             return investigationUnitOfWork.InvestigationRepository.GetById(id);
         }
-
         public void Add(Investigation investigation)
         {
             var newInvestigation = new Investigation()
@@ -41,12 +39,10 @@ namespace EPrescription.Services
             investigationUnitOfWork.InvestigationRepository.Add(newInvestigation);
             investigationUnitOfWork.Save();
         }
-
         public bool IsInvestigationNameExist(string investigationName, string initialInvestigationName)
         {
             return investigationUnitOfWork.InvestigationRepository.IsInvestigationNameExist(investigationName, initialInvestigationName);
         }
-
         public void Edit(Investigation investigation)
         {
             var investigationEntry = GetInvestigationById(investigation.Id);

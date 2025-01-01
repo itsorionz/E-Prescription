@@ -18,6 +18,7 @@ namespace EPrescription.Services
             _context = new EPrescriptionDbContext();
             doctorUnitOfWork = new DoctorUnitOfWork(_context);
         }
+        
         public void AddOrEditDoctor(Doctor doctor)
         {
             var doctorEntry = doctorUnitOfWork.DoctorRepository.GetFirstDefault();

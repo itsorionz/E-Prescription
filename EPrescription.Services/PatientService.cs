@@ -12,11 +12,12 @@ using System.Threading.Tasks;
 
 
 namespace EPrescription.Services
-{
-   public class PatientService
+{ 
+    public class PatientService
     {
         private PatientUnitOfWork patientUnitOfWork;
         private EPrescriptionDbContext _context;
+        
         public PatientService()
         {
             _context = new EPrescriptionDbContext();
@@ -27,17 +28,14 @@ namespace EPrescription.Services
         {
             return patientUnitOfWork.PatientRepository.GetAll();
         }
-
         public Patient GetPatientById(int patientId)
         {
             return patientUnitOfWork.PatientRepository.GetById(patientId);
         }
-
         public IPagedList<Patient> GetAllIPagedList(int page, int pageSize, string name)
         {
             return patientUnitOfWork.PatientRepository.GetAllIPagedList(page,  pageSize,  name);
         }
-
         public int AddPatient(Patient patient)
         {
             var newPatient = new Patient()
@@ -60,12 +58,10 @@ namespace EPrescription.Services
             patientUnitOfWork.Save();
             return newPatient.Id;
         }
-
         private string GetPatientNo()
         {
             return string.Format("{0:ddMMyy}",DateTime.Now)+ (patientUnitOfWork.PatientRepository.GetCount(DateTime.Now)+1).ToString("00");
         }
-
         public void AddPatientInvestigation(PatientInvestigation patientInvestigation)
         {
             var newPatientInvestigation = new PatientInvestigation()
@@ -78,7 +74,6 @@ namespace EPrescription.Services
             patientUnitOfWork.PatientInvestigationRepository.Add(newPatientInvestigation);
             patientUnitOfWork.Save();
         }
-
         public void AddPatientMedicine(PatientMedicine patientMedicine)
         {
             var newPatientMedicine = new PatientMedicine()
@@ -115,7 +110,6 @@ namespace EPrescription.Services
         {
             return patientUnitOfWork.PatientInvestigationRepository.FindAll(p => p.PatientId == patientId && p.StatusFlag == (byte)EnumActiveDeative.Active).Select(p => p.InvestigationId).ToList();
         }
-
         public PatientMedicine GetPatientMedicine(int patientId, string medicineName)
         {
             return patientUnitOfWork.PatientMedicineRepository.FindAll(p => p.PatientId == patientId && p.Medicine == medicineName && p.StatusFlag == (byte)EnumActiveDeative.Active).FirstOrDefault();

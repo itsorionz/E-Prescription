@@ -12,6 +12,7 @@ namespace EPrescription.Services
     {
         private EPrescriptionDbContext _context;
         private ComplaintUnitOfWork complaintUnitOfWork;
+        
         public ComplaintService()
         {
             _context = new EPrescriptionDbContext();
@@ -22,7 +23,6 @@ namespace EPrescription.Services
         {
             return complaintUnitOfWork.ComplaintRepository.GetAll();
         }
-
         public void Add(Complaint complaint)
         {
             var newComplaint = new Complaint()
@@ -37,17 +37,14 @@ namespace EPrescription.Services
             complaintUnitOfWork.ComplaintRepository.Add(newComplaint);
             complaintUnitOfWork.Save();
         }
-
         public Complaint GetComplaintById(int id)
         {
             return complaintUnitOfWork.ComplaintRepository.GetById(id);
         }
-
         public bool IsComplaintTypeExist(string complaintType, string initialComplaintType)
         {
             return complaintUnitOfWork.ComplaintRepository.IsComplaintTypeExist(complaintType, initialComplaintType);
         }
-
         public void Edit(Complaint complaint)
         {
             var complaintEntry = GetComplaintById(complaint.Id);

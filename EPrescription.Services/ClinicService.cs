@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EPrescription.Services
 {
-   public class ClinicService
+    public class ClinicService
     {
         private EPrescriptionDbContext _context;
         private ClinicUnitOfWork _clinicUnitOfWork;
@@ -23,7 +23,6 @@ namespace EPrescription.Services
         {
             return _clinicUnitOfWork.ClinicRepository.GetAll();
         }
-
         public void AddClinic(Clinic clinic)
         {
             var newClinic = new Clinic()
