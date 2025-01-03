@@ -1,4 +1,5 @@
-﻿using EPrescription.Entities;
+﻿using EPrescription.Common;
+using EPrescription.Entities;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,7 @@ namespace EPrescription.Repo
         public IPagedList<Patient> GetAllIPagedList(int page, int pageSize, string name)
         {
             return _context.Patients
-                .Where(s => (name == null || s.Name.ToUpper().Contains(name.ToUpper())))
+                .Where(s => (name == null || s.Name.ToUpper().Contains(name.ToUpper())) && (s.StatusFlag == (byte)EnumActiveDeative.Active))
                 .OrderByDescending(s => s.Id)
                 .ToPagedList(page, pageSize);
         }

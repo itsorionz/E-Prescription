@@ -28,5 +28,10 @@ namespace EPrescription.Web.Controllers
             model.Add();
             return RedirectToAction("Index");
         }
+        public ActionResult Inactive(PatientModel model)
+        {
+            model.Inactive();
+            return RedirectToAction("Index");
+        }
     }
 }

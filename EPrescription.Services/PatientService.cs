@@ -128,5 +128,16 @@ namespace EPrescription.Services
             patientUnitOfWork.PatientInvestigationRepository.Update(patientInvestigation);
             patientUnitOfWork.Save();
         }
+        public void Inactive(Patient patient)
+        {
+            var patientEntry = GetPatientById(patient.Id);
+            if (patientEntry != null)
+            {
+                patientEntry.UpdatedAt = patient.UpdatedAt;
+                patientEntry.UpdatedBy = patient.UpdatedBy;
+                patientUnitOfWork.PatientRepository.DeleteByItem(patientEntry);
+                patientUnitOfWork.Save();
+            }
+        }
     }
 }

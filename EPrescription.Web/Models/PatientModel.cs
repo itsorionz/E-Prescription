@@ -54,5 +54,12 @@ namespace EPrescription.Web.Models
         {
             return patientService.GetAllIPagedList(page,pageSize, name);
         }
+        public void Inactive()
+        {
+            base.UpdatedAt = DateTime.Now;
+            base.UpdatedBy = AuthenticatedUser.GetUserFromIdentity().UserId;
+            base.StatusFlag = (byte)EnumActiveDeative.Inactive;
+            patientService.Inactive(this);
+        }
     }
 }
