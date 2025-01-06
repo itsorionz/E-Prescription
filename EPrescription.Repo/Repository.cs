@@ -50,6 +50,10 @@ namespace EPrescription.Repo
             var item = GetById(id);
             DeleteFromDatabaseByItem(item);
         }
+        public virtual void DeleteRange(IEnumerable<T> items)
+        {
+            _context.Set<T>().RemoveRange(items);
+        }
         public virtual void DeleteFromDatabaseByItem(T item)
         {
             _context.Set<T>().Remove(item);

@@ -28,6 +28,26 @@ namespace EPrescription.Web.Controllers
             model.Add();
             return RedirectToAction("Index");
         }
+        public ActionResult Edit(int id)
+        {
+            var patientModel = new PatientModel().Edit(id);
+            if (patientModel == null)
+            {
+                return HttpNotFound();
+            }
+            return View(patientModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(PatientModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.Edit(model);
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
         public ActionResult Inactive(PatientModel model)
         {
             model.Inactive();

@@ -13,7 +13,7 @@ namespace EPrescription.Entities
         [Key]
         public int Id { get; set; }
         [Display(Name = "Status")]
-        public byte? StatusFlag { get; set; }
+        public byte? StatusFlag { get; set; } = 1;
     }
 
     public class Entity : BaseEntity

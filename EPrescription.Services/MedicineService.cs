@@ -118,7 +118,7 @@ namespace EPrescription.Services
                 medicineUnitOfWork.MedicineRepository.Update(medicineEntry);
                 medicineUnitOfWork.Save();
             }
-         }
+        }
         public List<int> GetGenericNameIdsByMedicineId(int medicineId)
         {
             var genericNameIds = medicineUnitOfWork.GenericNameMedicineRepository

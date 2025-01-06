@@ -455,6 +455,7 @@
     <Content Include="Views\Clinic\Index.cshtml" />
     <Content Include="Views\Clinic\Add.cshtml" />
     <Content Include="Views\Medicine\Edit.cshtml" />
+    <Content Include="Views\Patient\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EPrescription.Common\EPrescription.Common.csproj">

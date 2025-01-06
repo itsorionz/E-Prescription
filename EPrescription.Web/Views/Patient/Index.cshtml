@@ -65,13 +65,13 @@
                                             @Html.DisplayFor(itemElement => item.Gender)
                                         </td>
                                         <td>
-
+                                            @Html.DisplayFor(itemElement => item.StatusFlag)
                                         </td>
 
                                         <td>
                                             @if (item.StatusFlag.IsActive())
                                             {
-                                                <a href="@Url.Action("Add","Patient",new { @id=item.Id})" class="btn btn-sm btn-success"> <i class="fa fa-edit"></i></a>
+                                                <a href="@Url.Action("Edit","Patient",new { @id=item.Id})" class="btn btn-sm btn-success"> <i class="fa fa-edit"></i></a>
                                                 <a data-toggle="modal" data-target="#@item.Id" class="btn btn-sm btn-danger"> <i class="fa fa-ban"></i></a>
                                                 <div class="modal modal-danger fade in" id="@item.Id">
                                                     <div class="modal-dialog">

@@ -18,12 +18,10 @@ namespace EPrescription.Web.Models
         private DosageTypeService dosageTypeService;
         private StrengthService strengthService;
         private GenericNameService genericNameService;
-
         private ComplaintService complaintService;
         private InvestigationService investigationService;
         private DiseaseService diseaseService;
         private ProcedureService procedureService;
-
         public IEnumerable<MedicineManufacturer> MedicineManufactureList { get; set; }
         public IEnumerable<DosageType> DosageTypeList { get; set; }
         public IEnumerable<GenericName> GenericNameList { get; set; }
@@ -34,6 +32,7 @@ namespace EPrescription.Web.Models
         public List<int> DosageIds { get; set; }
         [Display(Name = "Strengths")]
         public List<int> StrengthIds { get; set; }
+        
         public MedicineModel()
         {
             medicineService = new MedicineService();
@@ -41,7 +40,6 @@ namespace EPrescription.Web.Models
             dosageTypeService = new DosageTypeService();
             genericNameService = new GenericNameService();
             strengthService = new StrengthService();
-
             MedicineManufactureList = medicineManufacturerService.GetAllMedicineManufacturers();
             GenericNameList = genericNameService.GetAllGenericNames();
             DosageTypeList = dosageTypeService.GetAllDosageTypes();
