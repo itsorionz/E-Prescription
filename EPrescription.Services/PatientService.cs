@@ -200,7 +200,6 @@ namespace EPrescription.Services
                         existingComplaint.StatusFlag = (byte)EnumActiveDeative.Active;
                     }
                     patientUnitOfWork.PatientComplaintRepository.Update(existingComplaint);
-                    patientUnitOfWork.PatientComplaintRepository.Update(existingComplaint);
                 }
                 else
                 {
