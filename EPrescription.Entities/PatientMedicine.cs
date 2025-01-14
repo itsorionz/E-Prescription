@@ -23,7 +23,7 @@ namespace EPrescription.Entities
         [Display(Name = "Dosage Comment")]
         public string DosageComment { get; set; }
         [Display(Name = "Duration")]
-        public int Duration { get; set; }
+        public string Duration { get; set; }
         public string DurationUnit { get; set; }
         public string Avaiablity { get; set; }      
     }

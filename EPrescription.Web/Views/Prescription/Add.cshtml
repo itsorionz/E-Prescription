@@ -32,6 +32,12 @@
                             <i class="fa fa-times"></i>
                         </a>
                     </div>
+
+                    <div class="btn-group ml-4">
+                        <button type="button" class="btn btn-primary btn-sm" id="btn-en" onclick="setLanguage('en')">EN</button>
+                        <button type="button" class="btn btn-success btn-sm" id="btn-bn" onclick="setLanguage('bn')">BN</button>
+                    </div>
+
                 </div>
                 <div class="box-body">
                     <div class="row">
@@ -208,13 +214,18 @@
                                 <option value="Month"></option>
                                 <option value="Year"></option>
                             </datalist>
+                            <datalist id="duration-unit-list-bn" style="display:none;">
+                                <option value="দিন"></option>
+                                <option value="মাস"></option>
+                                <option value="বছর"></option>
+                            </datalist>
                             <datalist id="dosage-comment-list">
                                 @foreach (var dosageComment in Model.DosageComments)
                                 {
                                     <option value="@dosageComment.CommentType"></option>
                                 }
                             </datalist>
-                            
+
                             <table class="table table-bordered">
                                 <thead>
                                     <tr class="alert-success">
@@ -246,7 +257,7 @@
                                                     @Html.TextBoxFor(model => model.PatientMedicineList[i].DosageComment, new { @class = "form-control input-sm", @list = "dosage-comment-list", @autocomplete = "off" })
                                                 </td>
                                                 <td width="12%">
-                                                    @Html.TextBoxFor(model => model.PatientMedicineList[i].Duration, new { @class = "form-control input-sm", @type = "number", @autocomplete = "off" })
+                                                    @Html.TextBoxFor(model => model.PatientMedicineList[i].Duration, new { @class = "form-control input-sm", @autocomplete = "off" })
                                                 </td>
                                                 <td>
                                                     @Html.TextBoxFor(model => model.PatientMedicineList[i].DurationUnit, new { @class = "form-control input-sm", @list = "duration-unit-list", @autocomplete = "off" })
@@ -311,6 +322,21 @@
         });
     });
 
+    function setLanguage(language) {
+        if (language === 'en') {
+            $('#duration-unit-list').show();
+            $('#duration-unit-list-bn').hide();
+
+            $('input[name$=".DurationUnit"]').attr('list', 'duration-unit-list');
+        } else if (language === 'bn') {
+            $('#duration-unit-list').hide();
+            $('#duration-unit-list-bn').show();
+
+            $('input[name$=".DurationUnit"]').attr('list', 'duration-unit-list-bn');
+        }
+    }
+
+
     function UpdateInvestigations() {
         //var investigationIds = $('#InvestigationIds').val();
         //console.log("Selected Investigation IDs:", investigationIds);
@@ -367,15 +393,17 @@
 
     function AddNewRow() {
         var rowCount = $('#medicineTbody tr').length;
-        var availabilityListId = `availability-list-${rowCount}`;
+        var language = $('#duration-unit-list').is(':visible') ? 'en' : 'bn';
+        var durationListId = language === 'en' ? 'duration-unit-list' : 'duration-unit-list-bn';
+
         var rowHtml = `
         <tr>
             <td width="30%">
                 <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Medicine" list="medicine-list" onchange="LoadAvailablity(this)" type="text">
             </td>
             <td width="12%">
-                <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Avaiablity" list="${availabilityListId}" type="text">
-                <datalist id="${availabilityListId}"></datalist>
+                <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Avaiablity" list="availability-list-${rowCount}" type="text">
+                <datalist id="availability-list-${rowCount}"></datalist>
             </td>
             <td width="12%">
                 <input autocomplete="off" class="form-control input-sm dosage" name="PatientMedicineList[${rowCount}].Dosage" type="text">
@@ -384,10 +412,10 @@
                 <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].DosageComment" list="dosage-comment-list" type="text">
             </td>
             <td width="12%">
-                <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Duration" type="number">
+                <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].Duration" type="text">
             </td>
             <td>
-                <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].DurationUnit" list="duration-unit-list" type="text">
+                <input autocomplete="off" class="form-control input-sm" name="PatientMedicineList[${rowCount}].DurationUnit" list="${durationListId}" type="text">
             </td>
             <td>
                 <button class="btn btn-danger btn-sm" onclick="RemoveTr(this)"><i class="fa fa-trash"></i></button>
@@ -414,9 +442,15 @@
         });
     }
 
-    function AssignInputMask() {
+    function AssignInputMask(language) {
         $('.dosage').inputmask({ "mask": "9-9-9" })
         $('[data-mask]').inputmask({ "mask": "9-9-9" })
+        //const language = $('#duration-unit-list').is(':visible') ? 'en' : 'bn';
+        //const maskEnglish = "9-9-9";
+        //const maskBangla = "৯-৯-৯";
+
+        //$('.dosage').inputmask({ "mask": language === 'en' ? maskEnglish : maskBangla });
+        //$('[data-mask]').inputmask({ "mask": language === 'bn' ? maskBangla : maskEnglish });
     }
     function formSubmit() {
         UpdateRowIndices();
@@ -425,9 +459,5 @@
     }
 </script>
 }
-
-
-
-
 
 

@@ -55,7 +55,11 @@
                                         <td>@user.UpdatedAt.DateFormat()</td>
                                         <td>@user.JoiningDate.DateFormat()</td>
                                         <td>@Html.DisplayFor(userItem => user.UserName)</td>
-                                        <td><span class="badge bg-aqua-active bg-green">@Enum.GetName(typeof(EnumActiveDeative), user.StatusFlag)</span></td>
+                                        <td>
+                                            <span class="badge bg-aqua-active bg-green">
+                                                @(user.StatusFlag == 1 ? "Inactive" : "Active")
+                                            </span>
+                                        </td>
                                         <td>
                                             @if (user.StatusFlag.IsActive())
                                             {

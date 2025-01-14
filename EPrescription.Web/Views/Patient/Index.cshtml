@@ -36,8 +36,8 @@
                                     <th>@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().PhoneNo)</th>
                                     <th>@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().Age)</th>
                                     <th>@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().BirthDate)</th>
-                                    <th>@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().Gender)</th>
-                                    <th>Status</th>
+                                    <th class="text-center">@Html.DisplayNameFor(model => model.PatientIPagedList.FirstOrDefault().Gender)</th>
+                                    <th class="text-center">Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -61,11 +61,11 @@
                                         <td>
                                             @item.BirthDate.DateFormat()
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             @Html.DisplayFor(itemElement => item.Gender)
                                         </td>
-                                        <td>
-                                            @Html.DisplayFor(itemElement => item.StatusFlag)
+                                        <td class="text-center">
+                                            @(item.StatusFlag == 1 ? "Active" : "Inactive")
                                         </td>
 
                                         <td>

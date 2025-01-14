@@ -88,6 +88,10 @@
     <Compile Include="Migrations\202412251302454_newcolumnAddforInvestication.Designer.cs">
       <DependentUpon>202412251302454_newcolumnAddforInvestication.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202501141118072_changeduration.cs" />
+    <Compile Include="Migrations\202501141118072_changeduration.Designer.cs">
+      <DependentUpon>202501141118072_changeduration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatientInvestigationRepository.cs" />
     <Compile Include="PatientRepository.cs" />
@@ -129,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202412251302454_newcolumnAddforInvestication.resx">
       <DependentUpon>202412251302454_newcolumnAddforInvestication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202501141118072_changeduration.resx">
+      <DependentUpon>202501141118072_changeduration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
