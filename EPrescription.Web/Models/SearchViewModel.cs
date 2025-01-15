@@ -55,7 +55,7 @@ namespace EPrescription.Web.Models
         public MedicineViewModel()
         {
             Page = 1;
-            PageSize = 25;
+            PageSize = 12;
             MedicineManufacturerList = new MedicineManufacturerModel().GetAllMedicineManufacturers().ToList();
         }
     }
